@@ -1,7 +1,7 @@
-# Tamagotchi Farm
+# ItsyBits
 ### DAT219 (Internet services on .net platform) project for [Ronny](https://github.com/Ronnrein), [Marielle](https://github.com/Nanilial) and [Nikolai](https://github.com/NikRob)
 ## Idea
-The idea for our project is to have a web application/game that is about managing and developing a farm of tamagotchi animals.
+The idea for our project is to have a web application/game that is about managing and developing a farm of tamagotchi-like animals.
 
 For our project we have split the responsibilities as follows:
 
@@ -14,12 +14,12 @@ For our project we have split the responsibilities as follows:
 ## Getting started
 Due to the relatively short time and scope of this project, as well as the fact that we have very defined roles and that the risk of merge conflicts are rather small, we will use a centralized workflow where we push directly to the main repository, using branches when it feels like it is needed.
 ### Setup
-Go to the [repository](https://github.com/Ronnrein/TamagotchiFarm) and press the "Clone or download" button, then copy the URl and clone the repository to your machine.
+Go to the [repository](https://github.com/Ronnrein/ItsyBits) and press the "Clone or download" button, then copy the URl and clone the repository to your machine.
 ```shell
 # If you use https
-git clone https://github.com/Ronnrein/TamagotchiFarm.git
+git clone https://github.com/Ronnrein/ItsyBits.git
 # If you use ssh
-git clone git@github.com:Ronnrein/TamagotchiFarm.git
+git clone git@github.com:Ronnrein/ItsyBits.git
 ```
 Now that you have a local copy of the project, you have to get the dependencies and migrate the database. Open up a command prompt, navigate to the project folder and type the following commands.
 ```shell
