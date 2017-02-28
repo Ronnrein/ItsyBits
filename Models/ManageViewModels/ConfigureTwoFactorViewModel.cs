@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace TamagotchiFarm.Models.ManageViewModels
+namespace ItsyBits.Models.ManageViewModels
 {
     public class ConfigureTwoFactorViewModel
     {

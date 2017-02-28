@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TamagotchiFarm.Models.AccountViewModels
+namespace ItsyBits.Models.AccountViewModels
 {
     public class ExternalLoginConfirmationViewModel
     {

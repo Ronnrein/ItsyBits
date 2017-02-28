@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using TamagotchiFarm.Data;
-using TamagotchiFarm.Models;
-using TamagotchiFarm.Services;
+using ItsyBits.Data;
+using ItsyBits.Models;
+using ItsyBits.Services;
 
-namespace TamagotchiFarm
+namespace ItsyBits
 {
     public class Startup
     {
@@ -21,13 +21,13 @@ namespace TamagotchiFarm
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
             if (env.IsDevelopment())
             {
                 // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
-                builder.AddUserSecrets();
+                builder.AddUserSecrets<Startup>();
             }
 
             builder.AddEnvironmentVariables();
@@ -64,7 +64,10 @@ namespace TamagotchiFarm
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+                
                 app.UseBrowserLink();
+                
+                
             }
             else
             {
