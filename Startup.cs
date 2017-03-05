@@ -66,8 +66,14 @@ namespace ItsyBits
                 app.UseDatabaseErrorPage();
                 
                 app.UseBrowserLink();
-                
-                
+
+                // Delete when using migrations
+                using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope()) {
+                    var db = serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database;
+                    db.EnsureDeleted();
+                    db.EnsureCreated();
+                }
+
             }
             else
             {
