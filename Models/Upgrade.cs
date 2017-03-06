@@ -21,6 +21,12 @@ namespace ItsyBits.Models {
         public string Name { get; set; }
 
         /// <summary>
+        /// Description of upgrade
+        /// </summary>
+        [Required(ErrorMessage = "Please enter upgrade description")]
+        public string Description { get; set; }
+
+        /// <summary>
         /// Modifier affecting the time between feedings
         /// </summary>
         [Required(ErrorMessage = "Please enter feed modifier")]
@@ -42,5 +48,14 @@ namespace ItsyBits.Models {
         /// Static method to call under namespace ItsyBits.Helpers.UpgradeMethods
         /// </summary>
         public string Method { get; set; }
+
+        /// <summary>
+        /// Constructor of upgrade
+        /// </summary>
+        public Upgrade() {
+            FeedModifier = 1;
+            SleepModifier = 1;
+            PetModifier = 1;
+        }
     }
 }

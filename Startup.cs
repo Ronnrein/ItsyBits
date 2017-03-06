@@ -12,6 +12,10 @@ using Microsoft.Extensions.Logging;
 using ItsyBits.Data;
 using ItsyBits.Models;
 using ItsyBits.Services;
+using ItsyBits.Helpers;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace ItsyBits
 {
@@ -52,10 +56,13 @@ namespace ItsyBits
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
+            // Add seeder service
+            services.AddTransient<DatabaseSeeder>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, DatabaseSeeder seeder)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -67,12 +74,10 @@ namespace ItsyBits
                 
                 app.UseBrowserLink();
 
-                // Delete when using migrations
-                using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope()) {
-                    var db = serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database;
-                    db.EnsureDeleted();
-                    db.EnsureCreated();
-                }
+                // Delete and create database
+                DatabaseFacade db = app.ApplicationServices.GetService<ApplicationDbContext>().Database;
+                db.EnsureDeleted();
+                db.EnsureCreated();
 
             }
             else
@@ -92,6 +97,9 @@ namespace ItsyBits
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            // Delete when using migrations
+            seeder.SeedData();
         }
     }
 }
