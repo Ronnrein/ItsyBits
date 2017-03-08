@@ -33,7 +33,6 @@ namespace ItsyBits.Helpers {
             // Roles
             RoleStore<IdentityRole> roleStore = new RoleStore<IdentityRole>(context);
             await roleStore.CreateAsync(new IdentityRole{Name = "Administrator", NormalizedName = "ADMINISTRATOR"});
-            await roleStore.CreateAsync(new IdentityRole{Name = "Player", NormalizedName = "PLAYER"});
 
             // Users
             ApplicationUser admin = new ApplicationUser {
@@ -63,7 +62,6 @@ namespace ItsyBits.Helpers {
 
             // Assign user roles
             await userStore.AddToRoleAsync(admin, "ADMINISTRATOR");
-            await userStore.AddToRoleAsync(player, "PLAYER");
 
             // Building types
             BuildingType shack = new BuildingType {
