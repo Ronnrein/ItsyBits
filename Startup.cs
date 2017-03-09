@@ -51,6 +51,9 @@ namespace ItsyBits
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            // Use lower case urls
+            services.AddRouting(options => options.LowercaseUrls = true);
+
             services.AddMvc();
 
             // Add application services.
@@ -75,9 +78,9 @@ namespace ItsyBits
                 app.UseBrowserLink();
 
                 // Delete and create database
-                DatabaseFacade db = app.ApplicationServices.GetService<ApplicationDbContext>().Database;
+                /*DatabaseFacade db = app.ApplicationServices.GetService<ApplicationDbContext>().Database;
                 db.EnsureDeleted();
-                db.EnsureCreated();
+                db.EnsureCreated();*/
 
             }
             else
@@ -101,9 +104,9 @@ namespace ItsyBits
             });
 
             // Delete when using migrations
-            if (env.IsDevelopment()) {
+            /*if (env.IsDevelopment()) {
                 seeder.SeedData();
-            }
+            }*/
         }
     }
 }

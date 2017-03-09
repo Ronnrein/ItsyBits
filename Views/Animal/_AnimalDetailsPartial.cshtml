@@ -1,0 +1,52 @@
+﻿@model Animal
+<h1>@Model.Name, type @Model.Type.Name</h1>
+<h3>Needs</h3>
+<table class="table">
+    <tr>
+        <td class="col-md-3">Well fed</td>
+        <td class="col-md-6">
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width:@Model.FeedPercentage%">@Model.FeedPercentage%</div>
+            </div>
+        </td>
+        <td class="col-md-3 text-right">
+            @using (Html.BeginForm("Feed", "Animal")) {
+                <button class="btn btn-default" type="submit">Feed</button>
+            }
+        </td>
+    </tr>
+    <tr>
+        <td class="col-md-3">Rested</td>
+        <td class="col-md-6">
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width:@Model.SleepPercentage%">@Model.SleepPercentage%</div>
+            </div>
+        </td>
+        <td class="col-md-3 text-right">
+            @using (Html.BeginForm("Sleep", "Animal")) {
+                <button class="btn btn-default" type="submit">Sleep</button>
+            }
+        </td>
+    </tr>
+    <tr>
+        <td class="col-md-3">Loved</td>
+        <td class="col-md-6">
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width:@Model.PetPercentage%">@Model.PetPercentage%</div>
+            </div>
+        </td>
+        <td class="col-md-3 text-right">
+            @using (Html.BeginForm("Pet", "Animal")) {
+                <button class="btn btn-default" type="submit">Pet</button>
+            }
+        </td>
+    </tr>
+    <tr>
+        <td>Overall</td>
+        <td colspan="2">
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width:@Model.HappinessPercentage%">@Model.HappinessPercentage%</div>
+            </div>
+        </td>
+    </tr>
+</table>
