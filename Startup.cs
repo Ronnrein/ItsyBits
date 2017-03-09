@@ -99,7 +99,9 @@ namespace ItsyBits
             });
 
             // Delete when using migrations
-            seeder.SeedData();
+            if (env.IsDevelopment()) {
+                seeder.SeedData();
+            }
         }
     }
 }

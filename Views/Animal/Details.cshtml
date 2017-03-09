@@ -1,3 +1,21 @@
 ﻿@model Animal
 @{ ViewBag.Title = "Info for "+Model.Name; }
 <h1>@Model.Name, type @Model.Type.Name</h1>
+<div class="col-md-5">
+    <h3>Well fed</h3>
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="@Model.FeedPercentage" aria-valuemin="0" aria-valuemax="100" style="width:@Model.FeedPercentage%">@Model.FeedPercentage%</div>
+    </div>
+    <h3>Rested</h3>
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="@Model.SleepPercentage" aria-valuemin="0" aria-valuemax="100" style="width:@Model.SleepPercentage%">@Model.SleepPercentage%</div>
+    </div>
+    <h3>Loved</h3>
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="@Model.PetPercentage" aria-valuemin="0" aria-valuemax="100" style="width:@Model.PetPercentage%">@Model.PetPercentage%</div>
+    </div>
+    <h3>Overall</h3>
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="@Model.HappinessPercentage" aria-valuemin="0" aria-valuemax="100" style="width:@Model.HappinessPercentage%">@Model.HappinessPercentage%</div>
+    </div>
+</div>

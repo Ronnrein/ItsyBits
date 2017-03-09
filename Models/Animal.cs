@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using ItsyBits.Helpers;
 
 namespace ItsyBits.Models {
 
@@ -66,12 +67,30 @@ namespace ItsyBits.Models {
         public ICollection<AnimalUpgrade> AnimalUpgrades { get; set; }
 
         /// <summary>
+        /// The percentage of how well fed the animal is
+        /// </summary>
+        public int FeedPercentage => CalculateStatPercentage(LastFeed, Type.FeedTime);
+
+        /// <summary>
+        /// The percentage of how rested the animal is
+        /// </summary>
+        public int SleepPercentage => CalculateStatPercentage(LastSleep, Type.SleepTime);
+
+        /// <summary>
+        /// The percentage of how loved the animal is
+        /// </summary>
+        public int PetPercentage => CalculateStatPercentage(LastPet, Type.PetTime);
+
+        /// <summary>
+        /// The percentage avarage of all stats
+        /// </summary>
+        public int HappinessPercentage => (int) new[] {FeedPercentage, SleepPercentage, PetPercentage}.Average();
+
+        /// <summary>
         /// Upgrades of animal
         /// </summary>
         [NotMapped]
-        public ICollection<Upgrade> Upgrades {
-            get { return (ICollection<Upgrade>) AnimalUpgrades.Select(au => au.Upgrade); }
-        }
+        public ICollection<Upgrade> Upgrades => (ICollection<Upgrade>) AnimalUpgrades.Select(au => au.Upgrade);
 
         /// <summary>
         /// Constructor of animal
@@ -81,6 +100,16 @@ namespace ItsyBits.Models {
             LastPet = DateTime.Now;
             LastSleep = DateTime.Now;
             Level = 1;
+        }
+
+        /// <summary>
+        /// Calculate the percentage of the stat of the animal
+        /// </summary>
+        /// <param name="lastTime">Last time the action was taken</param>
+        /// <param name="duration">The duration before action must be taken again</param>
+        /// <returns>Percentage of stat</returns>
+        private static int CalculateStatPercentage(DateTime lastTime, TimeSpan duration) {
+            return (100 - (int) ((DateTime.Now - lastTime).TotalSeconds / duration.TotalSeconds * 100)).Clamp(0, 100);
         }
     }
 }
