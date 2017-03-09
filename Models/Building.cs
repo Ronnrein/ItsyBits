@@ -14,7 +14,6 @@ namespace ItsyBits.Models {
         /// Id of building
         /// </summary>
         [Key]
-        [ScaffoldColumn(false)]
         public int Id { get; set; }
 
         /// <summary>
@@ -29,9 +28,21 @@ namespace ItsyBits.Models {
         public ApplicationUser User { get; set; }
 
         /// <summary>
+        /// Id of user of building
+        /// </summary>
+        [ForeignKey("User")]
+        public string UserId { get; set; }
+
+        /// <summary>
         /// Type of building
         /// </summary>
         public BuildingType Type { get; set; }
+
+        /// <summary>
+        /// Id of type of building
+        /// </summary>
+        [ForeignKey("Type")]
+        public int TypeId { get; set; }
 
         /// <summary>
         /// Animals living in building

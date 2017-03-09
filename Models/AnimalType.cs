@@ -13,7 +13,6 @@ namespace ItsyBits.Models {
         /// Id of animal type
         /// </summary>
         [Key]
-        [ScaffoldColumn(false)]
         public int Id { get; set; }
 
         /// <summary>

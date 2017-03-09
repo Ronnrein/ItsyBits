@@ -16,7 +16,6 @@ namespace ItsyBits.Models {
         /// Id of animal
         /// </summary>
         [Key]
-        [ScaffoldColumn(false)]
         public int Id { get; set; }
 
         /// <summary>
@@ -55,10 +54,22 @@ namespace ItsyBits.Models {
         public AnimalType Type { get; set; }
 
         /// <summary>
+        /// Id of type of animal
+        /// </summary>
+        [ForeignKey("Type")]
+        public int TypeId { get; set; }
+
+        /// <summary>
         /// Building animal lives in
         /// </summary>
         [ScaffoldColumn(false)]
         public Building Building { get; set; }
+
+        /// <summary>
+        /// Id of building of animal
+        /// </summary>
+        [ForeignKey("Building")]
+        public int BuildingId { get; set; }
 
         /// <summary>
         /// Junction for animal upgrades

@@ -11,7 +11,6 @@ namespace ItsyBits.Models {
         /// Id of building type
         /// </summary>
         [Key]
-        [ScaffoldColumn(false)]
         public int Id { get; set; }
 
         /// <summary>
