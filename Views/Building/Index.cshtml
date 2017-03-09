@@ -1,0 +1,5 @@
+﻿@model IEnumerable<Building>
+@{ ViewBag.Title = "Your buildings"; }
+@foreach (Building building in Model) {
+    @Html.Partial("_BuildingDetailsPartial", building)
+}

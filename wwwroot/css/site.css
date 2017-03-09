@@ -36,6 +36,15 @@ textarea {
     padding-left: 0.5em;
 }
 
+.progress {
+    background-color: #ececec;
+}
+
+.progress-bar {
+    min-width: 2em;
+    
+}
+
 /* Make .svg files in the carousel display properly in older browsers */
 .carousel-inner .item img[src$=".svg"] {
     width: 100%;

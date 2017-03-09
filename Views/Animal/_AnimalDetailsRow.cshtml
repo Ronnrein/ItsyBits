@@ -1,0 +1,22 @@
+﻿@model Animal
+<tr>
+    <td class="col-md-3"><h3>@Html.ActionLink(Model.Name, "Details", "Animal", new {id = Model.Id})</h3></td>
+    <td class="col-md-3">
+        <p>Well fed</p>
+        <div class="progress">
+            <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" style="width: @Model.FeedPercentage%">@Model.FeedPercentage%</div>
+        </div>
+    </td>
+    <td class="col-md-3">
+        <p>Rested</p>
+        <div class="progress">
+            <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" style="width: @Model.SleepPercentage%">@Model.SleepPercentage%</div>
+        </div>
+    </td>
+    <td class="col-md-3">
+        <p>Loved</p>
+        <div class="progress">
+            <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" style="width: @Model.PetPercentage%">@Model.PetPercentage%</div>
+        </div>
+    </td>
+</tr>

@@ -1,10 +1,9 @@
-﻿@model IEnumerable<Building>
+﻿@model IEnumerable<Animal>
 @{ ViewBag.Title = "My animals"; }
 
 <h1>My animals</h1>
-@foreach (Building building in Model) {
-    <h2>Animals in @building.Name</h2>
-    foreach (Animal animal in building.Animals) {
-        <h3>@animal.Name the @animal.Type.Name</h3>
+<table class="table">
+    @foreach (Animal animal in Model) {
+        @Html.Partial("_AnimalDetailsRow", animal)
     }
-}
+</table>

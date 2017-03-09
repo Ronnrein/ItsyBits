@@ -29,7 +29,7 @@ namespace ItsyBits.Controllers {
                     _db.Entry(animal).Reference(a => a.Type).Load();
                 }
             }
-            return View(user.Buildings);
+            return View(user.Animals);
         }
         
         public async Task<IActionResult> Details(int id) {

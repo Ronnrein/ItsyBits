@@ -101,7 +101,7 @@ namespace ItsyBits.Models {
         /// Upgrades of animal
         /// </summary>
         [NotMapped]
-        public ICollection<Upgrade> Upgrades => (ICollection<Upgrade>) AnimalUpgrades.Select(au => au.Upgrade);
+        public IEnumerable<Upgrade> Upgrades => AnimalUpgrades.Select(au => au.Upgrade);
 
         /// <summary>
         /// Constructor of animal
