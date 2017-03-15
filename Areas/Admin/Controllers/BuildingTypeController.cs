@@ -1,34 +1,35 @@
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ItsyBits.Data;
 using ItsyBits.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-namespace ItsyBits.Controllers {
+namespace ItsyBits.Areas.Admin.Controllers {
 
+    [Area("Admin")]
     [Authorize(Roles = "Administrator")]
-    public class AnimalTypeController : Controller {
+    public class BuildingTypeController : Controller {
 
         private readonly ApplicationDbContext _db;
 
-        public AnimalTypeController(ApplicationDbContext db) {
-            _db = db;
+        public BuildingTypeController(ApplicationDbContext db) {
+            _db = db;    
         }
 
         [HttpGet]
         public IActionResult Index() {
-            return View(_db.AnimalTypes);
+            return View(_db.BuildingTypes);
         }
 
         [HttpGet]
         public async Task<IActionResult> Details(int id) {
-            AnimalType animalType = await _db.AnimalTypes.SingleOrDefaultAsync(m => m.Id == id);
-            if (animalType == null) {
+            BuildingType buildingType = await _db.BuildingTypes.SingleOrDefaultAsync(m => m.Id == id);
+            if (buildingType == null) {
                 return NotFound();
             }
-            return View(animalType);
+            return View(buildingType);
         }
 
         [HttpGet]
@@ -38,60 +39,60 @@ namespace ItsyBits.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AnimalType animalType) {
+        public async Task<IActionResult> Create(BuildingType buildingType) {
             if (!ModelState.IsValid) {
-                return View(animalType);
+                return View(buildingType);
             }
-            _db.Add(animalType);
+            _db.Add(buildingType);
             await _db.SaveChangesAsync();
-            return RedirectToAction("Details", new {id = animalType.Id});
+            return RedirectToAction("Details", new {id = buildingType.Id});
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id) {
-            AnimalType animalType = await _db.AnimalTypes.SingleOrDefaultAsync(m => m.Id == id);
-            if (animalType == null) {
+            BuildingType buildingType = await _db.BuildingTypes.SingleOrDefaultAsync(m => m.Id == id);
+            if (buildingType == null) {
                 return NotFound();
             }
-            return View(animalType);
+            return View(buildingType);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, AnimalType animalType) {
-            if (id != animalType.Id) {
+        public async Task<IActionResult> Edit(int id, BuildingType buildingType) {
+            if (id != buildingType.Id) {
                 return NotFound();
             }
             if (!ModelState.IsValid) {
-                return View(animalType);
+                return View(buildingType);
             }
             try {
-                _db.Update(animalType);
+                _db.Update(buildingType);
                 await _db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException) {
-                if (!_db.AnimalTypes.Any(e => e.Id == id)) {
+                if (!_db.BuildingTypes.Any(e => e.Id == id)) {
                     return NotFound();
                 }
                 throw;
             }
-            return RedirectToAction("Details", new {id = animalType.Id});
+            return RedirectToAction("Details", new {id = buildingType.Id});
         }
 
         [HttpGet]
         public async Task<IActionResult> Delete(int id) {
-            AnimalType animalType = await _db.AnimalTypes.SingleOrDefaultAsync(m => m.Id == id);
-            if (animalType == null) {
+            BuildingType buildingType = await _db.BuildingTypes.SingleOrDefaultAsync(m => m.Id == id);
+            if (buildingType == null) {
                 return NotFound();
             }
-            return View(animalType);
+            return View(buildingType);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id) {
-            AnimalType animalType = await _db.AnimalTypes.SingleOrDefaultAsync(m => m.Id == id);
-            _db.AnimalTypes.Remove(animalType);
+            BuildingType buildingType = await _db.BuildingTypes.SingleOrDefaultAsync(m => m.Id == id);
+            _db.BuildingTypes.Remove(buildingType);
             await _db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

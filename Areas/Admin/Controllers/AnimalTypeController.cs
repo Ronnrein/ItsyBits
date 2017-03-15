@@ -6,29 +6,30 @@ using ItsyBits.Data;
 using ItsyBits.Models;
 using Microsoft.AspNetCore.Authorization;
 
-namespace ItsyBits.Controllers {
+namespace ItsyBits.Areas.Admin.Controllers {
 
+    [Area("Admin")]
     [Authorize(Roles = "Administrator")]
-    public class UpgradeController : Controller {
+    public class AnimalTypeController : Controller {
 
         private readonly ApplicationDbContext _db;
 
-        public UpgradeController(ApplicationDbContext db) {
-            _db = db;    
+        public AnimalTypeController(ApplicationDbContext db) {
+            _db = db;
         }
 
         [HttpGet]
         public IActionResult Index() {
-            return View(_db.Upgrades);
+            return View(_db.AnimalTypes);
         }
 
         [HttpGet]
         public async Task<IActionResult> Details(int id) {
-            Upgrade upgrade = await _db.Upgrades.SingleOrDefaultAsync(m => m.Id == id);
-            if (upgrade == null) {
+            AnimalType animalType = await _db.AnimalTypes.SingleOrDefaultAsync(m => m.Id == id);
+            if (animalType == null) {
                 return NotFound();
             }
-            return View(upgrade);
+            return View(animalType);
         }
 
         [HttpGet]
@@ -38,61 +39,60 @@ namespace ItsyBits.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Upgrade upgrade) {
+        public async Task<IActionResult> Create(AnimalType animalType) {
             if (!ModelState.IsValid) {
-                return View(upgrade);
+                return View(animalType);
             }
-            _db.Add(upgrade);
+            _db.Add(animalType);
             await _db.SaveChangesAsync();
-            return RedirectToAction("Details", new {id = upgrade.Id});
+            return RedirectToAction("Details", new {id = animalType.Id});
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id) {
-            Upgrade upgrade = await _db.Upgrades.SingleOrDefaultAsync(m => m.Id == id);
-            if (upgrade == null) {
+            AnimalType animalType = await _db.AnimalTypes.SingleOrDefaultAsync(m => m.Id == id);
+            if (animalType == null) {
                 return NotFound();
             }
-            return View(upgrade);
+            return View(animalType);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Upgrade upgrade) {
-            if (id != upgrade.Id) {
+        public async Task<IActionResult> Edit(int id, AnimalType animalType) {
+            if (id != animalType.Id) {
                 return NotFound();
             }
-
             if (!ModelState.IsValid) {
-                return View(upgrade);
+                return View(animalType);
             }
             try {
-                _db.Update(upgrade);
+                _db.Update(animalType);
                 await _db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException) {
-                if (!_db.Upgrades.Any(e => e.Id == id)) {
+                if (!_db.AnimalTypes.Any(e => e.Id == id)) {
                     return NotFound();
                 }
                 throw;
             }
-            return RedirectToAction("Details", new {id = upgrade.Id});
+            return RedirectToAction("Details", new {id = animalType.Id});
         }
 
         [HttpGet]
         public async Task<IActionResult> Delete(int id) {
-            Upgrade upgrade = await _db.Upgrades.SingleOrDefaultAsync(m => m.Id == id);
-            if (upgrade == null) {
+            AnimalType animalType = await _db.AnimalTypes.SingleOrDefaultAsync(m => m.Id == id);
+            if (animalType == null) {
                 return NotFound();
             }
-            return View(upgrade);
+            return View(animalType);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id) {
-            Upgrade upgrade = await _db.Upgrades.SingleOrDefaultAsync(m => m.Id == id);
-            _db.Upgrades.Remove(upgrade);
+            AnimalType animalType = await _db.AnimalTypes.SingleOrDefaultAsync(m => m.Id == id);
+            _db.AnimalTypes.Remove(animalType);
             await _db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

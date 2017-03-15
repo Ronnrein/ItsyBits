@@ -96,11 +96,17 @@ namespace ItsyBits
 
             app.UseMvc(routes => {
                 routes.MapRoute(
+                    name: "admin",
+                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                );
+                routes.MapRoute(
                     name: "restful",
-                    template: "{controller}/{id:int}/{action=Details}");
+                    template: "{controller}/{id:int}/{action=Details}"
+                );
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}"
+                );
             });
 
             // Delete when using migrations

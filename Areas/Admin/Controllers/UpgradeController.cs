@@ -1,34 +1,35 @@
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ItsyBits.Data;
 using ItsyBits.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-namespace ItsyBits.Controllers {
+namespace ItsyBits.Areas.Admin.Controllers {
 
+    [Area("Admin")]
     [Authorize(Roles = "Administrator")]
-    public class BuildingTypeController : Controller {
+    public class UpgradeController : Controller {
 
         private readonly ApplicationDbContext _db;
 
-        public BuildingTypeController(ApplicationDbContext db) {
+        public UpgradeController(ApplicationDbContext db) {
             _db = db;    
         }
 
         [HttpGet]
         public IActionResult Index() {
-            return View(_db.BuildingTypes);
+            return View(_db.Upgrades);
         }
 
         [HttpGet]
         public async Task<IActionResult> Details(int id) {
-            BuildingType buildingType = await _db.BuildingTypes.SingleOrDefaultAsync(m => m.Id == id);
-            if (buildingType == null) {
+            Upgrade upgrade = await _db.Upgrades.SingleOrDefaultAsync(m => m.Id == id);
+            if (upgrade == null) {
                 return NotFound();
             }
-            return View(buildingType);
+            return View(upgrade);
         }
 
         [HttpGet]
@@ -38,60 +39,61 @@ namespace ItsyBits.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(BuildingType buildingType) {
+        public async Task<IActionResult> Create(Upgrade upgrade) {
             if (!ModelState.IsValid) {
-                return View(buildingType);
+                return View(upgrade);
             }
-            _db.Add(buildingType);
+            _db.Add(upgrade);
             await _db.SaveChangesAsync();
-            return RedirectToAction("Details", new {id = buildingType.Id});
+            return RedirectToAction("Details", new {id = upgrade.Id});
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id) {
-            BuildingType buildingType = await _db.BuildingTypes.SingleOrDefaultAsync(m => m.Id == id);
-            if (buildingType == null) {
+            Upgrade upgrade = await _db.Upgrades.SingleOrDefaultAsync(m => m.Id == id);
+            if (upgrade == null) {
                 return NotFound();
             }
-            return View(buildingType);
+            return View(upgrade);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, BuildingType buildingType) {
-            if (id != buildingType.Id) {
+        public async Task<IActionResult> Edit(int id, Upgrade upgrade) {
+            if (id != upgrade.Id) {
                 return NotFound();
             }
+
             if (!ModelState.IsValid) {
-                return View(buildingType);
+                return View(upgrade);
             }
             try {
-                _db.Update(buildingType);
+                _db.Update(upgrade);
                 await _db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException) {
-                if (!_db.BuildingTypes.Any(e => e.Id == id)) {
+                if (!_db.Upgrades.Any(e => e.Id == id)) {
                     return NotFound();
                 }
                 throw;
             }
-            return RedirectToAction("Details", new {id = buildingType.Id});
+            return RedirectToAction("Details", new {id = upgrade.Id});
         }
 
         [HttpGet]
         public async Task<IActionResult> Delete(int id) {
-            BuildingType buildingType = await _db.BuildingTypes.SingleOrDefaultAsync(m => m.Id == id);
-            if (buildingType == null) {
+            Upgrade upgrade = await _db.Upgrades.SingleOrDefaultAsync(m => m.Id == id);
+            if (upgrade == null) {
                 return NotFound();
             }
-            return View(buildingType);
+            return View(upgrade);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id) {
-            BuildingType buildingType = await _db.BuildingTypes.SingleOrDefaultAsync(m => m.Id == id);
-            _db.BuildingTypes.Remove(buildingType);
+            Upgrade upgrade = await _db.Upgrades.SingleOrDefaultAsync(m => m.Id == id);
+            _db.Upgrades.Remove(upgrade);
             await _db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
