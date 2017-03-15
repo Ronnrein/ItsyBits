@@ -1,3 +1,4 @@
+@using ItsyBits.Helpers
 @model BuildingType
 @{ ViewData["Title"] = "Edit " + @Model.Name; }
 <h2>Edit</h2>
@@ -15,14 +16,14 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="SpritePath" class="col-md-2 control-label"></label>
+            <label asp-for="SpritePath" class="col-md-2 control-label" data-toggle="tooltip" data-placement="right" title="@Html.DescriptionFor(model => model.SpritePath)"></label>
             <div class="col-md-10">
                 <input asp-for="SpritePath" class="form-control" />
                 <span asp-validation-for="SpritePath" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Capacity" class="col-md-2 control-label"></label>
+            <label asp-for="Capacity" class="col-md-2 control-label" data-toggle="tooltip" data-placement="right" title="@Html.DescriptionFor(model => model.Capacity)"></label>
             <div class="col-md-10">
                 <input asp-for="Capacity" class="form-control" />
                 <span asp-validation-for="Capacity" class="text-danger"></span>

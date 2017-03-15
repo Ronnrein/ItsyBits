@@ -1,3 +1,4 @@
+@using ItsyBits.Helpers
 @model AnimalType
 @{ ViewData["Title"] = "Edit "+@Model.Name; }
 <h2>Edit</h2>
@@ -15,35 +16,35 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="FeedTime" class="col-md-2 control-label"></label>
+            <label asp-for="FeedTime" class="col-md-2 control-label" data-toggle="tooltip" data-placement="right" title="@Html.DescriptionFor(model => model.FeedTime)"></label>
             <div class="col-md-10">
                 <input asp-for="FeedTime" class="form-control" />
                 <span asp-validation-for="FeedTime" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="SleepTime" class="col-md-2 control-label"></label>
+            <label asp-for="SleepTime" class="col-md-2 control-label" data-toggle="tooltip" data-placement="right" title="@Html.DescriptionFor(model => model.SleepTime)"></label>
             <div class="col-md-10">
                 <input asp-for="SleepTime" class="form-control" />
                 <span asp-validation-for="SleepTime" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="PetTime" class="col-md-2 control-label"></label>
+            <label asp-for="PetTime" class="col-md-2 control-label" data-toggle="tooltip" data-placement="right" title="@Html.DescriptionFor(model => model.PetTime)"></label>
             <div class="col-md-10">
                 <input asp-for="PetTime" class="form-control" />
                 <span asp-validation-for="PetTime" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="LevelMultiplier" class="col-md-2 control-label"></label>
+            <label asp-for="LevelMultiplier" class="col-md-2 control-label" data-toggle="tooltip" data-placement="right" title="@Html.DescriptionFor(model => model.LevelMultiplier)"></label>
             <div class="col-md-10">
                 <input asp-for="LevelMultiplier" class="form-control" />
                 <span asp-validation-for="LevelMultiplier" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="SpritePath" class="col-md-2 control-label"></label>
+            <label asp-for="SpritePath" class="col-md-2 control-label" data-toggle="tooltip" data-placement="right" title="@Html.DescriptionFor(model => model.SpritePath)"></label>
             <div class="col-md-10">
                 <input asp-for="SpritePath" class="form-control" />
                 <span asp-validation-for="SpritePath" class="text-danger"></span>

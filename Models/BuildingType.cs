@@ -16,16 +16,22 @@ namespace ItsyBits.Models {
         /// <summary>
         /// Name of building type
         /// </summary>
+        [Required(ErrorMessage = "Please enter a name of the building type")]
         public string Name { get; set; }
 
         /// <summary>
-        /// Path to spriteset of animal
+        /// Path to spriteset of building
         /// </summary>
+        [Required(ErrorMessage = "Please enter path to spriteset")]
+        [Display(Name = "Sprite path", Description = "Path to spriteset of building")]
         public string SpritePath { get; set; }
 
         /// <summary>
-        /// Animal capacity of building type
+        /// The amount of animals this building can hold
         /// </summary>
+        [Required(ErrorMessage = "Please enter amount of animals this building can hold")]
+        [Range(1, 100, ErrorMessage = "Amount must be between 1 and 100")]
+        [Display(Description = "The amount of animals this building can hold")]
         public int Capacity { get; set; }
     }
 }

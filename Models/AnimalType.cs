@@ -22,34 +22,36 @@ namespace ItsyBits.Models {
         public string Name { get; set; }
 
         /// <summary>
-        /// Time between each feeding
+        /// Time before animal needs food
         /// </summary>
-        [DisplayName("Time between feedings")]
+        [Display(Name = "Feed time", Description = "Time before animal needs food")]
         public TimeSpan FeedTime { get; set; }
 
         /// <summary>
-        /// Time between each sleep
+        /// Time before animal needs to sleep
         /// </summary>
-        [DisplayName("Time between sleep")]
+        [Display(Name = "Sleep time", Description = "Time before animal needs to sleep")]
         public TimeSpan SleepTime { get; set; }
 
         /// <summary>
-        /// Time between each pet
+        /// Time before animal needs to be pet
         /// </summary>
-        [DisplayName("Time between pettings")]
+        [Display(Name = "Pet time", Description = "Time before animal needs to be pet")]
         public TimeSpan PetTime { get; set; }
 
         /// <summary>
-        /// How much the level of animal is multiplied by
+        /// How muuch stronger animal gets each level
         /// </summary>
         [Required(ErrorMessage = "Please set multiplier")]
-        [Range(1, 10, ErrorMessage = "Multiplier must be between 1 and 10")]
+        [Range(1.0, 10.0, ErrorMessage = "Multiplier must be between 1 and 10")]
+        [Display(Name = "Level multiplier", Description = "How muuch stronger animal gets each level")]
         public float LevelMultiplier { get; set; }
 
         /// <summary>
         /// Path to spriteset of animal
         /// </summary>
         [Required(ErrorMessage = "Please enter path of sprite")]
+        [Display(Name = "Sprite path", Description = "Path to spriteset")]
         public string SpritePath { get; set; }
     }
 }

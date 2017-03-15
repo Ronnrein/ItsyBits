@@ -1,3 +1,4 @@
+@using ItsyBits.Helpers
 @model Upgrade
 @{ ViewData["Title"] = "Create upgrade"; }
 <h2>Create</h2>
@@ -21,28 +22,28 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="FeedModifier" class="col-md-2 control-label"></label>
+            <label asp-for="FeedModifier" class="col-md-2 control-label" data-toggle="tooltip" data-placement="right" title="@Html.DescriptionFor(model => model.FeedModifier)"></label>
             <div class="col-md-10">
                 <input asp-for="FeedModifier" class="form-control" />
                 <span asp-validation-for="FeedModifier" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="SleepModifier" class="col-md-2 control-label"></label>
+            <label asp-for="SleepModifier" class="col-md-2 control-label" data-toggle="tooltip" data-placement="right" title="@Html.DescriptionFor(model => model.SleepModifier)"></label>
             <div class="col-md-10">
                 <input asp-for="SleepModifier" class="form-control" />
                 <span asp-validation-for="SleepModifier" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="PetModifier" class="col-md-2 control-label"></label>
+            <label asp-for="PetModifier" class="col-md-2 control-label" data-toggle="tooltip" data-placement="right" title="@Html.DescriptionFor(model => model.PetModifier)"></label>
             <div class="col-md-10">
                 <input asp-for="PetModifier" class="form-control" />
                 <span asp-validation-for="PetModifier" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Method" class="col-md-2 control-label"></label>
+            <label asp-for="Method" class="col-md-2 control-label" data-toggle="tooltip" data-placement="right" title="@Html.DescriptionFor(model => model.Method)"></label>
             <div class="col-md-10">
                 <input asp-for="Method" class="form-control" />
                 <span asp-validation-for="Method" class="text-danger"></span>
