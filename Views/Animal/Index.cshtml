@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<Animal>
-@{ ViewBag.Title = "My animals"; }
-
-<h1>My animals</h1>
+@{ ViewData["Title"] = "My animals"; }
+<h2>@ViewData["Title"]</h2>
 <table class="table">
     @foreach (Animal animal in Model) {
         @Html.Partial("_AnimalDetailsRow", animal)

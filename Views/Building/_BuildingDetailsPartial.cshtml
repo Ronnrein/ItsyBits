@@ -1,5 +1,5 @@
 ﻿@model Building
-<h1>Animals in "@Html.ActionLink(Model.Name, "Details", "Building", new { id = Model.Id })" building</h1>
+<h4>Animals in "<a asp-controller="Building" asp-action="Details", asp-route-id="@Model.Id">@Model.Name</a>" building</h4>
 <table class="table">
     @foreach (Animal animal in Model.Animals) {
         @Html.Partial("/Views/Animal/_animalDetailsRow.cshtml", animal)

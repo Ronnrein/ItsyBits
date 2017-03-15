@@ -97,7 +97,7 @@ namespace ItsyBits
             app.UseMvc(routes => {
                 routes.MapRoute(
                     name: "restful",
-                    template: "{controller}/{id}/{action=Details}");
+                    template: "{controller}/{id:int}/{action=Details}");
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

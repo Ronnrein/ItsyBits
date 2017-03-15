@@ -98,12 +98,6 @@ namespace ItsyBits.Models {
         public int HappinessPercentage => (int) new[] {FeedPercentage, SleepPercentage, PetPercentage}.Average();
 
         /// <summary>
-        /// Upgrades of animal
-        /// </summary>
-        [NotMapped]
-        public IEnumerable<Upgrade> Upgrades => AnimalUpgrades.Select(au => au.Upgrade);
-
-        /// <summary>
         /// Constructor of animal
         /// </summary>
         public Animal() {
@@ -111,6 +105,14 @@ namespace ItsyBits.Models {
             LastPet = DateTime.Now;
             LastSleep = DateTime.Now;
             Level = 1;
+        }
+
+        /// <summary>
+        /// Get upgrades of this animal
+        /// </summary>
+        /// <returns>Upgrades of this animal</returns>
+        public IEnumerable<Upgrade> GetUpgrades() {
+            return AnimalUpgrades.Select(au => au.Upgrade);
         }
 
         /// <summary>

@@ -55,11 +55,11 @@ namespace ItsyBits.Models {
         public ICollection<BuildingUpgrade> BuildingUpgrades { get; set; }
 
         /// <summary>
-        /// Upgrades of building
+        /// Get upgrades for this building
         /// </summary>
-        [NotMapped]
-        public ICollection<Upgrade> Upgrades {
-            get { return (ICollection<Upgrade>) BuildingUpgrades.Select(bu => bu.Upgrade); }
+        /// <returns>Upgrades for this building</returns>
+        public IEnumerable<Upgrade> GetUpgrades() {
+            return BuildingUpgrades.Select(bu => bu.Upgrade);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿@model Animal
-@{ ViewBag.Title = "Info for "+Model.Name; }
-<h1>@Model.Name, type @Model.Type.Name, lives in "@Html.ActionLink(Model.Building.Name, "Details", "Building", new { id = Model.Building.Id })" building</h1>
-<h3>Needs</h3>
+@{ ViewData["Title"] = "Details for "+Model.Name; }
+<h2>@Model.Name, type @Model.Type.Name, lives in "<a asp-controller="Building" asp-action="Details" asp-route-id="@Model.Building.Id">@Model.Building.Name</a>" building</h2>
+<h4>Needs</h4>
 <table class="table">
     <tr>
         <td class="col-md-3">Well fed</td>
@@ -11,9 +11,9 @@
             </div>
         </td>
         <td class="col-md-3 text-right">
-            @using (Html.BeginForm("Feed", "Animal")) {
+            <form asp-action="Feed">
                 <button class="btn btn-default" type="submit">Feed</button>
-            }
+            </form>
         </td>
     </tr>
     <tr>
@@ -24,9 +24,9 @@
             </div>
         </td>
         <td class="col-md-3 text-right">
-            @using (Html.BeginForm("Sleep", "Animal")) {
+            <form asp-action="Sleep">
                 <button class="btn btn-default" type="submit">Sleep</button>
-            }
+            </form>
         </td>
     </tr>
     <tr>
@@ -37,9 +37,9 @@
             </div>
         </td>
         <td class="col-md-3 text-right">
-            @using (Html.BeginForm("Pet", "Animal")) {
+            <form asp-action="Pet">
                 <button class="btn btn-default" type="submit">Pet</button>
-            }
+            </form>
         </td>
     </tr>
     <tr>

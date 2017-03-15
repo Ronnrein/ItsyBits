@@ -3,16 +3,15 @@ using Microsoft.EntityFrameworkCore;
 using ItsyBits.Models;
 
 namespace ItsyBits.Data {
-
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser> {
 
-        public DbSet<Animal> Animals { get; set; }
-        public DbSet<AnimalType> AnimalTypes { get; set; }
-        public DbSet<AnimalUpgrade> AnimalUpgrades { get; set; }
-        public DbSet<Building> Buildings { get; set; }
-        public DbSet<BuildingType> BuildingTypes { get; set; }
-        public DbSet<BuildingUpgrade> BuildingUpgrades { get; set; }
-        public DbSet<Upgrade> Upgrades { get; set; }
+        public virtual DbSet<Animal> Animals { get; set; }
+        public virtual DbSet<AnimalType> AnimalTypes { get; set; }
+        public virtual DbSet<AnimalUpgrade> AnimalUpgrades { get; set; }
+        public virtual DbSet<Building> Buildings { get; set; }
+        public virtual DbSet<BuildingType> BuildingTypes { get; set; }
+        public virtual DbSet<BuildingUpgrade> BuildingUpgrades { get; set; }
+        public virtual DbSet<Upgrade> Upgrades { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options) {}
 

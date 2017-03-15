@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using ItsyBits.Data;
 using ItsyBits.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ItsyBits.Controllers {
 
@@ -20,6 +20,7 @@ namespace ItsyBits.Controllers {
             _userManager = userManager;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index() {
             ApplicationUser user = await _userManager.GetUserAsync(User);
             _db.Entry(user).Collection(u => u.Buildings).Load();
@@ -32,8 +33,9 @@ namespace ItsyBits.Controllers {
             return View(user.Animals);
         }
         
+        [HttpGet]
         public async Task<IActionResult> Details(int id) {
-            Animal animal = _db.Animals.Single(a => a.Id == id);
+            Animal animal = await _db.Animals.SingleOrDefaultAsync(a => a.Id == id);
             if (animal == null) {
                 return NotFound();
             }
@@ -48,7 +50,7 @@ namespace ItsyBits.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> Feed(int id) {
-            Animal animal = _db.Animals.Single(a => a.Id == id);
+            Animal animal = await _db.Animals.SingleOrDefaultAsync(a => a.Id == id);
             if (animal == null) {
                 return NotFound();
             }
@@ -64,7 +66,7 @@ namespace ItsyBits.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> Sleep(int id) {
-            Animal animal = _db.Animals.Single(a => a.Id == id);
+            Animal animal = await _db.Animals.SingleOrDefaultAsync(a => a.Id == id);
             if (animal == null) {
                 return NotFound();
             }
@@ -80,7 +82,7 @@ namespace ItsyBits.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> Pet(int id) {
-            Animal animal = _db.Animals.Single(a => a.Id == id);
+            Animal animal = await _db.Animals.SingleOrDefaultAsync(a => a.Id == id);
             if (animal == null) {
                 return NotFound();
             }

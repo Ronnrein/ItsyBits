@@ -1,6 +1,6 @@
 ﻿@model Animal
 <tr>
-    <td class="col-md-3"><h3>@Html.ActionLink(Model.Name, "Details", "Animal", new {id = Model.Id})</h3></td>
+    <td class="col-md-3"><h3><a asp-controller="Animal" asp-action="Details" asp-route-id="@Model.Id">@Model.Name</a></h3></td>
     <td class="col-md-3">
         <p>Well fed</p>
         <div class="progress">
