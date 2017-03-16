@@ -58,6 +58,11 @@ namespace ItsyBits.Models {
         public ICollection<BuildingUpgrade> BuildingUpgrades { get; set; }
 
         /// <summary>
+        /// Avarage happiness of all animals in building
+        /// </summary>
+        public int HappinessPercentage => (int) Animals.Select(a => a.HappinessPercentage).Average();
+
+        /// <summary>
         /// Get upgrades for this building
         /// </summary>
         /// <returns>Upgrades for this building</returns>
