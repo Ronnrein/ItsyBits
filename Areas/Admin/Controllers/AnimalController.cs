@@ -29,8 +29,7 @@ namespace ItsyBits.Areas.Admin.Controllers {
             Animal animal = await _db.Animals
                 .Include(a => a.Building)
                 .Include(a => a.Type)
-                .SingleOrDefaultAsync(m => m.Id == id
-            );
+                .SingleOrDefaultAsync(m => m.Id == id);
             if (animal == null) {
                 return NotFound();
             }

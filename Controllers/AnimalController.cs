@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using ItsyBits.Data;
 using ItsyBits.Models;
@@ -23,24 +24,23 @@ namespace ItsyBits.Controllers {
         [HttpGet]
         public async Task<IActionResult> Index() {
             ApplicationUser user = await _userManager.GetUserAsync(User);
-            _db.Entry(user).Collection(u => u.Buildings).Load();
-            foreach (Building building in user.Buildings) {
-                _db.Entry(building).Collection(b => b.Animals).Load();
-                foreach (Animal animal in building.Animals) {
-                    _db.Entry(animal).Reference(a => a.Type).Load();
-                }
-            }
-            return View(user.GetAnimals());
+            return View(_db.Buildings
+                .Include(b => b.Animals)
+                .ThenInclude(a => a.Type)
+                .Where(b => b.UserId == user.Id)
+                .SelectMany(b => b.Animals)
+            );
         }
         
         [HttpGet]
         public async Task<IActionResult> Details(int id) {
-            Animal animal = await _db.Animals.SingleOrDefaultAsync(a => a.Id == id);
+            Animal animal = await _db.Animals
+                .Include(a => a.Building)
+                .Include(a => a.Type)
+                .SingleOrDefaultAsync(a => a.Id == id);
             if (animal == null) {
                 return NotFound();
             }
-            _db.Entry(animal).Reference(a => a.Type).Load();
-            _db.Entry(animal).Reference(a => a.Building).Load();
             ApplicationUser user = await _userManager.GetUserAsync(User);
             if (user.Id != animal.Building.UserId) {
                 return Unauthorized();
@@ -50,48 +50,54 @@ namespace ItsyBits.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> Feed(int id) {
-            Animal animal = await _db.Animals.SingleOrDefaultAsync(a => a.Id == id);
+            Animal animal = await _db.Animals
+                .Include(a => a.Building)
+                .SingleOrDefaultAsync(a => a.Id == id);
             if (animal == null) {
                 return NotFound();
             }
-            _db.Entry(animal).Reference(a => a.Building).Load();
             ApplicationUser user = await _userManager.GetUserAsync(User);
             if (user.Id != animal.Building.UserId) {
                 return Unauthorized();
             }
             animal.LastFeed = DateTime.Now;
-            _db.SaveChanges();
+            _db.Update(animal);
+            await _db.SaveChangesAsync();
             return Redirect(Request.Headers["Referer"].ToString());
         }
 
         [HttpPost]
         public async Task<IActionResult> Sleep(int id) {
-            Animal animal = await _db.Animals.SingleOrDefaultAsync(a => a.Id == id);
+            Animal animal = await _db.Animals
+                .Include(a => a.Building)
+                .SingleOrDefaultAsync(a => a.Id == id);
             if (animal == null) {
                 return NotFound();
             }
-            _db.Entry(animal).Reference(a => a.Building).Load();
             ApplicationUser user = await _userManager.GetUserAsync(User);
             if (user.Id != animal.Building.UserId) {
                 return Unauthorized();
             }
             animal.LastSleep = DateTime.Now;
+            _db.Update(animal);
             _db.SaveChanges();
             return Redirect(Request.Headers["Referer"].ToString());
         }
 
         [HttpPost]
         public async Task<IActionResult> Pet(int id) {
-            Animal animal = await _db.Animals.SingleOrDefaultAsync(a => a.Id == id);
+            Animal animal = await _db.Animals
+                .Include(a => a.Building)
+                .SingleOrDefaultAsync(a => a.Id == id);
             if (animal == null) {
                 return NotFound();
             }
-            _db.Entry(animal).Reference(a => a.Building).Load();
             ApplicationUser user = await _userManager.GetUserAsync(User);
             if (user.Id != animal.Building.UserId) {
                 return Unauthorized();
             }
             animal.LastPet = DateTime.Now;
+            _db.Update(animal);
             _db.SaveChanges();
             return Redirect(Request.Headers["Referer"].ToString());
         }
