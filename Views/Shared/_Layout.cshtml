@@ -54,9 +54,7 @@
                 @RenderBody()
             </div>
             <div class="col-sm-2 sidenav">
-                <div class="well">
-                    <p>View component her</p>
-                </div>
+                @await Component.InvokeAsync("UserSummary");
             </div>
         </div>
     </div>

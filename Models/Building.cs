@@ -58,16 +58,13 @@ namespace ItsyBits.Models {
         public ICollection<BuildingUpgrade> BuildingUpgrades { get; set; }
 
         /// <summary>
-        /// Avarage happiness of all animals in building
+        /// Upgrades for building
         /// </summary>
-        public int HappinessPercentage => Animals.Count == 0 ? 0 : (int) Animals.Average(a => a.HappinessPercentage);
+        public IEnumerable<Upgrade> Upgrades => BuildingUpgrades?.Select(au => au.Upgrade) ?? Enumerable.Empty<Upgrade>();
 
         /// <summary>
-        /// Get upgrades for this building
+        /// Avarage happiness of all animals in building
         /// </summary>
-        /// <returns>Upgrades for this building</returns>
-        public IEnumerable<Upgrade> GetUpgrades() {
-            return BuildingUpgrades.Select(bu => bu.Upgrade);
-        }
+        public int HappinessPercentage => Animals == null || Animals.Count == 0 ? 0 : (int) Animals.Average(a => a.HappinessPercentage);
     }
 }

@@ -81,19 +81,24 @@ namespace ItsyBits.Models {
         public ICollection<AnimalUpgrade> AnimalUpgrades { get; set; }
 
         /// <summary>
+        /// Upgrades for animal
+        /// </summary>
+        public IEnumerable<Upgrade> Upgrades => AnimalUpgrades?.Select(au => au.Upgrade) ?? Enumerable.Empty<Upgrade>();
+
+        /// <summary>
         /// The percentage of how well fed the animal is
         /// </summary>
-        public int FeedPercentage => CalculateStatPercentage(LastFeed, Type.FeedTime);
+        public int FeedPercentage => Type == null ? 0 : CalculateStatPercentage(LastFeed, Type.FeedTime);
 
         /// <summary>
         /// The percentage of how rested the animal is
         /// </summary>
-        public int SleepPercentage => CalculateStatPercentage(LastSleep, Type.SleepTime);
+        public int SleepPercentage => Type == null ? 0 : CalculateStatPercentage(LastSleep, Type.SleepTime);
 
         /// <summary>
         /// The percentage of how loved the animal is
         /// </summary>
-        public int PetPercentage => CalculateStatPercentage(LastPet, Type.PetTime);
+        public int PetPercentage => Type == null ? 0 : CalculateStatPercentage(LastPet, Type.PetTime);
 
         /// <summary>
         /// The percentage avarage of all stats
@@ -108,14 +113,6 @@ namespace ItsyBits.Models {
             LastPet = DateTime.Now;
             LastSleep = DateTime.Now;
             Level = 1;
-        }
-
-        /// <summary>
-        /// Get upgrades of this animal
-        /// </summary>
-        /// <returns>Upgrades of this animal</returns>
-        public IEnumerable<Upgrade> GetUpgrades() {
-            return AnimalUpgrades.Select(au => au.Upgrade);
         }
 
         /// <summary>

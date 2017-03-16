@@ -1,0 +1,26 @@
+﻿@model ApplicationUser
+<div class="well">
+    <h4>@Model.UserName</h4>
+    <table class="table">
+        <tr>
+            <td>
+                <p>Total buildings:</p></td>
+            <td>@Model.Buildings.Count</td>
+        </tr>
+        <tr>
+            <td>
+                <p>Total animals:</p></td>
+            <td>@Model.Animals.Count()</td>
+        </tr>
+        <tr>
+            <td>
+                <p>Happiness</p>
+            </td>
+            <td>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" style="width: @Model.HappinessPercentage%">@Model.HappinessPercentage%</div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

@@ -16,12 +16,15 @@ namespace ItsyBits.Models {
         public ICollection<Building> Buildings { get; set; }
 
         /// <summary>
-        /// Get animals of user
+        /// Animals of user
         /// </summary>
-        /// <returns>Animals of user</returns>
-        public IEnumerable<Animal> GetAnimals() {
-            return Buildings.SelectMany(b => b.Animals);
-        }
+        [NotMapped]
+        public IEnumerable<Animal> Animals => Buildings?.SelectMany(b => b.Animals) ?? Enumerable.Empty<Animal>();
+
+        /// <summary>
+        /// Overall happiness of all users animals
+        /// </summary>
+        public int HappinessPercentage => Buildings == null || Buildings.Count == 0 ? 0 : (int) Buildings.Where(b => b.Animals.Count > 0).Average(a => a.HappinessPercentage);
     }
     
 }
