@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -31,6 +32,7 @@ namespace ItsyBits.Models {
         /// Id of user of building
         /// </summary>
         [ForeignKey("User")]
+        [DisplayName("User")]
         public string UserId { get; set; }
 
         /// <summary>
@@ -42,6 +44,7 @@ namespace ItsyBits.Models {
         /// Id of type of building
         /// </summary>
         [ForeignKey("Type")]
+        [DisplayName("Type")]
         public int TypeId { get; set; }
 
         /// <summary>
