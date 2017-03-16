@@ -60,7 +60,7 @@ namespace ItsyBits.Models {
         /// <summary>
         /// Avarage happiness of all animals in building
         /// </summary>
-        public int HappinessPercentage => (int) Animals.Select(a => a.HappinessPercentage).Average();
+        public int HappinessPercentage => Animals.Count == 0 ? 0 : (int) Animals.Average(a => a.HappinessPercentage);
 
         /// <summary>
         /// Get upgrades for this building

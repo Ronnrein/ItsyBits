@@ -25,9 +25,9 @@ namespace ItsyBits.Controllers {
         public async Task<IActionResult> Index() {
             ApplicationUser user = await _userManager.GetUserAsync(User);
             return View(_db.Buildings
+                .Where(b => b.UserId == user.Id)
                 .Include(b => b.Animals)
                 .ThenInclude(a => a.Type)
-                .Where(b => b.UserId == user.Id)
             );
         }
 

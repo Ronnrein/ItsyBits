@@ -31,20 +31,24 @@
                     <li><a asp-area="" asp-controller="Animal" asp-action="Index">My animals</a></li>
                     <li><a asp-area="" asp-controller="Building" asp-action="Index">My buildings</a></li>
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                </ul>
+                <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
+                    <ul class="nav navbar-nav navbar-right">
+                        @if (User.IsInRole("Administrator")) {
+                            <li><a asp-area="Admin" asp-controller="Home" asp-action="Index">Admin</a></li>
+                        }
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                        <li><button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button></li>
+                    </ul>
+                </form>
             </div>
         </div>
     </nav>
     <div class="container-fluid text-center">
         <div class="row content">
             <div class="col-sm-2 sidenav">
-                <div class="well">
-                    <p>View component her</p>
-                </div>
+                @await Component.InvokeAsync("BuildingSummary");
             </div>
             <div class="col-sm-8 text-left">
                 @RenderBody()
