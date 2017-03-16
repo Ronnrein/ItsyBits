@@ -96,7 +96,11 @@ namespace ItsyBits
 
             app.UseMvc(routes => {
                 routes.MapRoute(
-                    name: "admin",
+                    name: "areaRestful",
+                    template: "{area:exists}/{controller}/{id:int}/{action}"
+                );
+                routes.MapRoute(
+                    name: "area",
                     template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
                 );
                 routes.MapRoute(
