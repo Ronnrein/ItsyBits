@@ -72,7 +72,7 @@ namespace ItsyBits.Areas.Admin.Controllers {
                 await _db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException) {
-                if (!_db.Upgrades.Any(e => e.Id == id)) {
+                if (!_db.Upgrades.Any(e => e.Id == upgrade.Id)) {
                     return NotFound();
                 }
                 throw;

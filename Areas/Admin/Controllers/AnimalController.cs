@@ -84,7 +84,7 @@ namespace ItsyBits.Areas.Admin.Controllers {
                 await _db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException) {
-                if (!_db.Animals.Any(e => e.Id == id)) {
+                if (!_db.Animals.Any(e => e.Id == animal.Id)) {
                     return NotFound();
                 }
                 throw;

@@ -16,10 +16,12 @@ namespace ItsyBits.Models {
         public ICollection<Building> Buildings { get; set; }
 
         /// <summary>
-        /// Animals of user
+        /// Get animals of user
         /// </summary>
-        [NotMapped]
-        public IEnumerable<Animal> Animals => Buildings.SelectMany(b => b.Animals);
+        /// <returns>Animals of user</returns>
+        public IEnumerable<Animal> GetAnimals() {
+            return Buildings.SelectMany(b => b.Animals);
+        }
     }
     
 }

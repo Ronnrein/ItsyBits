@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ItsyBits.Models;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ItsyBits.Data {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser> {
@@ -26,7 +27,5 @@ namespace ItsyBits.Data {
                 .HasOne(au => au.Animal)
                 .WithMany(a => a.AnimalUpgrades);
         }
-
-        public DbSet<ItsyBits.Models.ApplicationUser> ApplicationUser { get; set; }
     }
 }

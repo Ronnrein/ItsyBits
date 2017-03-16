@@ -30,7 +30,7 @@ namespace ItsyBits.Controllers {
                     _db.Entry(animal).Reference(a => a.Type).Load();
                 }
             }
-            return View(user.Animals);
+            return View(user.GetAnimals());
         }
         
         [HttpGet]

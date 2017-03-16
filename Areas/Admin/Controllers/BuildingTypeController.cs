@@ -71,7 +71,7 @@ namespace ItsyBits.Areas.Admin.Controllers {
                 await _db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException) {
-                if (!_db.BuildingTypes.Any(e => e.Id == id)) {
+                if (!_db.BuildingTypes.Any(e => e.Id == buildingType.Id)) {
                     return NotFound();
                 }
                 throw;
