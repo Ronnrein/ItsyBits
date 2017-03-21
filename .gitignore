@@ -2,6 +2,8 @@
 wwwroot/lib/
 *.min.js
 *.min.css
+appsettings.Production.json
+hosting.json
 
 # .NET Core
 *.swp
