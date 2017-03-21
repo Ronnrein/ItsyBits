@@ -1,5 +1,7 @@
 # Custom
 wwwroot/lib/
+*.min.js
+*.min.css
 
 # .NET Core
 *.swp
