@@ -60,12 +60,10 @@ namespace ItsyBits
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
-            // Add seeder service
-            services.AddTransient<DatabaseSeeder>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, DatabaseSeeder seeder)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -76,12 +74,6 @@ namespace ItsyBits
                 app.UseDatabaseErrorPage();
                 
                 app.UseBrowserLink();
-
-                // Delete and create database
-                /*DatabaseFacade db = app.ApplicationServices.GetService<ApplicationDbContext>().Database;
-                db.EnsureDeleted();
-                db.EnsureCreated();*/
-
             }
             else
             {
@@ -112,11 +104,6 @@ namespace ItsyBits
                     template: "{controller=Home}/{action=Index}/{id?}"
                 );
             });
-
-            // Delete when using migrations
-            /*if (env.IsDevelopment()) {
-                seeder.SeedData();
-            }*/
         }
     }
 }
