@@ -1,0 +1,40 @@
+﻿@model Animal
+<div class="card">
+    <div class="image">
+        <img src="~/images/animals/@Model.Type.SpritePath/portrait.png"/>
+    </div>
+    <div class="content">
+        <a asp-controller="Animal" asp-action="Details" asp-route-id="@Model.Id" class="header">@Model.Name</a>
+        <div class="meta">
+            <p>@Model.Type.Name</p>
+        </div>
+        <div class="description">
+            Status text goes here
+        </div>
+        <div class="ui divider"></div>
+        <div class="extra content">
+            <div class="ui three column grid">
+                <div class="row">
+                    <div class="column">
+                        <div class="ui indicating small progress progressbar tooltip" data-content="@Model.FeedPercentage%" data-value="@Model.FeedPercentage" data-total="100">
+                            <div class="bar"></div>
+                            <div class="label">Fed</div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="ui indicating small progress progressbar tooltip" data-content="@Model.SleepPercentage%" data-value="@Model.SleepPercentage" data-total="100">
+                            <div class="bar"></div>
+                            <div class="label">Rested</div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="ui indicating small progress progressbar tooltip" data-content="@Model.PetPercentage%" data-value="@Model.PetPercentage" data-total="100">
+                            <div class="bar"></div>
+                            <div class="label">Loved</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -3,33 +3,27 @@
     ViewData["Title"] = "Login";
     Layout = "_BasicLayout";
 }
-<div class="container">
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Register</h3>
+<div class="ui one column center aligned grid">
+    <div class="column six wide">
+        <h2 class="center aligned header">Register</h2>
+        <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" role="form">
+            <div class="ui form">
+                <div asp-validation-summary="All"></div>
+                <div class="field">
+                    <input asp-for="Email" placeholder="Email">
                 </div>
-                <div class="panel-body">
-                    <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" role="form">
-                        <div asp-validation-summary="All" class="text-danger"></div>
-                        <fieldset>
-                            <div class="form-group">
-                                <input asp-for="Email" class="form-control" placeholder="Email" />
-                            </div>
-                            <div class="form-group">
-                                <input asp-for="Password" class="form-control" placeholder="Password" />
-                            </div>
-                            <div class="form-group">
-                                <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm password" />
-                            </div>
-                            <p><a asp-action="Login">Login</a></p>
-                            <input class="btn btn-lg btn-success btn-block" type="submit" value="Register">
-                        </fieldset>
-                    </form>
+                <div class="field">
+                    <input asp-for="Password" placeholder="Password">
                 </div>
+                <div class="field">
+                    <input asp-for="ConfirmPassword" placeholder="Confirm password">
+                </div>
+                <div class="field">
+                    <input type="submit" value="Register" class="ui button large fluid green">
+                </div>
+                <p><a asp-action="Login">Login</a></p>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 @section Scripts {

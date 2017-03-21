@@ -21,6 +21,7 @@ namespace ItsyBits.ViewComponents {
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
             return View(_db.Buildings
                 .Where(b => b.UserId == user.Id)
+                .Include(b => b.Type)
                 .Include(b => b.Animals)
                 .ThenInclude(a => a.Type)
             );

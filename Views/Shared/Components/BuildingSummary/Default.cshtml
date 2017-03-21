@@ -1,16 +1,7 @@
 ﻿@model IEnumerable<Building>
-@foreach (Building building in Model) {
-    <div class="well">
-        <h4><a asp-controller="Building" asp-action="Details" asp-route-id="@building.Id">@building.Name</a></h4>
-        <table class="table">
-            <tr>
-                <td><p>Happiness</p></td>
-                <td>
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" style="width: @building.HappinessPercentage%">@building.HappinessPercentage%</div>
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </div>
-}
+<h2>Buildings</h2>
+<div class="ui cards centered">
+    @foreach (Building building in Model) {
+        @await Html.PartialAsync("/Views/Building/_BuildingCardPartial.cshtml", building)
+    }
+</div>

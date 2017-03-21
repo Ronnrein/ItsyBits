@@ -1,3 +1,4 @@
 $(document).ready(function() {
-    $('[data-toggle="tooltip"]').tooltip()
+    $(".progressbar").progress();
+    $(".tooltip").popup();
 });

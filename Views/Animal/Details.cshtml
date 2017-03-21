@@ -1,53 +1,59 @@
 ﻿@model Animal
 @{ ViewData["Title"] = "Details for "+Model.Name; }
 <h2>@Model.Name, type @Model.Type.Name, lives in "<a asp-controller="Building" asp-action="Details" asp-route-id="@Model.Building.Id">@Model.Building.Name</a>" building</h2>
-<h4>Needs</h4>
-<table class="table">
-    <tr>
-        <td class="col-md-3">Well fed</td>
-        <td class="col-md-6">
-            <div class="progress">
-                <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" style="width: @Model.FeedPercentage%">@Model.FeedPercentage%</div>
+<div class="ui container">
+    <img class="ui centered big image" src="~/images/animals/@Model.Type.SpritePath/full.png" />
+</div>
+<div class="ui three column grid">
+    <div class="column">
+        <form asp-controller="Animal" asp-action="Feed" method="post">
+            <div class="ui fluid card">
+                <div class="content">
+                    <div class="header">Well fed</div>
+                    <div class="ui divider"></div>
+                    <div class="ui indicating progress progressbar tooltip" data-content="@Model.FeedPercentage%" data-value="@Model.FeedPercentage" data-total="100">
+                        <div class="bar"></div>
+                    </div>
+                </div>
+                <button class="ui bottom attached button" type="submit">
+                    <i class="food icon"></i>
+                    Feed
+                </button>
             </div>
-        </td>
-        <td class="col-md-3 text-right">
-            <form asp-action="Feed">
-                <button class="btn btn-default" type="submit">Feed</button>
-            </form>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-md-3">Rested</td>
-        <td class="col-md-6">
-            <div class="progress">
-                <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" style="width: @Model.SleepPercentage%">@Model.SleepPercentage%</div>
+        </form>
+    </div>
+    <div class="column">
+        <form asp-controller="Animal" asp-action="Sleep" method="post">
+            <div class="ui fluid card">
+                <div class="content">
+                    <div class="header">Rested</div>
+                    <div class="ui divider"></div>
+                    <div class="ui indicating progress progressbar tooltip" data-content="@Model.SleepPercentage%" data-value="@Model.SleepPercentage" data-total="100">
+                        <div class="bar"></div>
+                    </div>
+                </div>
+                <button class="ui bottom attached button" type="submit">
+                    <i class="hotel icon"></i>
+                    Sleep
+                </button>
             </div>
-        </td>
-        <td class="col-md-3 text-right">
-            <form asp-action="Sleep">
-                <button class="btn btn-default" type="submit">Sleep</button>
-            </form>
-        </td>
-    </tr>
-    <tr>
-        <td class="col-md-3">Loved</td>
-        <td class="col-md-6">
-            <div class="progress">
-                <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" style="width: @Model.PetPercentage%">@Model.PetPercentage%</div>
+        </form>
+    </div>
+    <div class="column">
+        <form asp-controller="Animal" asp-action="Pet" method="post">
+            <div class="ui fluid card">
+                <div class="content">
+                    <div class="header">Loved</div>
+                    <div class="ui divider"></div>
+                    <div class="ui indicating progress progressbar tooltip" data-content="@Model.PetPercentage%" data-value="@Model.PetPercentage" data-total="100">
+                        <div class="bar"></div>
+                    </div>
+                </div>
+                <button class="ui bottom attached button" type="submit">
+                    <i class="heart icon"></i>
+                    Pet
+                </button>
             </div>
-        </td>
-        <td class="col-md-3 text-right">
-            <form asp-action="Pet">
-                <button class="btn btn-default" type="submit">Pet</button>
-            </form>
-        </td>
-    </tr>
-    <tr>
-        <td>Overall</td>
-        <td colspan="2">
-            <div class="progress">
-                <div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar" style="width: @Model.HappinessPercentage%">@Model.HappinessPercentage%</div>
-            </div>
-        </td>
-    </tr>
-</table>
+        </form>
+    </div>
+</div>
