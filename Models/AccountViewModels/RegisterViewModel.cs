@@ -9,6 +9,11 @@ namespace ItsyBits.Models.AccountViewModels
     public class RegisterViewModel
     {
         [Required]
+        [StringLength(20, ErrorMessage = "The {0} must be max {1} characters long.")]
+        [Display(Name = "Email")]
+        public string UserName { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
