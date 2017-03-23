@@ -59,12 +59,16 @@ namespace ItsyBits.Areas.Admin.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id) {
-            Building building = await _db.Buildings.SingleOrDefaultAsync(m => m.Id == id);
+            Building building = await _db.Buildings
+                .Include(b => b.BuildingUpgrades)
+                .ThenInclude(bu => bu.Upgrade)
+                .SingleOrDefaultAsync(m => m.Id == id);
             if (building == null) {
                 return NotFound();
             }
             ViewData["TypeId"] = new SelectList(_db.BuildingTypes, "Id", "Name", building.TypeId);
             ViewData["UserId"] = new SelectList(_db.Users, "Id", "UserName", building.UserId);
+            ViewData["UpgradeId"] = new SelectList(_db.Upgrades.Where(u => building.BuildingUpgrades.All(au => au.UpgradeId != u.Id)), "Id", "Name");
             return View(building);
         }
 
@@ -75,8 +79,13 @@ namespace ItsyBits.Areas.Admin.Controllers {
                 return NotFound();
             }
             if (ModelState.IsValid) {
-                ViewData["TypeId"] = new SelectList(_db.BuildingTypes, "Id", "Name", building.TypeId);
-                ViewData["UserId"] = new SelectList(_db.Users, "Id", "UserName", building.UserId);
+                Building oldBuilding = await _db.Buildings
+                    .Include(b => b.BuildingUpgrades)
+                    .ThenInclude(bu => bu.Upgrade)
+                    .SingleOrDefaultAsync(b => b.Id == id);
+                ViewData["TypeId"] = new SelectList(_db.BuildingTypes, "Id", "Name", oldBuilding.TypeId);
+                ViewData["UserId"] = new SelectList(_db.Users, "Id", "UserName", oldBuilding.UserId);
+                ViewData["UpgradeId"] = new SelectList(_db.Upgrades.Where(u => oldBuilding.BuildingUpgrades.All(au => au.UpgradeId != u.Id)), "Id", "Name");
                 return View(building);
             }
             try {
@@ -112,6 +121,20 @@ namespace ItsyBits.Areas.Admin.Controllers {
             _db.Buildings.Remove(building);
             await _db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddUpgrade(BuildingUpgrade upgrade) {
+            _db.Add(upgrade);
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Edit", new {upgrade.BuildingId});
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveUpgrade(BuildingUpgrade upgrade) {
+            _db.BuildingUpgrades.Remove(upgrade);
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Edit", new {upgrade.BuildingId});
         }
     }
 }

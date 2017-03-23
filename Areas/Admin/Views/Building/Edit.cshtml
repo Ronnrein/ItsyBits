@@ -35,6 +35,54 @@
         </div>
     </div>
 </form>
+@if (((IEnumerable<SelectListItem>) ViewBag.UpgradeId).Any()) {
+    <form asp-action="AddUpgrade">
+        <div class="form-horizontal">
+            <h4>Add upgrade</h4>
+            <hr/>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="BuildingId" value="@Model.Id" />
+            <div class="form-group">
+                <label asp-for="TypeId" class="control-label col-md-2"></label>
+                <div class="col-md-10">
+                    <select name="upgradeId" class="form-control" asp-items="ViewBag.UpgradeId"></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Add" class="btn btn-default"/>
+                </div>
+            </div>
+        </div>
+    </form>
+}
+<div class="form-horizontal">
+    <h4>Upgrades</h4>
+    <hr />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Upgrade</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (BuildingUpgrade upgrade in Model.BuildingUpgrades) {
+                <tr>
+                    <td>@upgrade.Upgrade.Name</td>
+                    <td>
+                        <form asp-action="RemoveUpgrade">
+                            <input type="hidden" name="BuildingId" value="@upgrade.BuildingId" />
+                            <input type="hidden" name="UpgradeId" value="@upgrade.UpgradeId" />
+                            <input type="submit" value="Remove" class="btn btn-default" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 <div>
     <a asp-action="Index">Back to List</a>
 </div>

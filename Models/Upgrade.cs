@@ -43,7 +43,7 @@ namespace ItsyBits.Models {
         /// The multiplier for how much longer between each pet
         /// </summary>
         [Required(ErrorMessage = "Please enter pet modifier")]
-        [Display(Name = "Per modifier", Description = "The multiplier for how much longer between each pet")]
+        [Display(Name = "Pet modifier", Description = "The multiplier for how much longer between each pet")]
         public float PetModifier { get; set; }
 
         /// <summary>

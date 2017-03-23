@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -58,12 +61,16 @@ namespace ItsyBits.Areas.Admin.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id) {
-            Animal animal = await _db.Animals.SingleOrDefaultAsync(m => m.Id == id);
+            Animal animal = await _db.Animals
+                .Include(a => a.AnimalUpgrades)
+                .ThenInclude(au => au.Upgrade)
+                .SingleOrDefaultAsync(m => m.Id == id);
             if (animal == null) {
                 return NotFound();
             }
             ViewData["BuildingId"] = new SelectList(_db.Buildings, "Id", "Name", animal.BuildingId);
             ViewData["TypeId"] = new SelectList(_db.AnimalTypes, "Id", "Name", animal.TypeId);
+            ViewData["UpgradeId"] = new SelectList(_db.Upgrades.Where(u => animal.AnimalUpgrades.All(au => au.UpgradeId != u.Id)), "Id", "Name");
             return View(animal);
         }
 
@@ -74,9 +81,14 @@ namespace ItsyBits.Areas.Admin.Controllers {
                 return NotFound();
             }
             if (!ModelState.IsValid) {
-                ViewData["BuildingId"] = new SelectList(_db.Buildings, "Id", "Name", animal.BuildingId);
-                ViewData["TypeId"] = new SelectList(_db.AnimalTypes, "Id", "Name", animal.TypeId);
-                return View(animal);
+                Animal oldAnimal = await _db.Animals
+                    .Include(a => a.AnimalUpgrades)
+                    .ThenInclude(au => au.Upgrade)
+                    .SingleOrDefaultAsync(m => m.Id == id);
+                ViewData["BuildingId"] = new SelectList(_db.Buildings, "Id", "Name", oldAnimal.BuildingId);
+                ViewData["TypeId"] = new SelectList(_db.AnimalTypes, "Id", "Name", oldAnimal.TypeId);
+                ViewData["UpgradeId"] = new SelectList(_db.Upgrades.Where(u => oldAnimal.AnimalUpgrades.All(au => au.UpgradeId != u.Id)), "Id", "Name");
+                return View(oldAnimal);
             }
             try {
                 _db.Update(animal);
@@ -111,6 +123,20 @@ namespace ItsyBits.Areas.Admin.Controllers {
             _db.Animals.Remove(animal);
             await _db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddUpgrade(AnimalUpgrade upgrade) {
+            _db.Add(upgrade);
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Edit", new {upgrade.AnimalId});
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveUpgrade(AnimalUpgrade upgrade) {
+            _db.AnimalUpgrades.Remove(upgrade);
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Edit", new {upgrade.AnimalId});
         }
     }
 }
