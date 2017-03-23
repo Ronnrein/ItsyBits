@@ -50,6 +50,11 @@ namespace ItsyBits.Models {
         public int Level { get; set; }
 
         /// <summary>
+        /// Whether animal is male or female
+        /// </summary>
+        public bool Male { get; set; }
+
+        /// <summary>
         /// Type of animal
         /// </summary>
         public AnimalType Type { get; set; }

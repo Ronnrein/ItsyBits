@@ -8,9 +8,10 @@ using ItsyBits.Data;
 namespace ItsyBits.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170323084820_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");
@@ -29,8 +30,6 @@ namespace ItsyBits.Data.Migrations
                     b.Property<DateTime>("LastSleep");
 
                     b.Property<int>("Level");
-
-                    b.Property<bool>("Male");
 
                     b.Property<string>("Name")
                         .IsRequired();
