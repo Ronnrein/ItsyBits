@@ -2,6 +2,6 @@
 <h4>Animals in "<a asp-controller="Building" asp-action="Details", asp-route-id="@Model.Id">@Model.Name</a>" building</h4>
 <div class="ui cards">
     @foreach (Animal animal in Model.Animals) {
-        @Html.Partial("/Views/Animal/_animalCardPartial.cshtml", animal)
+        @Html.Partial("/Views/Animal/_AnimalCardPartial.cshtml", animal)
     }
 </div>
