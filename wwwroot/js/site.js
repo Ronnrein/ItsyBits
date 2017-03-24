@@ -10,9 +10,9 @@ function doAnimalAction() {
     $.post($(this).attr("action"), function () {
 
         // Update the progressbar
-        console.log($(that).find(".progressbar").progress({
+        $(that).find(".progressbar").progress({
             percent: 100
-        }).attr("data-content", "100%"));
+        }).attr("data-content", "100%");
     });
     return false;
 }

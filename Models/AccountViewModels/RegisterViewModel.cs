@@ -10,7 +10,7 @@ namespace ItsyBits.Models.AccountViewModels
     {
         [Required]
         [StringLength(20, ErrorMessage = "The {0} must be max {1} characters long.")]
-        [Display(Name = "Email")]
+        [Display(Name = "Username")]
         public string UserName { get; set; }
 
         [Required]

@@ -121,6 +121,14 @@ namespace ItsyBits.Models {
         }
 
         /// <summary>
+        /// Gets status text for animal
+        /// </summary>
+        /// <returns>Current status of animal</returns>
+        public string GetStatusText() {
+            return "Hei";
+        }
+
+        /// <summary>
         /// Calculate the percentage of the stat of the animal
         /// </summary>
         /// <param name="lastTime">Last time the action was taken</param>
