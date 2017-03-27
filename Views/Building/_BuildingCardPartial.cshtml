@@ -6,16 +6,19 @@
     <div class="content">
         <a asp-controller="Building" asp-action="Details" asp-route-id="@Model.Id" class="header">@Model.Name</a>
         <div class="meta">
-            <p>@Model.Type.Name</p>
+           <p>@Model.Type.Name Capacity: @Model.Animals.Count/@Model.Type.Capacity</p>
+          
+            
         </div>
         <div class="description">
-            Status text goes here
+            @Model.GetHouseStatus()
+           
         </div>
         <div class="ui divider"></div>
         <div class="extra content">
             <div class="ui indicating small progress progressbar tooltip" data-content="@Model.HappinessPercentage%" data-value="@Model.HappinessPercentage" data-total="100">
                 <div class="bar"></div>
-                <div class="label">Happiness</div>
+                <div class="label">Animal Happiness</div>
             </div>
         </div>
     </div>
