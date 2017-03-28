@@ -68,7 +68,10 @@ namespace ItsyBits.Models {
         public int HappinessPercentage => Animals == null || Animals.Count == 0 ? 0 : (int) Animals.Average(a => a.HappinessPercentage);
 
         
-
+        /// <summary>
+        /// Gets status text for building
+        /// </summary>
+        /// <returns>Current status of building</returns>
         public string GetStatusText() {
             if(HappinessPercentage >= 76) {
                 return "Your animals seem happy";
