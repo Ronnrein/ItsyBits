@@ -69,30 +69,14 @@ namespace ItsyBits.Models {
 
         
 
-        public string GetHouseStatus() {
-
-  
-            if (HappinessPercentage >= 31 && HappinessPercentage <= 75) {
+        public string GetStatusText() {
+            if(HappinessPercentage >= 76) {
+                return "Your animals seem happy";
+            }
+            if(HappinessPercentage >= 31) {
                 return "Your pets need some attention";
             }
-
-            else if (HappinessPercentage <= 30)
-            {
-                return "Help us!";
-            }
-
-            else if(HappinessPercentage >= 76)
-            {
-
-               return "Your animals seem happy";
-            }
-
-            return "";
-
+            return "Help us!";
         }
-            
-        
-
     }
-    
 }

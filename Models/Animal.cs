@@ -132,28 +132,16 @@ namespace ItsyBits.Models {
         /// </summary>
         /// <returns>Current status of animal</returns>
         public string GetStatusText() {
-
-            String Statustext = "I could need some attention";
-            
-
-            if ((FeedPercentage >= 80 && SleepPercentage >= 80 && PetPercentage >= 80))
-            {
-                Statustext = " I'm happy ^_^";
-                
+            if(new[] {FeedPercentage, SleepPercentage, PetPercentage}.All(s => s >= 80)) {
+                return "I'm happy ^_^";
             }
-
-            else if (HappinessPercentage <= 20) {
-                Statustext = "I feel sick, don't you love me anymore?";
-
+            if(HappinessPercentage >= 39) {
+                return "I could need some attention";
             }
-             else if (HappinessPercentage < 39 && HappinessPercentage > 21)
-            {
-                Statustext = "I don't feel so good";
-
+            if(HappinessPercentage > 20) {
+                return "I don't feel so good";
             }
-
-
-            return Statustext;
+            return "I feel sick, don't you love me anymore?";
         }
 
         /// <summary>
