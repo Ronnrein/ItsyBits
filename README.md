@@ -25,14 +25,23 @@ Now that you have a local copy of the project, you have to get the dependencies 
 ```shell
 dotnet restore
 dotnet ef database update
+bower install
 ```
 You are now set up to work on the project and push commits to the project.
 ### Workflow
-The workflow will function very much as a private repository, except that you always need to make sure your clone is up to date with the repository on github. Therefore, it is wise to always do a pull before you start developing.
+The workflow will function very much as a private repository, except that you always need to make sure your clone is up to date with the repository on github. Therefore, it is wise to always do a pull before you start developing, as well as updating the database and installing dependencies in case they have been updated.
 ```shell
 git pull origin master
+dotnet restore
+dotnet ef database update
+bower install
 ```
-Once this is done you can start working on the project. Once you are ready to commit your changes you could check the status of the git project.
+Once this is done you can start working on the project. If you update the models that are used in the database (The files in the "Models folder), you need to migrate so that the changes will reflect in others repositories, as well as updating your own database to use the updated model
+```shell
+dotnet ef migrations add "ExplainChangesToModelHere"
+dotnet ef database update
+```
+Once you are ready to commit your changes you could check the status of the git project.
 ```shell
 git status
 ```
