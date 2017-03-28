@@ -1,3 +1,26 @@
 .bar {
     min-width: 0 !important;
 }
+
+.AccountBody {
+    background-color: lightblue;
+}
+
+.Logo {
+    display: block;
+    margin: auto;
+    margin-top: 50px;
+}
+
+/*Not working
+#rememberMe {
+    text-align: left;
+}
+
+#forgotPassord {
+    float: right;
+}*/
+
+#AboutBox {
+    background-color: rgba(255,255,255,0.7);
+}
