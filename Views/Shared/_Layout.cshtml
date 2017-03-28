@@ -22,7 +22,7 @@
     <a asp-controller="Building" asp-action="Index" class="item">My buildings</a>
     <div class="right menu">
         @if (User.IsInRole("Administrator")) {
-            <a asp-area="Admin" asp-controller="Home" asp-action="Index">Admin</a>
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="ui item">Admin</a>
         }
         <a asp-controller="Home" asp-action="About" class="ui item">About</a>
         <a asp-controller="Home" asp-action="Contact" class="ui item">Contact</a>
