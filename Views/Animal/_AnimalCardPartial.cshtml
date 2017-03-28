@@ -6,7 +6,7 @@
     <div class="content">
         <a asp-controller="Animal" asp-action="Details" asp-route-id="@Model.Id" class="header">@Model.Name</a>
         <div class="meta">
-            <p>@Model.Type.Name</p>
+            <p>@Model.Type.Name | @Model.GetAge() old</p>
         </div>
         <div class="description">
             @Model.GetStatusText()

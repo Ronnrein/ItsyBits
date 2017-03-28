@@ -26,6 +26,12 @@ namespace ItsyBits.Models {
         public string Name { get; set; }
 
         /// <summary>
+        /// Date the animal was created
+        /// </summary>
+        [ScaffoldColumn(false)]
+        public DateTime Created { get; set; }
+
+        /// <summary>
         /// Last time animal was fed
         /// </summary>
         [ScaffoldColumn(false)]
@@ -117,6 +123,7 @@ namespace ItsyBits.Models {
             LastFeed = DateTime.Now;
             LastPet = DateTime.Now;
             LastSleep = DateTime.Now;
+            Created = DateTime.Now;
             Level = 1;
         }
 
@@ -147,6 +154,33 @@ namespace ItsyBits.Models {
 
 
             return Statustext;
+        }
+
+        /// <summary>
+        /// Gets age of animal in formatted string
+        /// </summary>
+        /// <returns>Formatted string of animal age</returns>
+        public string GetAge() {
+            TimeSpan span = DateTime.Now - Created;
+            if(span.TotalDays >= 365) {
+                return ((int)Math.Floor(span.TotalDays/365)) + " years";
+            }
+            if(span.TotalDays >= 31) {
+                return ((int)Math.Floor(span.TotalDays/31)) + " months";
+            }
+            if(span.TotalDays >= 7) {
+                return ((int)Math.Floor(span.TotalDays/7)) + " weeks";
+            }
+            if(span.TotalDays >= 1) {
+                return span.Days + " days";
+            }
+            if(span.TotalHours >= 1) {
+                return span.Hours + " hours";
+            }
+            if(span.TotalMinutes >= 1) {
+                return span.Minutes + " minutes";
+            }
+            return span.Seconds + " seconds";
         }
 
         /// <summary>
