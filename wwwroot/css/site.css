@@ -9,17 +9,17 @@
 .Logo {
     display: block;
     margin: auto;
-    margin-top: 50px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+/*the left and right classes are currently not functional. The elements are still centered*/
+.left {
+    float: left;
 }
 
-/*Not working
-#rememberMe {
-    text-align: left;
-}
-
-#forgotPassord {
+.right {
     float: right;
-}*/
+}
 
 #AboutBox {
     background-color: rgba(255,255,255,0.7);

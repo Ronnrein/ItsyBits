@@ -6,9 +6,10 @@
 <body class="AccountBody">
     <div class="ui one column center aligned grid">
         <div class="column six wide">
-            <h2 class="ui top attached left aligned header">Login</h2>
+            @*<h2 class="ui top attached left aligned segment header">Login</h2>*@
             <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" role="form">
-                <div class="ui bottom attached segment form">
+                <div class="ui segment form">
+                    <h2 class="left">Login to play!</h2>
                     <div asp-validation-summary="All"></div>
                     <div class="field">
                         <input asp-for="User" type="text" placeholder="Username or email">
@@ -16,11 +17,12 @@
                     <div class="field">
                         <input asp-for="Password" type="password" placeholder="Password">
                     </div>
-                    <div class="ui checkbox" id="rememberMe">
-                         <input asp-for="RememberMe" />
-                         <label>Remember me</label>
-                     </div>
-                     <a id="forgotPassword" asp-action="ForgotPassword">Forgot your password?</a>
+                    <div class="ui checkbox left">
+                        <input asp-for="RememberMe" />
+                        <label>Remember me</label>
+                    </div>
+                    <!-- the action "ForgotPassword" currently doesn't take you anywhere/empty view-->
+                    <a class="right" asp-action="ForgotPassword">Forgot your password?</a>
                     <div class="field">
                         <input type="submit" value="Login" class="ui button large fluid green">
                     </div>
@@ -40,16 +42,22 @@
         <div class="ui segment relaxed grid" id="AboutBox">
             <div class="three column row">
                 <div class="column">
-                    <h3>Collect pets!</h3>
-                    <p>Nullam quis tellus justo. Vivamus egestas nunc eu leo rutrum scelerisque. Vestibulum et nisl eget arcu sagittis pellentesque. Cras id rhoncus lorem, vel luctus neque. Suspendisse dapibus sodales tincidunt. Phasellus id aliquet est, at convallis leo. Nam feugiat risus quis tristique porttitor. </p>
+                    <h3>Hatch and collect unique animals!</h3>
+                    <img src="~/images/about/FirePanda_small.png" />
+                    <p>In ItsyBits you can collect and take care of many different virtual pets. You will start out with one pet, but as you play and care for your pet, you will earn coins that you can spend on buying
+                    more pets to take care of! </p>
+                    <p>How many different pets will you manage to take care of at the same time?</p>
                 </div>
                 <div class="column">
                     <h3>Buy houses!</h3>
-                    <p>Nullam quis tellus justo. Vivamus egestas nunc eu leo rutrum scelerisque. Vestibulum et nisl eget arcu sagittis pellentesque. Cras id rhoncus lorem, vel luctus neque. Suspendisse dapibus sodales tincidunt. Phasellus id aliquet est, at convallis leo. Nam feugiat risus quis tristique porttitor. </p>
+                    <img src="~/images/about/Coop_small.png" />
+                    <p>In ItsyBits all of the pets live in houses in the Pet Town. As you play you can build more houses in Pet Town in order to have room for more cool and interesting pets!</p>
+                    <p>The houses also come in different shapes and sizes, where a larger house can house more pets than a small house.</p>
                 </div>
                 <div class="column">
                     <h3>Get upgrades!</h3>
-                    <p>Nullam quis tellus justo. Vivamus egestas nunc eu leo rutrum scelerisque. Vestibulum et nisl eget arcu sagittis pellentesque. Cras id rhoncus lorem, vel luctus neque. Suspendisse dapibus sodales tincidunt. Phasellus id aliquet est, at convallis leo. Nam feugiat risus quis tristique porttitor. </p>
+                    <img src="~/images/about/UpgradeIcon.png" />
+                    <p>In addition to buying new pets and houses, you can buy upgrades. The upgrades can for example be used to make a house bigger by adding more rooms, or to buy a comfy blanket for your favorite pet so it stays happy longer!</p>
                 </div>
             </div>
         </div>
