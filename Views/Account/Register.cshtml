@@ -3,32 +3,35 @@
     ViewData["Title"] = "Login";
     Layout = "_BasicLayout";
 }
-<div class="ui one column center aligned grid">
-    <div class="column six wide">
-        <h2 class="center aligned header">Register</h2>
-        <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" role="form">
-            <div class="ui form">
-                <div asp-validation-summary="All"></div>
-                <div class="field">
-                    <input asp-for="UserName" placeholder="User name">
+<body class="AccountBody">
+    <div class="ui one column center aligned grid">
+        <div class="column six wide">
+            <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" role="form">
+                <div class="ui segment form">
+                    <h2 class="center aligned header">Register</h2>
+                    <div asp-validation-summary="All"></div>
+                    <div class="field">
+                        <input asp-for="UserName" placeholder="User name">
+                    </div>
+                    <div class="field">
+                        <input asp-for="Email" placeholder="Email">
+                    </div>
+                    <div class="field">
+                        <input asp-for="Password" placeholder="Password">
+                    </div>
+                    <div class="field">
+                        <input asp-for="ConfirmPassword" placeholder="Confirm password">
+                    </div>
+                    <div class="field">
+                        <input type="submit" value="Register" class="ui button large fluid green">
+                    </div>
+                    <p><a asp-action="Login">Login</a></p>
                 </div>
-                <div class="field">
-                    <input asp-for="Email" placeholder="Email">
-                </div>
-                <div class="field">
-                    <input asp-for="Password" placeholder="Password">
-                </div>
-                <div class="field">
-                    <input asp-for="ConfirmPassword" placeholder="Confirm password">
-                </div>
-                <div class="field">
-                    <input type="submit" value="Register" class="ui button large fluid green">
-                </div>
-                <p><a asp-action="Login">Login</a></p>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
+    @Html.Partial("_AboutPartial")
+</body>
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
