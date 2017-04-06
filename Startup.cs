@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hangfire;
+using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -60,7 +62,12 @@ namespace ItsyBits
             // Use lower case urls
             services.AddRouting(options => options.LowercaseUrls = true);
 
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options => {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
+
+            // Hangfire
+            services.AddHangfire(o => o.UseMemoryStorage()); 
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -89,6 +96,11 @@ namespace ItsyBits
             app.UseStaticFiles();
 
             app.UseIdentity();
+
+            // Hangfire
+            app.UseHangfireDashboard();
+            app.UseHangfireServer();
+            RecurringJob.AddOrUpdate(() => ApplicationUser.AwardDailyCurrency(app.ApplicationServices.GetService<ApplicationDbContext>().Users), Cron.Daily(0));
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 
