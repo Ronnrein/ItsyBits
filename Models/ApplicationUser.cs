@@ -17,6 +17,11 @@ namespace ItsyBits.Models {
     public class ApplicationUser : IdentityUser {
 
         /// <summary>
+        /// The current amount of currency this user has
+        /// </summary>
+        public int Currency { get; set; }
+
+        /// <summary>
         /// Buildings of user
         /// </summary>
         public ICollection<Building> Buildings { get; set; }
@@ -31,14 +36,6 @@ namespace ItsyBits.Models {
         /// Overall happiness of all users animals
         /// </summary>
         public int HappinessPercentage => Buildings == null || Buildings.Count == 0 ? 0 : (int) Buildings.Where(b => b.Animals.Count > 0).Average(a => a.HappinessPercentage);
-
-        /// <summary>
-        /// Rewards users with currency based on their game status
-        /// </summary>
-        /// <param name="users">Users to reward</param>
-        public static void AwardDailyCurrency(IEnumerable<ApplicationUser> users) {
-            Console.WriteLine("User "+users.First().UserName);
-        }
     }
     
 }
