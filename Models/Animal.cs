@@ -117,6 +117,11 @@ namespace ItsyBits.Models {
         public int HappinessPercentage => (int) new[] {FeedPercentage, SleepPercentage, PetPercentage}.Average();
 
         /// <summary>
+        /// Whether the animal is alive or not
+        /// </summary>
+        public bool IsAlive => Type != null && (FeedPercentage > 20 && SleepPercentage > 20);
+
+        /// <summary>
         /// Constructor of animal
         /// </summary>
         public Animal() {

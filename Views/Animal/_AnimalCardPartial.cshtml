@@ -4,7 +4,10 @@
         <img src="~/images/animals/@Model.Type.SpritePath/portrait.png"/>
     </div>
     <div class="content">
-        <div class="header">@Model.Name</div>
+        <div class="header">
+            @Model.Name
+            <i class="@(Model.Male ? "man" : "woman") icon"></i>
+        </div>
         <div class="meta">
             <p>@Model.Type.Name | @Model.GetAge() old</p>
         </div>
