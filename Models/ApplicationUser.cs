@@ -1,7 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using ItsyBits.Data;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ItsyBits.Models {
 
@@ -9,6 +15,11 @@ namespace ItsyBits.Models {
     /// User of application
     /// </summary>
     public class ApplicationUser : IdentityUser {
+
+        /// <summary>
+        /// The current amount of currency this user has
+        /// </summary>
+        public int Currency { get; set; }
 
         /// <summary>
         /// Buildings of user

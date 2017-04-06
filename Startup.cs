@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hangfire;
+using Hangfire.Common;
+using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -16,6 +19,7 @@ using ItsyBits.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
+using Newtonsoft.Json;
 
 namespace ItsyBits
 {
@@ -60,12 +64,18 @@ namespace ItsyBits
             // Use lower case urls
             services.AddRouting(options => options.LowercaseUrls = true);
 
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options => {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
+
+            // Hangfire
+            services.AddHangfire(o => o.UseMemoryStorage());
+            JobHelper.SetSerializerSettings(new JsonSerializerSettings{ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
+            services.AddTransient<DailyUserRewards>();
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -89,6 +99,12 @@ namespace ItsyBits
             app.UseStaticFiles();
 
             app.UseIdentity();
+
+            // Hangfire
+            app.UseHangfireDashboard();
+            app.UseHangfireServer();
+            //RecurringJob.AddOrUpdate(() => ApplicationUser.AwardDailyCurrency(app.ApplicationServices.GetService<ApplicationDbContext>()), Cron.Minutely);
+            RecurringJob.AddOrUpdate<DailyUserRewards>(x => x.Reward(), Cron.Minutely);
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 
