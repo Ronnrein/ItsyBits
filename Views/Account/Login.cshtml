@@ -16,12 +16,14 @@
                     <div class="field">
                         <input asp-for="Password" type="password" placeholder="Password">
                     </div>
-                    <div class="ui checkbox left">
-                        <input asp-for="RememberMe" />
-                        <label>Remember me</label>
+                    <div class="clearfix login-options">
+                        <div class="ui checkbox left">
+                            <input asp-for="RememberMe" />
+                            <label>Remember me</label>
+                        </div>
+                        <!-- the action "ForgotPassword" currently doesn't take you anywhere - does not currently load the ForgotPassword view-->
+                        <a class="right" asp-action="ForgotPassword">Forgot your password?</a>
                     </div>
-                    <!-- the action "ForgotPassword" currently doesn't take you anywhere - does not currently load the ForgotPassword view-->
-                    <a class="right" asp-action="ForgotPassword">Forgot your password?</a>
                     <div class="field">
                         <input type="submit" value="Login" class="ui button large fluid green">
                     </div>
