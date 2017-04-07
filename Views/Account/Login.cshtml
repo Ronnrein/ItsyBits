@@ -3,35 +3,41 @@
     ViewData["Title"] = "Login";
     Layout = "_BasicLayout";
 }
-<div class="ui one column center aligned grid">
-    <div class="column six wide">
-        <h2 class="center aligned header">Sign in</h2>
-        <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" role="form">
-            <div class="ui form">
-                <div asp-validation-summary="All"></div>
-                <div class="field">
-                    <input asp-for="User" type="text" placeholder="Username or email">
-                </div>
-                <div class="field">
-                    <input asp-for="Password" type="password" placeholder="Password">
-                </div>
-                <div class="field">
-                    <input type="submit" value="Sign in" class="ui button large fluid green">
-                </div>
-                <p>
-                    <a asp-action="Register">Register</a> | 
-                    <a asp-action="ForgotPassword">Forgotten password</a>
-                </p>
-                <div class="inline field">
-                    <div class="ui checkbox">
+<body class="AccountBody">
+    <div class="ui one column center aligned grid">
+        <div class="column six wide">
+            <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" role="form">
+                <div class="ui segment form">
+                    <h2 class="left">Login to play!</h2>
+                    <div asp-validation-summary="All"></div>
+                    <div class="field">
+                        <input asp-for="User" type="text" placeholder="Username or email">
+                    </div>
+                    <div class="field">
+                        <input asp-for="Password" type="password" placeholder="Password">
+                    </div>
+                    <div class="ui checkbox left">
                         <input asp-for="RememberMe" />
                         <label>Remember me</label>
                     </div>
+                    <!-- the action "ForgotPassword" currently doesn't take you anywhere - does not currently load the ForgotPassword view-->
+                    <a class="right" asp-action="ForgotPassword">Forgot your password?</a>
+                    <div class="field">
+                        <input type="submit" value="Login" class="ui button large fluid green">
+                    </div>
+                    <div class="ui horizontal divider">
+                        Or
+                    </div>
+                    <!--the register field needs to be "removed" from the asp-validation. Can only be taken to register view after the forms are filled in -->
+                    <div>
+                        <button class="ui button large fluid orange" asp-action="Register">Register</button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
+    @Html.Partial("_AboutPartial")
+</body>
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
