@@ -2,8 +2,12 @@
     min-width: 0 !important;
 }
 
-.AccountBody {
-    background-color: lightblue;
+.Account-body {
+    background-color: #99ccff;
+}
+
+.Main-body {
+    background-color: #99ccff;
 }
 
 .Logo {
@@ -12,7 +16,7 @@
     margin-top: 20px;
     margin-bottom: 20px;
 }
-/*the left and right classes are currently not functional. The elements are still centered*/
+
 .left {
     float: left;
 }

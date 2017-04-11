@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
 </head>
-<body>
+<body class="Main-body">
 <div class="ui secondary pointing menu">
     <a asp-controller="Home" asp-action="Index" class="item">ItsyBits</a>
     <a asp-controller="Animal" asp-action="Index" class="item">
@@ -25,6 +25,10 @@
     <a asp-controller="Building" asp-action="Index" class="item">
         <i class="building icon"></i>
         My buildings
+    </a>
+    <a asp-controller="Store" asp-action="Index" class="item">
+        <i class="icon shop"></i>
+        Store
     </a>
     <div class="right menu">
         @if (User.IsInRole("Administrator")) {
