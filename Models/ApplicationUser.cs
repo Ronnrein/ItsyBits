@@ -27,6 +27,11 @@ namespace ItsyBits.Models {
         public ICollection<Building> Buildings { get; set; }
 
         /// <summary>
+        /// Notifications of user
+        /// </summary>
+        public ICollection<Notification> Notifications { get; set; }
+
+        /// <summary>
         /// Animals of user
         /// </summary>
         [NotMapped]

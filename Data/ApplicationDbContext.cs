@@ -13,6 +13,7 @@ namespace ItsyBits.Data {
         public virtual DbSet<BuildingType> BuildingTypes { get; set; }
         public virtual DbSet<BuildingUpgrade> BuildingUpgrades { get; set; }
         public virtual DbSet<Upgrade> Upgrades { get; set; }
+        public virtual DbSet<Notification> Notifications { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options) {}
 

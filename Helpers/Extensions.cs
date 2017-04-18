@@ -50,5 +50,34 @@ namespace ItsyBits.Helpers {
             }
             return new HtmlString(explorer.Metadata.Description);
         }
+
+        /// <summary>
+        /// Returns readable time since the datetime
+        /// </summary>
+        /// <param name="date">The date to calculate from</param>
+        /// <returns>The time passed since the date</returns>
+        public static string ReadableAge(this DateTime date) {
+            TimeSpan span = DateTime.Now - date;
+            string result = span.Seconds + " seconds";
+            if (span.TotalDays >= 365) {
+                result = ((int)Math.Floor(span.TotalDays / 365)) + " years";
+            }
+            else if (span.TotalDays >= 31) {
+                result = ((int)Math.Floor(span.TotalDays / 31)) + " months";
+            }
+            else if (span.TotalDays >= 7) {
+                result = ((int)Math.Floor(span.TotalDays / 7)) + " weeks";
+            }
+            else if (span.TotalDays >= 1) {
+                result = span.Days + " days";
+            }
+            else if (span.TotalHours >= 1) {
+                result = span.Hours + " hours";
+            }
+            else if (span.TotalMinutes >= 1) {
+                result = span.Minutes + " minutes";
+            }
+            return int.Parse(result.Split(' ')[0]) == 1 ? result.Remove(result.Length-1) : result;
+        }
     }
 }

@@ -36,3 +36,8 @@
 .login-options {
     margin-bottom: 20px;
 }
+
+#notification-count {
+    top: -1px;
+    left: 38px;
+}

@@ -36,6 +36,16 @@ namespace ItsyBits.Helpers {
                 }
                 user.Currency += reward;
                 _db.Update(user);
+                if (reward > 0) {
+                    Notification notification = new Notification {
+                        Message = $"You got {reward} coins from your daily harvest!",
+                        Title = "Coins!",
+                        Image = "misc/coins.jpg",
+                        Link = "/store",
+                        User = user
+                    };
+                    _db.Add(notification);
+                }
                 _db.SaveChanges();
             }
         }
