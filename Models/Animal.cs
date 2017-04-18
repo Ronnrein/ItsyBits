@@ -122,6 +122,11 @@ namespace ItsyBits.Models {
         public bool IsAlive => Type != null && (FeedPercentage > 20 && SleepPercentage > 20);
 
         /// <summary>
+        /// Readable age of animal
+        /// </summary>
+        public string Age => Created.ReadableAge();
+
+        /// <summary>
         /// Constructor of animal
         /// </summary>
         public Animal() {
@@ -147,33 +152,6 @@ namespace ItsyBits.Models {
                 return "I don't feel so good";
             }
             return "I feel sick, don't you love me anymore?";
-        }
-
-        /// <summary>
-        /// Gets age of animal in formatted string
-        /// </summary>
-        /// <returns>Formatted string of animal age</returns>
-        public string GetAge() {
-            TimeSpan span = DateTime.Now - Created;
-            if(span.TotalDays >= 365) {
-                return ((int)Math.Floor(span.TotalDays/365)) + " years";
-            }
-            if(span.TotalDays >= 31) {
-                return ((int)Math.Floor(span.TotalDays/31)) + " months";
-            }
-            if(span.TotalDays >= 7) {
-                return ((int)Math.Floor(span.TotalDays/7)) + " weeks";
-            }
-            if(span.TotalDays >= 1) {
-                return span.Days + " days";
-            }
-            if(span.TotalHours >= 1) {
-                return span.Hours + " hours";
-            }
-            if(span.TotalMinutes >= 1) {
-                return span.Minutes + " minutes";
-            }
-            return span.Seconds + " seconds";
         }
 
         /// <summary>

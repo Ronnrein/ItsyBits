@@ -1,0 +1,26 @@
+﻿@using ItsyBits.Helpers
+@model IEnumerable<Notification>
+@{ int unread = Model.Count(n => !n.Read); }
+<div class="ui dropdown item grey" id="notifications-button">
+    <i class="alarm icon"></i>
+    @if (unread > 0) {
+        <div class="floating ui red circular mini label" id="notification-count">@unread</div>
+    }
+    <div class="ui menu comments">
+        @foreach (Notification notification in Model.OrderByDescending(n => n.Created).Take(5)) {
+            string selected = notification.Read ? "" : "selected";
+            <div class="comment item @selected">
+                <a class="avatar" href="@notification.Link">
+                    <img src="/images/@notification.Image" />
+                </a>
+                <div class="content">
+                    <a class="author" href="@notification.Link">@notification.Title</a>
+                    <div class="metadata">
+                        <div class="date">@notification.Created.ReadableAge() ago</div>
+                    </div>
+                    <div class="text">@notification.Message</div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

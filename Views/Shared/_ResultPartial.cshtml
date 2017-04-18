@@ -1,0 +1,20 @@
+﻿@model Result
+@{
+    string status = "info";
+    switch (Model.Status) {
+        case ResultStatus.Error:
+            status = "negative";
+            break;
+        case ResultStatus.Success:
+            status = "positive";
+            break;
+        case ResultStatus.Warning:
+            status = "warning";
+            break;
+    }
+}
+<div class="ui @status message">
+    <i class="close icon"></i>
+    <div class="header">@Model.Title</div>
+    <p>@Model.Message</p>
+</div>
