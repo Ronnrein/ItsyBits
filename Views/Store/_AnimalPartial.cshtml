@@ -1,11 +1,14 @@
 ﻿@model AnimalType
+@{
+    string disabled = (int) ViewData["Currency"] >= Model.Price ? "" : "disabled";
+}
 <div class="card">
     <div class="item content">
         <div class="header">@Model.Name</div>
         <img class="ui image" src="~/images/animals/@Model.SpritePath/egg.png">
     </div>
-    <a asp-controller="Store" asp-action="Animal" asp-route-id="@Model.Id" class="ui bottom attached orange button">
-        Buy 20
-        <i class="dollar icon"></i>
+    <a asp-controller="Store" asp-action="Animal" asp-route-id="@Model.Id" class="ui bottom attached orange button @disabled">
+        Buy (
+        <i class="fitted dollar icon"></i>@Model.Price)
     </a>
 </div>

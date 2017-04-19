@@ -30,6 +30,20 @@
             </div>
         </div>
         <div class="form-group">
+            <label asp-for="MaxCapacity" class="col-md-2 control-label" data-toggle="tooltip" data-placement="right" title="@Html.DescriptionFor(model => model.MaxCapacity)"></label>
+            <div class="col-md-10">
+                <input asp-for="MaxCapacity" class="form-control" />
+                <span asp-validation-for="MaxCapacity" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Price" class="col-md-2 control-label" data-toggle="tooltip" data-placement="right" title="@Html.DescriptionFor(model => model.Price)"></label>
+            <div class="col-md-10">
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>

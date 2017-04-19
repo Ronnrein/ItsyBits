@@ -53,5 +53,12 @@ namespace ItsyBits.Models {
         [Required(ErrorMessage = "Please enter path of sprite")]
         [Display(Name = "Sprite path", Description = "Path to spriteset")]
         public string SpritePath { get; set; }
+
+        /// <summary>
+        /// Price of animal
+        /// </summary>
+        [Required(ErrorMessage = "Please enter price of animal")]
+        [Display(Description = "Price of animal")]
+        public int Price { get; set; }
     }
 }

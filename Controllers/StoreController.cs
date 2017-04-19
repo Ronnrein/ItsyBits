@@ -25,7 +25,9 @@ namespace ItsyBits.Controllers {
         }
 
         [HttpGet]
-        public IActionResult Index() {
+        public async Task<IActionResult> Index() {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            ViewData["Currency"] = user.Currency;
             return View(new StoreViewModel {
                 AnimalTypes = _db.AnimalTypes,
                 Upgrades = _db.Upgrades

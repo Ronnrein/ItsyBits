@@ -33,5 +33,20 @@ namespace ItsyBits.Models {
         [Range(1, 100, ErrorMessage = "Amount must be between 1 and 100")]
         [Display(Description = "The amount of animals this building can hold")]
         public int Capacity { get; set; }
+
+        /// <summary>
+        /// The max amount with upgrades this building can hold
+        /// </summary>
+        [Required(ErrorMessage = "Please enter max amount of animals this building can hold")]
+        [Range(1, 100, ErrorMessage = "Amount must be between 1 and 100")]
+        [Display(Name = "Max capacity", Description = "The max amount with upgrades this building can hold")]
+        public int MaxCapacity { get; set; }
+
+        /// <summary>
+        /// Price of building
+        /// </summary>
+        [Required(ErrorMessage = "Please enter price of building")]
+        [Display(Description = "Price of building")]
+        public int Price { get; set; }
     }
 }

@@ -1,12 +1,15 @@
 ﻿@model Upgrade
+@{
+    string disabled = (int)ViewData["Currency"] >= Model.Price ? "" : "disabled";
+}
 <div class="card">
     <div class="item content">
         <div class="header">@Model.Name</div>
         <img class="ui image" src="~/images/upgrades/@Model.SpritePath">
         <div class="description">Makes your pet sleep better! Your pet will not need to sleep as often with this blanket</div>
     </div>
-    <div asp-controller="Store" asp-action="BuildingUpgrade" asp-route-id="@Model.Id" class="ui bottom attached orange button">
-        Buy 50
-        <i class="dollar icon"></i>
-    </div>
+    <a asp-controller="Store" asp-action="BuildingUpgrade" asp-route-id="@Model.Id" class="ui bottom attached orange button @disabled">
+        Buy (
+        <i class="fitted dollar icon"></i>@Model.Price)
+    </a>
 </div>
