@@ -47,10 +47,35 @@ namespace ItsyBits.Models {
         public float PetModifier { get; set; }
 
         /// <summary>
+        /// How much extra capacity this upgrade brings
+        /// </summary>
+        [Required(ErrorMessage = "Please enter capacity modifier")]
+        [Display(Name = "Capacity modifier", Description = "How much extra capacity this upgrade brings")]
+        public int CapacityModifier { get; set; }
+
+        /// <summary>
         /// The static method to call under namespace ItsyBits.Helpers.UpgradeMethods
         /// </summary>
         [Display(Description = "The static method to call under namespace ItsyBits.Helpers.UpgradeMethods")]
         public string Method { get; set; }
+
+        /// <summary>
+        /// Whether or not the upgrade works for buildings
+        /// </summary>
+        [Display(Name = "For building", Description = "Whether or not the upgrade works for buildings")]
+        public bool ForBuilding { get; set; }
+
+        /// <summary>
+        /// Whether or not the building works for animals
+        /// </summary>
+        [Display(Name = "For animal", Description = "Whether or not the upgrade works for animals")]
+        public bool ForAnimal { get; set; }
+
+        /// <summary>
+        /// The path to the sprite for upgrade
+        /// </summary>
+        [Display(Name = "Sprite path", Description = "The path to the sprite for upgrade")]
+        public string SpritePath { get; set; }
 
         /// <summary>
         /// Constructor of upgrade
