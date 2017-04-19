@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
+using Newtonsoft.Json;
 
 namespace ItsyBits.Helpers {
 
@@ -78,6 +79,30 @@ namespace ItsyBits.Helpers {
                 result = span.Minutes + " minutes";
             }
             return int.Parse(result.Split(' ')[0]) == 1 ? result.Remove(result.Length-1) : result;
+        }
+
+        /// <summary>
+        /// Put object in tempdata by serializing it
+        /// </summary>
+        /// <typeparam name="T">The type of the object</typeparam>
+        /// <param name="tempData">The tempdata object</param>
+        /// <param name="key">The key it is stored at</param>
+        /// <param name="value">The objectt</param>
+        public static void Put<T>(this ITempDataDictionary tempData, string key, T value) where T : class {
+            tempData[key] = JsonConvert.SerializeObject(value);
+        }
+
+        /// <summary>
+        /// Get object in tempdata by deserializing it
+        /// </summary>
+        /// <typeparam name="T">The type of the object</typeparam>
+        /// <param name="tempData">The tempdata object</param>
+        /// <param name="key">The key it is stored at</param>
+        /// <returns>The object</returns>
+        public static T Get<T>(this ITempDataDictionary tempData, string key) where T : class {
+            object o;
+            tempData.TryGetValue(key, out o);
+            return o == null ? null : JsonConvert.DeserializeObject<T>((string) o);
         }
     }
 }

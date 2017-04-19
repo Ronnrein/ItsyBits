@@ -8,11 +8,12 @@
     <div class="ui grid centered stackable">
         <div class="four wide column">
             <div class="ui segment">
-                @await Html.PartialAsync("_StoreButtonPartial")
+                @await Html.PartialAsync("_ButtonPartial")
             </div>
         </div>
         <div class="eleven wide column">
             <div class="ui segment">
+                @await Html.PartialAsync("_ResultPartial")
                 @RenderBody()
             </div>
         </div>

@@ -1,5 +1,23 @@
+@model StoreViewModel
 @{
     Layout = "_StoreLayout";
     ViewData["Title"] = "Store";
 }
-<h2>Store</h2>
+<h2>Animals</h2>
+<div class="ui cards">
+    @foreach (AnimalType animal in Model.AnimalTypes) {
+        @await Html.PartialAsync("_AnimalPartial", animal)
+    }
+</div>
+<h2>Animal upgrades</h2>
+<div class="ui cards">
+    @foreach (Upgrade upgrade in Model.Upgrades.Where(u => u.ForAnimal)) {
+        @await Html.PartialAsync("_AnimalUpgradePartial", upgrade)
+    }
+</div>
+<h2>Building upgrades</h2>
+<div class="ui cards">
+    @foreach (Upgrade upgrade in Model.Upgrades.Where(u => u.ForBuilding)) {
+        @await Html.PartialAsync("_BuildingUpgradePartial", upgrade)
+    }
+</div>
