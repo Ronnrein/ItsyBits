@@ -68,6 +68,13 @@ namespace ItsyBits
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
 
+            // Sessions
+            services.AddDistributedMemoryCache();
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.CookieHttpOnly = true;
+            });
+
             // Hangfire
             services.AddHangfire(o => o.UseMemoryStorage());
             JobHelper.SetSerializerSettings(new JsonSerializerSettings{ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
@@ -108,6 +115,7 @@ namespace ItsyBits
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 
+            app.UseSession();
             app.UseMvc(routes => {
                 routes.MapRoute(
                     name: "area",
