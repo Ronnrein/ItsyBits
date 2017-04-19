@@ -25,16 +25,20 @@
     float: right;
 }
 
-#AboutBox {
-    background-color: rgba(255,255,255,0.7);
-}
-
 .clearfix {
     overflow: auto;
 }
 
 .login-options {
     margin-bottom: 20px;
+}
+
+.item {
+    text-align:center;
+}
+
+#AboutBox {
+    background-color: rgba(255,255,255,0.7);
 }
 
 #notification-count {

@@ -1,13 +1,12 @@
 ﻿@model Upgrade
-<a asp-controller="Store" asp-action="AnimalUpgrade" asp-route-id="@Model.Id" class="ui card">
-    <div class="image">
-        <img src="~/images/upgrades/@Model.SpritePath" />
-    </div>
-    <div class="content">
+<div class="card">
+    <div class="item content">
         <div class="header">@Model.Name</div>
-        <div class="meta">
-            <p>@Model.Name</p>
-        </div>
-        <div class="description">@Model.Description</div>
+        <img class="ui image" src="~/images/upgrades/@Model.SpritePath">
+        <div class="description">Makes your pet sleep better! Your pet will not need to sleep as often with this blanket</div>
     </div>
-</a>
+    <div asp-controller="Store" asp-action="AnimalUpgrade" asp-route-id="@Model.Id" class="ui bottom attached orange button">
+        Buy 50
+        <i class="dollar icon"></i>
+    </div>
+</div>

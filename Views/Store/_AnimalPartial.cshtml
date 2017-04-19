@@ -1,13 +1,11 @@
 ﻿@model AnimalType
-<a asp-controller="Store" asp-action="Animal" asp-route-id="@Model.Id" class="ui card">
-    <div class="image">
-        <img src="~/images/animals/@Model.SpritePath/portrait.png" />
-    </div>
-    <div class="content">
+<div class="card">
+    <div class="item content">
         <div class="header">@Model.Name</div>
-        <div class="meta">
-            <p>@Model.Name</p>
-        </div>
-        <div class="description">Description goes here</div>
+        <img class="ui image" src="~/images/animals/@Model.SpritePath/egg.png">
     </div>
-</a>
+    <a asp-controller="Store" asp-action="Animal" asp-route-id="@Model.Id" class="ui bottom attached orange button">
+        Buy 20
+        <i class="dollar icon"></i>
+    </a>
+</div>
