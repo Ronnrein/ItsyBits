@@ -56,6 +56,7 @@ namespace ItsyBits.Areas.Admin.Controllers {
             user.PhoneNumber = userVm.PhoneNumber;
             user.PhoneNumberConfirmed = userVm.PhoneNumberConfirmed;
             user.TwoFactorEnabled = userVm.TwoFactorEnabled;
+            user.Currency = userVm.Currency;
             await _userManager.CreateAsync(user);
             return RedirectToAction("Details", new { id = user.Id });
         }
@@ -74,7 +75,8 @@ namespace ItsyBits.Areas.Admin.Controllers {
                 PhoneNumberConfirmed = user.PhoneNumberConfirmed,
                 TwoFactorEnabled = user.TwoFactorEnabled,
                 LockoutEnd = user.LockoutEnd,
-                LockoutEnabled = user.LockoutEnabled
+                LockoutEnabled = user.LockoutEnabled,
+                Currency = user.Currency
             });
         }
 
@@ -102,6 +104,7 @@ namespace ItsyBits.Areas.Admin.Controllers {
             user.PhoneNumber = userVm.PhoneNumber;
             user.PhoneNumberConfirmed = userVm.PhoneNumberConfirmed;
             user.TwoFactorEnabled = userVm.TwoFactorEnabled;
+            user.Currency = userVm.Currency;
             await _userManager.UpdateAsync(user);
             return RedirectToAction("Details", new { id = user.Id });
         }
