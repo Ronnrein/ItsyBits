@@ -1,0 +1,36 @@
+﻿<div class="ui secondary pointing menu">
+    <a asp-controller="Home" asp-action="Index" class="item">ItsyBits</a>
+    <a asp-controller="Animal" asp-action="Index" class="item">
+        <i class="paw icon"></i>
+        My animals
+    </a>
+    <a asp-controller="Building" asp-action="Index" class="item">
+        <i class="building icon"></i>
+        My buildings
+    </a>
+    <a asp-controller="Store" asp-action="Index" class="item">
+        <i class="icon shop"></i>
+        Store
+    </a>
+    <div class="right menu">
+        @if (User.IsInRole("Administrator")) {
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="ui item">Admin</a>
+        }
+        @await Component.InvokeAsync("Notification")
+        @await Component.InvokeAsync("Currency")
+        <a asp-controller="Home" asp-action="About" class="ui item">
+            <i class="info icon"></i>
+            About
+        </a>
+        <a asp-controller="Home" asp-action="Contact" class="ui item">
+            <i class="mail icon"></i>
+            Contact
+        </a>
+        <form asp-controller="Account" asp-action="Logout" method="post">
+            <button type="submit" class="ui item">
+                <i class="power icon"></i>
+                Log out
+            </button>
+        </form>
+    </div>
+</div>
