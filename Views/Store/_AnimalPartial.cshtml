@@ -1,0 +1,11 @@
+﻿@model AnimalType
+<div class="card">
+    <div class="item content">
+        <div class="header">@Model.Name</div>
+        <img class="ui image" src="~/images/animals/@Model.SpritePath/egg.png">
+    </div>
+    <a asp-controller="Store" asp-action="Animal" asp-route-id="@Model.Id" class="ui bottom attached orange button">
+        Buy 20
+        <i class="dollar icon"></i>
+    </a>
+</div>
