@@ -78,6 +78,13 @@ namespace ItsyBits.Models {
         public string SpritePath { get; set; }
 
         /// <summary>
+        /// Price of upgrade
+        /// </summary>
+        [Required(ErrorMessage = "Please enter price of upgrade")]
+        [Display(Description = "Price of upgrade")]
+        public int Price { get; set; }
+
+        /// <summary>
         /// Constructor of upgrade
         /// </summary>
         public Upgrade() {
