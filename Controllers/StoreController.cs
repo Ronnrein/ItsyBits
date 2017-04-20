@@ -40,10 +40,13 @@ namespace ItsyBits.Controllers {
         public async Task<IActionResult> Animal(int id) {
             ApplicationUser user = await _userManager.GetUserAsync(User);
             IEnumerable<Building> buildings = _db.Buildings
-                .Where(b => b.UserId == user.Id)
-                .Include(b => b.Type);
+                .Include(b => b.Type)
+                .Include(b => b.Animals)
+                .Include(b => b.BuildingUpgrades)
+                .ThenInclude(bu => bu.Upgrade)
+                .Where(b => b.UserId == user.Id && b.Animals.Count < b.Capacity);
             if (!buildings.Any()) {
-                TempData.Put("Result", new Result("No buildings!", "You have no buildings to put animals in!", ResultStatus.Error));
+                TempData.Put("Result", new Result("No buildings!", "You have no buildings with free space to put animals in!", ResultStatus.Error));
                 return RedirectToAction("Index");
             }
             ViewData["BuildingId"] = buildings;
@@ -56,6 +59,15 @@ namespace ItsyBits.Controllers {
             Result error = null;
             ApplicationUser user = await _userManager.GetUserAsync(User);
             AnimalType animalType = await _db.AnimalTypes.SingleOrDefaultAsync(a => a.Id == id);
+            Building building = await _db.Buildings
+                .Include(b => b.Type)
+                .Include(b => b.Animals)
+                .Include(b => b.BuildingUpgrades)
+                .ThenInclude(bu => bu.Upgrade)
+                .SingleOrDefaultAsync(b => b.Id == animal.BuildingId);
+            if (building.Animals.Count >= building.Capacity) {
+                error = new Result("No room!", "No room in this building for the animal!", ResultStatus.Error);
+            }
             if (user.Currency < animalType.Price) {
                 error = new Result("Cannot afford!", "You cannot afford this animal!", ResultStatus.Error);
             }

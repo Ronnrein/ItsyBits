@@ -67,7 +67,11 @@ namespace ItsyBits.Models {
         /// </summary>
         public int HappinessPercentage => Animals == null || Animals.Count == 0 ? 0 : (int) Animals.Average(a => a.HappinessPercentage);
 
-        
+        /// <summary>
+        /// Total capacity of building
+        /// </summary>
+        public int Capacity => Type == null || Upgrades == null ? 0 : Type.Capacity + Upgrades.Sum(u => u.CapacityModifier);
+
         /// <summary>
         /// Gets status text for building
         /// </summary>
