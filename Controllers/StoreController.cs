@@ -65,17 +65,17 @@ namespace ItsyBits.Controllers {
                 .Include(b => b.BuildingUpgrades)
                 .ThenInclude(bu => bu.Upgrade)
                 .SingleOrDefaultAsync(b => b.Id == animal.BuildingId);
-            if (building.Animals.Count >= building.Capacity) {
+            if (animal.BuildingId == 0) {
+                error = new Result("No building!", "You have to give your animal a place to live!", ResultStatus.Error);
+            }
+            else if (building.Animals.Count >= building.Capacity) {
                 error = new Result("No room!", "No room in this building for the animal!", ResultStatus.Error);
             }
-            if (user.Currency < animalType.Price) {
+            else if (user.Currency < animalType.Price) {
                 error = new Result("Cannot afford!", "You cannot afford this animal!", ResultStatus.Error);
             }
             else if (string.IsNullOrWhiteSpace(animal.Name)) {
                 error = new Result("No name!", "You have to call your animal something!", ResultStatus.Error);
-            }
-            else if (animal.BuildingId == 0) {
-                error = new Result("No building!", "You have to give your animal a place to live!", ResultStatus.Error);
             }
             if (error != null) {
                 ViewData["Result"] = error;
@@ -83,6 +83,7 @@ namespace ItsyBits.Controllers {
                 ViewData["BuildingId"] = _db.Buildings
                     .Where(b => b.UserId == user.Id)
                     .Include(b => b.Type);
+                return View(animal);
             }
             animal.Male = new Random().NextDouble() < 0.5;
             animal.Id = 0;
@@ -97,12 +98,23 @@ namespace ItsyBits.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> Building(int id) {
-            return View(await _db.BuildingTypes.SingleOrDefaultAsync(b => b.Id == id));
+            ViewData["BuildingType"] = await _db.BuildingTypes.SingleOrDefaultAsync(a => a.Id == id);
+            return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Building(int id, Building building) {
-            return View(await _db.BuildingTypes.SingleOrDefaultAsync(b => b.Id == id));
+            if (string.IsNullOrWhiteSpace(building.Name)) {
+                ViewData["Result"] = new Result("No name!", "You have to call your animal something!", ResultStatus.Error);
+                return View(building);
+            }
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            building.UserId = user.Id;
+            building.TypeId = id;
+            building.Id = 0;
+            _db.Add(building);
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Details", "Building", new { id = building.Id });
         }
 
         [HttpGet]
