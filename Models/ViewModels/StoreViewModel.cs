@@ -11,6 +11,11 @@ namespace ItsyBits.Models.ViewModels {
         /// Animals to buy
         /// </summary>
         public IEnumerable<AnimalType> AnimalTypes { get; set; }
+
+        /// <summary>
+        /// Buildings to buy
+        /// </summary>
+        public IEnumerable<BuildingType> BuildingTypes { get; set; }
         
         /// <summary>
         /// Upgrades to buy

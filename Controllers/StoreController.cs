@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,6 +31,7 @@ namespace ItsyBits.Controllers {
             ViewData["Currency"] = user.Currency;
             return View(new StoreViewModel {
                 AnimalTypes = _db.AnimalTypes,
+                BuildingTypes = _db.BuildingTypes,
                 Upgrades = _db.Upgrades
             });
         }
@@ -37,13 +39,58 @@ namespace ItsyBits.Controllers {
         [HttpGet]
         public async Task<IActionResult> Animal(int id) {
             ApplicationUser user = await _userManager.GetUserAsync(User);
-            IEnumerable<Building> buildings = _db.Buildings.Where(b => b.UserId == user.Id);
+            IEnumerable<Building> buildings = _db.Buildings
+                .Where(b => b.UserId == user.Id)
+                .Include(b => b.Type);
             if (!buildings.Any()) {
                 TempData.Put("Result", new Result("No buildings!", "You have no buildings to put animals in!", ResultStatus.Error));
                 return RedirectToAction("Index");
             }
-            ViewData["BuildingId"] = new SelectList(buildings, "Id", "Name");
-            return View(await _db.AnimalTypes.SingleOrDefaultAsync(a => a.Id == id));
+            ViewData["BuildingId"] = buildings;
+            ViewData["AnimalType"] = await _db.AnimalTypes.SingleOrDefaultAsync(a => a.Id == id);
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Animal(int id, Animal animal) {
+            Result error = null;
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            AnimalType animalType = await _db.AnimalTypes.SingleOrDefaultAsync(a => a.Id == id);
+            if (user.Currency < animalType.Price) {
+                error = new Result("Cannot afford!", "You cannot afford this animal!", ResultStatus.Error);
+            }
+            else if (string.IsNullOrWhiteSpace(animal.Name)) {
+                error = new Result("No name!", "You have to call your animal something!", ResultStatus.Error);
+            }
+            else if (animal.BuildingId == 0) {
+                error = new Result("No building!", "You have to give your animal a place to live!", ResultStatus.Error);
+            }
+            if (error != null) {
+                ViewData["Result"] = error;
+                ViewData["AnimalType"] = animalType;
+                ViewData["BuildingId"] = _db.Buildings
+                    .Where(b => b.UserId == user.Id)
+                    .Include(b => b.Type);
+            }
+            animal.Male = new Random().NextDouble() < 0.5;
+            animal.Id = 0;
+            animal.TypeId = id;
+            _db.Users.Attach(user);
+            user.Currency -= animalType.Price;
+            _db.Entry(user).Property(u => u.Currency).IsModified = true;
+            _db.Add(animal);
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Details", "Animal", new { id = animal.Id });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Building(int id) {
+            return View(await _db.BuildingTypes.SingleOrDefaultAsync(b => b.Id == id));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Building(int id, Building building) {
+            return View(await _db.BuildingTypes.SingleOrDefaultAsync(b => b.Id == id));
         }
 
         [HttpGet]

@@ -9,6 +9,12 @@
         @await Html.PartialAsync("_AnimalPartial", animal)
     }
 </div>
+<h2>Buildings</h2>
+<div class="ui cards">
+    @foreach (BuildingType building in Model.BuildingTypes) {
+        @await Html.PartialAsync("_BuildingPartial", building)
+    }
+</div>
 <h2>Animal upgrades</h2>
 <div class="ui cards">
     @foreach (Upgrade upgrade in Model.Upgrades.Where(u => u.ForAnimal)) {
