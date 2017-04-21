@@ -60,6 +60,7 @@ namespace ItsyBits.Models {
         /// <summary>
         /// Upgrades for building
         /// </summary>
+        [NotMapped]
         public IEnumerable<Upgrade> Upgrades => BuildingUpgrades?.Select(au => au.Upgrade) ?? Enumerable.Empty<Upgrade>();
 
         /// <summary>
@@ -70,7 +71,7 @@ namespace ItsyBits.Models {
         /// <summary>
         /// Total capacity of building
         /// </summary>
-        public int Capacity => Type == null || Upgrades == null ? 0 : Type.Capacity + Upgrades.Sum(u => u.CapacityModifier);
+        public int Capacity => Type == null || BuildingUpgrades == null ? 0 : Type.Capacity + Upgrades.Sum(u => u.CapacityModifier);
 
         /// <summary>
         /// Gets status text for building

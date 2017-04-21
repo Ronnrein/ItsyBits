@@ -1,2 +1,29 @@
-﻿@model Upgrade
-Test2
+﻿@model BuildingUpgrade
+@{
+    Upgrade upgrade = (Upgrade)ViewData["Upgrade"];
+}
+<h1>Buy a new @upgrade.Name</h1>
+<div class="ui container">
+    <img class="ui centered big image" src="~/images/upgrades/@upgrade.SpritePath" />
+</div>
+<form class="ui massive form" method="post">
+    <div class="one field">
+        <div class="field">
+            <label>What building would you like to upgrade?</label>
+            <div class="ui selection dropdown">
+                <input type="hidden" name="BuildingId" />
+                <i class="dropdown icon"></i>
+                <div class="default text">Select building</div>
+                <div class="menu">
+                    @foreach (Building building in (IEnumerable<Building>)ViewData["BuildingId"]) {
+                        <div class="item" data-value="@building.Id">
+                            <img class="ui mini avatar image" src="/images/buildings/@building.Type.SpritePath/portrait.png" />
+                            @building.Name
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="submit" class="ui button" value="Submit" />
+</form>

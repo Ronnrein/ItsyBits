@@ -1,2 +1,29 @@
-﻿@model Upgrade
-Test1
+﻿@model AnimalUpgrade
+@{
+    Upgrade upgrade = (Upgrade) ViewData["Upgrade"];
+}
+<h1>Buy a new @upgrade.Name</h1>
+<div class="ui container">
+    <img class="ui centered big image" src="~/images/upgrades/@upgrade.SpritePath" />
+</div>
+<form class="ui massive form" method="post">
+    <div class="one field">
+        <div class="field">
+            <label>What animal would you like to upgrade?</label>
+            <div class="ui selection dropdown">
+                <input type="hidden" name="AnimalId" />
+                <i class="dropdown icon"></i>
+                <div class="default text">Select animal</div>
+                <div class="menu">
+                    @foreach (Animal animal in (IEnumerable<Animal>)ViewData["AnimalId"]) {
+                        <div class="item" data-value="@animal.Id">
+                            <img class="ui mini avatar image" src="/images/animals/@animal.Type.SpritePath/portrait.png" />
+                            @animal.Name
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="submit" class="ui button" value="Submit" />
+</form>
