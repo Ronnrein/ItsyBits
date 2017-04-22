@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using ItsyBits.Data;
 
-namespace ItsyBits.Data.Migrations
+namespace ItsyBits.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170323085329_AddedAnimalGender")]
-    partial class AddedAnimalGender
+    [Migration("20170422094052_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,6 +22,8 @@ namespace ItsyBits.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("BuildingId");
+
+                    b.Property<DateTime>("Created");
 
                     b.Property<DateTime>("LastFeed");
 
@@ -61,6 +63,8 @@ namespace ItsyBits.Data.Migrations
 
                     b.Property<TimeSpan>("PetTime");
 
+                    b.Property<int>("Price");
+
                     b.Property<TimeSpan>("SleepTime");
 
                     b.Property<string>("SpritePath")
@@ -73,11 +77,16 @@ namespace ItsyBits.Data.Migrations
 
             modelBuilder.Entity("ItsyBits.Models.AnimalUpgrade", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
                     b.Property<int>("AnimalId");
 
                     b.Property<int>("UpgradeId");
 
-                    b.HasKey("AnimalId", "UpgradeId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnimalId");
 
                     b.HasIndex("UpgradeId");
 
@@ -93,6 +102,8 @@ namespace ItsyBits.Data.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
+
+                    b.Property<int>("Currency");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
@@ -162,8 +173,12 @@ namespace ItsyBits.Data.Migrations
 
                     b.Property<int>("Capacity");
 
+                    b.Property<int>("MaxCapacity");
+
                     b.Property<string>("Name")
                         .IsRequired();
+
+                    b.Property<int>("Price");
 
                     b.Property<string>("SpritePath")
                         .IsRequired();
@@ -175,15 +190,46 @@ namespace ItsyBits.Data.Migrations
 
             modelBuilder.Entity("ItsyBits.Models.BuildingUpgrade", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
                     b.Property<int>("BuildingId");
 
                     b.Property<int>("UpgradeId");
 
-                    b.HasKey("BuildingId", "UpgradeId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("BuildingId");
 
                     b.HasIndex("UpgradeId");
 
                     b.ToTable("BuildingUpgrades");
+                });
+
+            modelBuilder.Entity("ItsyBits.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<string>("Image");
+
+                    b.Property<string>("Link");
+
+                    b.Property<string>("Message");
+
+                    b.Property<bool>("Read");
+
+                    b.Property<string>("Title");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("ItsyBits.Models.Upgrade", b =>
@@ -191,14 +237,16 @@ namespace ItsyBits.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AnimalId");
-
-                    b.Property<int?>("BuildingId");
+                    b.Property<int>("CapacityModifier");
 
                     b.Property<string>("Description")
                         .IsRequired();
 
                     b.Property<float>("FeedModifier");
+
+                    b.Property<bool>("ForAnimal");
+
+                    b.Property<bool>("ForBuilding");
 
                     b.Property<string>("Method");
 
@@ -207,13 +255,13 @@ namespace ItsyBits.Data.Migrations
 
                     b.Property<float>("PetModifier");
 
+                    b.Property<int>("Price");
+
                     b.Property<float>("SleepModifier");
 
+                    b.Property<string>("SpritePath");
+
                     b.HasKey("Id");
-
-                    b.HasIndex("AnimalId");
-
-                    b.HasIndex("BuildingId");
 
                     b.ToTable("Upgrades");
                 });
@@ -376,15 +424,11 @@ namespace ItsyBits.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ItsyBits.Models.Upgrade", b =>
+            modelBuilder.Entity("ItsyBits.Models.Notification", b =>
                 {
-                    b.HasOne("ItsyBits.Models.Animal")
-                        .WithMany("Upgrades")
-                        .HasForeignKey("AnimalId");
-
-                    b.HasOne("ItsyBits.Models.Building")
-                        .WithMany("Upgrades")
-                        .HasForeignKey("BuildingId");
+                    b.HasOne("ItsyBits.Models.ApplicationUser", "User")
+                        .WithMany("Notifications")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

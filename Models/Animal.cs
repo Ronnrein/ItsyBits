@@ -94,6 +94,7 @@ namespace ItsyBits.Models {
         /// <summary>
         /// Upgrades for animal
         /// </summary>
+        [NotMapped]
         public IEnumerable<Upgrade> Upgrades => AnimalUpgrades?.Select(au => au.Upgrade) ?? Enumerable.Empty<Upgrade>();
 
         /// <summary>

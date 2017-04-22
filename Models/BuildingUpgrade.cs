@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ItsyBits.Models {
 
@@ -6,6 +7,12 @@ namespace ItsyBits.Models {
     /// Junction model for building upgrades
     /// </summary>
     public class BuildingUpgrade {
+
+        /// <summary>
+        /// Id of building upgrade
+        /// </summary>
+        [Key]
+        public int Id { get; set; }
 
         /// <summary>
         /// Id of building

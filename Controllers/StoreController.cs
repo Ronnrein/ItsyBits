@@ -136,6 +136,7 @@ namespace ItsyBits.Controllers {
                 return RedirectToAction("AnimalUpgrade", new {id});
             }
             upgrade.UpgradeId = id;
+            upgrade.Id = 0;
             _db.Add(upgrade);
             await _db.SaveChangesAsync();
             return RedirectToAction("Details", "Animal", new { id = upgrade.AnimalId });
@@ -169,13 +170,14 @@ namespace ItsyBits.Controllers {
                 error = new Result("Select a building!", "You have to select a building to upgrade!", ResultStatus.Error);
             }
             else if (building.Capacity + upgrade.CapacityModifier > building.Type.MaxCapacity) {
-                error = new Result("Cannot upgrade!", "Your building is already max upgraded!");
+                error = new Result("Cannot upgrade!", "Your building is already max upgraded!", ResultStatus.Error);
             }
             if (error != null) {
                 TempData.Put("Result", error);
                 return RedirectToAction("BuildingUpgrade", new { id });
             }
             buildingUpgrade.UpgradeId = id;
+            buildingUpgrade.Id = 0;
             _db.Add(buildingUpgrade);
             await _db.SaveChangesAsync();
             return RedirectToAction("Details", "Building", new { id = buildingUpgrade.BuildingId });
