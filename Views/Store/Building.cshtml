@@ -1,0 +1,17 @@
+﻿@model Building
+@{
+    BuildingType type = (BuildingType)ViewData["BuildingType"];
+}
+<h1>Buy a new @type.Name</h1>
+<div class="ui container">
+    <img class="ui centered big image" src="~/images/buildings/@type.SpritePath/full.png" />
+</div>
+<form class="ui massive form" method="post">
+    <div class="one field">
+        <div class="field">
+            <label>What would you like to name your building?</label>
+            <input asp-for="Name" />
+        </div>
+    </div>
+    <input type="submit" class="ui button" value="Submit" />
+</form>

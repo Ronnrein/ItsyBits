@@ -24,6 +24,8 @@ namespace ItsyBits.ViewComponents {
                 .Include(b => b.Type)
                 .Include(b => b.Animals)
                 .ThenInclude(a => a.Type)
+                .Include(b => b.BuildingUpgrades)
+                .ThenInclude(bu => bu.Upgrade)
             );
         }
     }

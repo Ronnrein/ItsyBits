@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using ItsyBits.Data;
 
-namespace ItsyBits.Data.Migrations
+namespace ItsyBits.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -76,11 +76,16 @@ namespace ItsyBits.Data.Migrations
 
             modelBuilder.Entity("ItsyBits.Models.AnimalUpgrade", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
                     b.Property<int>("AnimalId");
 
                     b.Property<int>("UpgradeId");
 
-                    b.HasKey("AnimalId", "UpgradeId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnimalId");
 
                     b.HasIndex("UpgradeId");
 
@@ -184,11 +189,16 @@ namespace ItsyBits.Data.Migrations
 
             modelBuilder.Entity("ItsyBits.Models.BuildingUpgrade", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
                     b.Property<int>("BuildingId");
 
                     b.Property<int>("UpgradeId");
 
-                    b.HasKey("BuildingId", "UpgradeId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("BuildingId");
 
                     b.HasIndex("UpgradeId");
 
@@ -226,10 +236,6 @@ namespace ItsyBits.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AnimalId");
-
-                    b.Property<int?>("BuildingId");
-
                     b.Property<int>("CapacityModifier");
 
                     b.Property<string>("Description")
@@ -255,10 +261,6 @@ namespace ItsyBits.Data.Migrations
                     b.Property<string>("SpritePath");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AnimalId");
-
-                    b.HasIndex("BuildingId");
 
                     b.ToTable("Upgrades");
                 });
@@ -426,17 +428,6 @@ namespace ItsyBits.Data.Migrations
                     b.HasOne("ItsyBits.Models.ApplicationUser", "User")
                         .WithMany("Notifications")
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("ItsyBits.Models.Upgrade", b =>
-                {
-                    b.HasOne("ItsyBits.Models.Animal")
-                        .WithMany("Upgrades")
-                        .HasForeignKey("AnimalId");
-
-                    b.HasOne("ItsyBits.Models.Building")
-                        .WithMany("Upgrades")
-                        .HasForeignKey("BuildingId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
