@@ -6,7 +6,7 @@
     <div class="item content">
         <div class="header">@Model.Name</div>
         <img class="ui image" src="~/images/upgrades/@Model.SpritePath">
-        <div class="description">Makes your pet sleep better! Your pet will not need to sleep as often with this blanket</div>
+        <div class="description">@Model.Description</div>
     </div>
     <a asp-controller="Store" asp-action="BuildingUpgrade" asp-route-id="@Model.Id" class="ui bottom attached orange button @disabled">
         Buy (
