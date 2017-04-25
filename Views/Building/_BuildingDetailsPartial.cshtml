@@ -1,5 +1,14 @@
 ﻿@model Building
 <h4>Animals in "<a asp-controller="Building" asp-action="Details", asp-route-id="@Model.Id">@Model.Name</a>" building</h4>
+
+<div class="ui container">
+    <div class="upgrades right floated">
+        <h3>Building upgrades</h3>
+        <a asp-controller="Store" asp-action="Index">
+            <img class="ui mini bordered circular image" src="~/images/upgrades/Icons/addUpgrade.png" />
+        </a>
+    </div>
+</div>
 <div class="ui cards">
     @foreach (Animal animal in Model.Animals) {
     @Html.Partial("/Views/Animal/_AnimalCardPartial.cshtml", animal)

@@ -1,9 +1,17 @@
 ﻿@model Animal
 @{ ViewData["Title"] = "Details for "+Model.Name; }
-<h2>@Model.Name, type @Model.Type.Name, lives in "<a asp-controller="Building" asp-action="Details" asp-route-id="@Model.Building.Id">@Model.Building.Name</a>" building</h2>
+<h2>@Model.Name, lives in "<a asp-controller="Building" asp-action="Details" asp-route-id="@Model.Building.Id">@Model.Building.Name</a>" building</h2>
+
 <div class="ui container">
-    <img class="ui centered big image" src="~/images/animals/@Model.Type.SpritePath/full.png" />
+    <div class="upgrades right floated" >
+        <h3>Animal upgrades</h3>
+        <a asp-controller="Store" asp-action="Index">
+            <img class="ui mini bordered circular image" src="~/images/upgrades/Icons/addUpgrade.png" />
+        </a>
+    </div>
+    <img class="ui centered big image" src="~/images/animals/@Model.Type.SpritePath/full.png"/>
 </div>
+
 <div class="ui three column grid">
     <div class="column">
         <form class="animal-action" asp-controller="Animal" asp-action="Feed" asp-route-id="@Model.Id" method="post">
@@ -15,7 +23,7 @@
                         <div class="bar"></div>
                     </div>
                 </div>
-                <button class="ui bottom attached button" type="submit">
+                <button class="ui bottom attached orange button" type="submit">
                     <i class="food icon"></i>
                     Feed
                 </button>
@@ -32,7 +40,7 @@
                         <div class="bar"></div>
                     </div>
                 </div>
-                <button class="ui bottom attached button" type="submit">
+                <button class="ui bottom attached orange button" type="submit">
                     <i class="hotel icon"></i>
                     Sleep
                 </button>
@@ -49,7 +57,7 @@
                         <div class="bar"></div>
                     </div>
                 </div>
-                <button class="ui bottom attached button" type="submit">
+                <button class="ui bottom attached orange button" type="submit">
                     <i class="heart icon"></i>
                     Pet
                 </button>
