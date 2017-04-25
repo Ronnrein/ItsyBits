@@ -8,6 +8,10 @@ var buildings = [
     new Building("/images/town/THouse.png", new Vector2(310, 290)),
     new Building("/images/town/MHouse2.png", new Vector2(0, 0))
 ];
+var animations = [
+    new Animation("/images/misc/coin.png", new Vector2(200, 200), 10, 1, 10, 100, 100, 50),
+    new Animation("/images/misc/dance.png", new Vector2(400, 400), 8, 10, 80, 110, 128, 50)
+];
 var scaleFactor = 1.05;
 var backgroundColor = "#9DCF3B";
 var minScale = 0.3;
@@ -16,6 +20,7 @@ var maxScale = 1;
 // Variables
 var canvas, ctx, backgroundImage, sources, dragStartPosition, dragged, lastMousePosition;
 var currentScale = 1;
+var lastUpdate = Date.now();
 
 // Wait for document to be ready
 $(document).ready(function() { init(); });
@@ -45,21 +50,41 @@ function init() {
     $.each(buildings, function(i, building) {
         sources.push({ source: building.imagePath, target: building.image });
     });
+    $.each(animations, function(i, animation) {
+        sources.push({ source: animation.imagePath, target: animation.image });
+    });
     loadImages(function() {
+
+        // Set building rect to image size
+        $.each(buildings, function(i, building) {
+            building.rect.width = building.image.width;
+            building.rect.height = building.image.height;
+        });
 
         // Startup
         resizeCanvas();
+        setInterval(update, 1000 / 60);
         update();
     });
 }
 
 // Function to update scene
 function update() {
-    render();
+    var delta = Date.now() - lastUpdate;
+    lastUpdate = Date.now();
+
+    var hover = "None";
+    $.each(buildings, function(i, building) {
+        if (building.rect.contains(ctx.transformedPoint(lastMousePosition.x, lastMousePosition.y))) {
+            hover = building.imagePath;
+        }
+    });
+    $("#hover").html(hover);
+    render(delta);
 }
 
 // Function to render elements
-function render() {
+function render(delta) {
     var p1 = ctx.transformedPoint(0, 0);
     var p2 = ctx.transformedPoint(canvas[0].width, canvas[0].height);
     ctx.beginPath();
@@ -71,13 +96,15 @@ function render() {
     $.each(buildings, function(i, building) {
         building.render();
     });
+    $.each(animations, function(i, animation) {
+        animation.render(delta);
+    });
 }
 
 // Function to resize canvas to its containers size
 function resizeCanvas() {
     canvas.attr("width", $(canvasContainer).width());
     canvas.attr("height", $(canvasContainer).height());
-    render();
 }
 
 // Function to load images and assign them to image object
@@ -107,14 +134,12 @@ function mouseUp(e) {
 
 // Gets called when mouse moves
 function mouseMove(e) {
-    var previousMousePosition = lastMousePosition;
     lastMousePosition = new Vector2(e.offsetX, e.offsetY);
     dragged = true;
     var point = ctx.transformedPoint(lastMousePosition.x, lastMousePosition.y);
     if (dragStartPosition) {
         var trans = new Vector2(point.x - dragStartPosition.x, point.y - dragStartPosition.y);
         ctx.translate(trans.x, trans.y);
-        render();
     }
     // DEBUG
     $("#mousex").html(Math.floor(point.x));
@@ -141,7 +166,6 @@ function zoom(amount) {
         ctx.translate(pt.x, pt.y);
         ctx.scale(factor, factor);
         ctx.translate(-pt.x, -pt.y);
-        render();
         return;
     }
     currentScale /= factor;
@@ -183,17 +207,53 @@ function Vector2(x, y) {
 
 // Building class
 function Building(image, position) {
-    this.imagePath = image,
+    this.imagePath = image;
     this.image = new Image();
     this.rect = new Rect(
         position.x,
         position.y,
-        this.image.naturalWidth,
-        this.image.naturalHeight
+        this.image.width,
+        this.image.width
     );
     this.render = function() {
         ctx.drawImage(this.image, this.rect.x, this.rect.y);
     };
+}
+
+// Animation class
+function Animation(image, position, columns, rows, frames, frameWidth, frameHeight, frameTime) {
+    this.imagePath = image;
+    this.image = new Image();
+    this.position = position;
+    this.rows = rows;
+    this.columns = columns;
+    this.frames = frames;
+    this.frameWidth = frameWidth;
+    this.frameHeight = frameHeight;
+    this.frameTime = frameTime;
+    this.currentFrame = 0;
+    this.currentFrameTime = 0;
+    this.render = function (delta) {
+        this.currentFrameTime += delta;
+        if (this.currentFrameTime >= this.frameTime) {
+            this.currentFrameTime = 0;
+            this.currentFrame += 1;
+            if (this.currentFrame >= this.frames) {
+                this.currentFrame = 0;
+            }
+        }
+        ctx.drawImage(
+            this.image,
+            this.frameWidth * (this.currentFrame - (Math.floor(this.currentFrame / this.columns) * this.columns)),
+            this.frameHeight * Math.floor(this.currentFrame / this.columns),
+            this.frameWidth,
+            this.frameHeight,
+            this.position.x,
+            this.position.y,
+            this.frameWidth,
+            this.frameHeight
+        );
+    }
 }
 
 // Function to add extension methods to context
