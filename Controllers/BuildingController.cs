@@ -28,6 +28,8 @@ namespace ItsyBits.Controllers {
                 .Where(b => b.UserId == user.Id)
                 .Include(b => b.Animals)
                 .ThenInclude(a => a.Type)
+                .Include(b => b.BuildingUpgrades)
+                .ThenInclude(bu => bu.Upgrade)
             );
         }
 
@@ -36,6 +38,8 @@ namespace ItsyBits.Controllers {
             Building building = await _db.Buildings
                 .Include(b => b.Animals)
                 .ThenInclude(a => a.Type)
+                .Include(b => b.BuildingUpgrades)
+                .ThenInclude(bu => bu.Upgrade)
                 .SingleOrDefaultAsync(b => b.Id == id);
             if (building == null) {
                 return NotFound();
