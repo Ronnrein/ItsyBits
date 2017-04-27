@@ -1,7 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 using ItsyBits.Data;
 using ItsyBits.Models;
+using ItsyBits.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -68,6 +72,21 @@ namespace ItsyBits.Controllers {
             _db.Add(building);
             await _db.SaveChangesAsync();
             return RedirectToAction("Details", new {id = building.Id});
+        }
+
+        [HttpGet]
+        public IActionResult Plots() {
+            string userId = _userManager.GetUserId(User);
+            IEnumerable<Building> buildings = _db.Buildings.Where(b => b.UserId == userId);
+            IEnumerable<Plot> plots = _db.Plots;
+            foreach (Plot plot in plots) {
+                Building building = buildings.SingleOrDefault(b => b.PlotId == plot.Id);
+                if (building == null) {
+                    continue;
+                }
+                plot.Buildings = new List<Building> {building};
+            }
+            return Json(plots);
         }
 
     }

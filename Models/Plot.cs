@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ItsyBits.Models {
 
@@ -27,6 +28,11 @@ namespace ItsyBits.Models {
         /// Y-position of plot on the canvas
         /// </summary>
         public int PositionY { get; set; }
+
+        /// <summary>
+        /// Buildings that have this plot
+        /// </summary>
+        public ICollection<Building> Buildings { get; set; }
 
     }
 }
