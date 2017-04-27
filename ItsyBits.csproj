@@ -9,6 +9,13 @@
     </DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="wwwroot/images\town\Empty2.png" />
+    <Content Remove="wwwroot/images\town\Empty5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="wwwroot\js\town.js" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="ItsyBits.db" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
