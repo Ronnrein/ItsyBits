@@ -3,10 +3,13 @@ var canvasElement = "#canvas";
 var canvasContainer = "#town";
 var background = "/images/town/background.png";
 var buildings = [
-    new Building("/images/town/MHouse.png", new Vector2(310, 290)),
-    new Building("/images/town/Store.png", new Vector2(860, 235)),
-    new Building("/images/town/THouse.png", new Vector2(310, 290)),
-    new Building("/images/town/MHouse2.png", new Vector2(0, 0))
+    new Building("/images/town/Empty6.png", new Vector2(1200, 200)),
+    new Building("/images/town/Store.png", new Vector2(1720, 480)),
+    new Building("/images/town/Empty6.png", new Vector2(630, 580)),
+    new Building("/images/town/Empty6.png", new Vector2(1050, 690)),
+    new Building("/images/town/MHouse.png", new Vector2(1250, 870)),
+    new Building("/images/town/Empty6.png", new Vector2(1711, 1000)),
+ 
 ];
 var animations = [
     new Animation("/images/misc/coin.png", new Vector2(200, 200), 10, 1, 10, 100, 100, 50),
