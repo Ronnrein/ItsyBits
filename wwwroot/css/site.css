@@ -49,3 +49,7 @@
 #town {
     min-height: 800px;
 }
+
+#canvas {
+    cursor: none;
+}
