@@ -14,6 +14,7 @@ namespace ItsyBits.Data {
         public virtual DbSet<BuildingUpgrade> BuildingUpgrades { get; set; }
         public virtual DbSet<Upgrade> Upgrades { get; set; }
         public virtual DbSet<Notification> Notifications { get; set; }
+        public virtual DbSet<Plot> Plots { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options) {}
     }

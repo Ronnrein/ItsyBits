@@ -21,7 +21,7 @@ namespace ItsyBits.Areas.Admin.Controllers {
 
         [HttpGet]
         public IActionResult Index() {
-            return View(_db.Buildings.Include(b => b.Type).Include(b => b.User));
+            return View(_db.Buildings.Include(b => b.Type).Include(b => b.User).Include(b => b.Plot));
         }
 
         [HttpGet]
@@ -29,6 +29,7 @@ namespace ItsyBits.Areas.Admin.Controllers {
             Building building = await _db.Buildings
                 .Include(b => b.Type)
                 .Include(b => b.User)
+                .Include(b => b.Plot)
                 .SingleOrDefaultAsync(m => m.Id == id
             );
             if (building == null) {
@@ -41,6 +42,7 @@ namespace ItsyBits.Areas.Admin.Controllers {
         public IActionResult Create() {
             ViewData["TypeId"] = new SelectList(_db.BuildingTypes, "Id", "Name");
             ViewData["UserId"] = new SelectList(_db.Users, "Id", "UserName");
+            ViewData["PlotId"] = new SelectList(_db.Plots, "Id", "Description");
             return View();
         }
 
@@ -50,6 +52,7 @@ namespace ItsyBits.Areas.Admin.Controllers {
             if (!ModelState.IsValid) {
                 ViewData["TypeId"] = new SelectList(_db.BuildingTypes, "Id", "Name", building.TypeId);
                 ViewData["UserId"] = new SelectList(_db.Users, "Id", "UserName", building.UserId);
+                ViewData["PlotId"] = new SelectList(_db.Plots, "Id", "Description", building.PlotId);
                 return View(building);
             }
             _db.Add(building);
@@ -68,6 +71,7 @@ namespace ItsyBits.Areas.Admin.Controllers {
             }
             ViewData["TypeId"] = new SelectList(_db.BuildingTypes, "Id", "Name", building.TypeId);
             ViewData["UserId"] = new SelectList(_db.Users, "Id", "UserName", building.UserId);
+            ViewData["PlotId"] = new SelectList(_db.Plots, "Id", "Description", building.PlotId);
             ViewData["UpgradeId"] = new SelectList(_db.Upgrades.Where(u => building.BuildingUpgrades.All(au => au.UpgradeId != u.Id)), "Id", "Name");
             return View(building);
         }
@@ -78,13 +82,14 @@ namespace ItsyBits.Areas.Admin.Controllers {
             if (id != building.Id) {
                 return NotFound();
             }
-            if (ModelState.IsValid) {
+            if (!ModelState.IsValid) {
                 Building oldBuilding = await _db.Buildings
                     .Include(b => b.BuildingUpgrades)
                     .ThenInclude(bu => bu.Upgrade)
                     .SingleOrDefaultAsync(b => b.Id == id);
                 ViewData["TypeId"] = new SelectList(_db.BuildingTypes, "Id", "Name", oldBuilding.TypeId);
                 ViewData["UserId"] = new SelectList(_db.Users, "Id", "UserName", oldBuilding.UserId);
+                ViewData["PlotId"] = new SelectList(_db.Plots, "Id", "Description", oldBuilding.PlotId);
                 ViewData["UpgradeId"] = new SelectList(_db.Upgrades.Where(u => oldBuilding.BuildingUpgrades.All(au => au.UpgradeId != u.Id)), "Id", "Name");
                 return View(building);
             }
@@ -106,6 +111,7 @@ namespace ItsyBits.Areas.Admin.Controllers {
             Building building = await _db.Buildings
                 .Include(b => b.Type)
                 .Include(b => b.User)
+                .Include(b => b.Plot)
                 .SingleOrDefaultAsync(m => m.Id == id
             );
             if (building == null) {
