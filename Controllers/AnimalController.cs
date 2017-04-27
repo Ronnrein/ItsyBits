@@ -38,6 +38,8 @@ namespace ItsyBits.Controllers {
             Animal animal = await _db.Animals
                 .Include(a => a.Building)
                 .Include(a => a.Type)
+                .Include(a => a.AnimalUpgrades)
+                .ThenInclude(au => au.Upgrade)
                 .SingleOrDefaultAsync(a => a.Id == id);
             if (animal == null) {
                 return NotFound();

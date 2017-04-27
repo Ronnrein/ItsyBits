@@ -1,18 +1,15 @@
 ﻿@model Building
-<a asp-controller="Building" asp-action="Details" asp-route-id="@Model.Id" class="ui card">
+<a asp-controller="Building" asp-action="Details" asp-route-id="@Model.Id" class="ui card"> 
     <div class="image">
         <img src="~/images/buildings/@Model.Type.SpritePath/icon.jpg" />
     </div>
     <div class="content">
         <div class="header">@Model.Name</div>
         <div class="meta">
-        <p>@Model.Type.Name Capacity: @Model.Animals.Count/@Model.Capacity</p>
-        
-            
+        <p>@Model.Type.Name Capacity: @Model.Animals.Count/@Model.Capacity</p>  
         </div>
         <div class="description">
             @Model.GetStatusText()
-        
         </div>
         <div class="ui divider"></div>
         <div class="extra content">
