@@ -48,6 +48,18 @@ namespace ItsyBits.Models {
         public int TypeId { get; set; }
 
         /// <summary>
+        /// Plot of building
+        /// </summary>
+        public Plot Plot { get; set; }
+
+        /// <summary>
+        /// Id of plot of building
+        /// </summary>
+        [ForeignKey("Plot")]
+        [DisplayName("Plot")]
+        public int PlotId { get; set; }
+
+        /// <summary>
         /// Animals living in building
         /// </summary>
         public ICollection<Animal> Animals { get; set; }
