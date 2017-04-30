@@ -12,11 +12,13 @@
                     <div asp-validation-summary="All"></div>
                     <div class="field">
                         <input asp-for="User" type="text" placeholder="Username or email">
+                        <!--Style test for the validation messages. Remove after adding properly. May need to use Jquery to properly place the messages outside of the field?-->
+                        <div class="ui orange left pointing label">Please input username or e-mail</div>
                     </div>
                     <div class="field">
                         <input asp-for="Password" type="password" placeholder="Password">
                     </div>
-                    <div class="clearfix login-options">
+                    <div class="clearfix login-options">    
                         <div class="ui checkbox left">
                             <input asp-for="RememberMe" />
                             <label>Remember me</label>
@@ -30,9 +32,8 @@
                     <div class="ui horizontal divider">
                         Or
                     </div>
-                    <!--the register field needs to be "removed" from the asp-validation. Can only be taken to register view after the forms are filled in -->
                     <div>
-                        <button class="ui button large fluid orange" asp-action="Register">Register</button>
+                        <a class="ui button large fluid orange" asp-action="Register">Register</a>
                     </div>
                 </div>
             </form>
