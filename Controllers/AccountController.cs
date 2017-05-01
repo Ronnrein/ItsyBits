@@ -123,10 +123,18 @@ namespace ItsyBits.Controllers
             {
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Currency = 100 };
                 var result = await _userManager.CreateAsync(user, model.Password);
+                BuildingType type = _db.BuildingTypes.OrderBy(bt => bt.Capacity).First();
                 _db.Add(new Building {
-                    Type = _db.BuildingTypes.OrderBy(bt => bt.Capacity).First(),
+                    Type = type,
                     Name = model.UserName+"'s first building",
                     Plot = _db.Plots.First(),
+                    UserId = user.Id
+                });
+                _db.Add(new Notification {
+                    Message = $"Your farm already has a building, and you have enough money to buy your first pet!",
+                    Title = "Welcome to ItsyBits!",
+                    Image = $"buildings/{type.SpritePath}/icon.jpg",
+                    Link = "/store/animalselect",
                     UserId = user.Id
                 });
                 await _db.SaveChangesAsync();
