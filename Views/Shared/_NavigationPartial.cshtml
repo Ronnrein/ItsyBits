@@ -1,16 +1,21 @@
-﻿<div class="ui secondary pointing menu">
-    <a asp-controller="Home" asp-action="Index" class="item">ItsyBits</a>
+﻿<div class="ui inverted blue secondary pointing menu">
+    <a asp-controller="Home" asp-action="Index" class="item" id="logo-container"> <img src="~/images/ItsyBitsLogo.png" />
+    </a>
+    <a asp-controller="Home" asp-action="Index" class="item">
+        Pet town
+        <i class="home icon"></i>
+    </a>
     <a asp-controller="Animal" asp-action="Index" class="item">
-        <i class="paw icon"></i>
         My animals
+        <i class="paw icon"></i>
     </a>
     <a asp-controller="Building" asp-action="Index" class="item">
-        <i class="building icon"></i>
         My buildings
+        <i class="building icon"></i>
     </a>
     <a asp-controller="Store" asp-action="Index" class="item">
-        <i class="icon shop"></i>
         Store
+        <i class="icon shop"></i>
     </a>
     <div class="right menu">
         @if (User.IsInRole("Administrator")) {

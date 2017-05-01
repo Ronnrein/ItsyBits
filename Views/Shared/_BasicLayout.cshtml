@@ -3,12 +3,12 @@
 <head>
     @await Html.PartialAsync("_HeadPartial")
 </head>
-<body>
-    <img class="Logo" src="~/images/ItsyBitsLogo.png" />
+<body >
     <div class="ui main container">
         @RenderBody()
     </div>
     @await Html.PartialAsync("_ScriptsPartial")
     @RenderSection("scripts", required: false)
 </body>
+    <img class="ui fluid centered image" src="~/images/IBFooter.png">
 </html>

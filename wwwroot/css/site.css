@@ -4,26 +4,48 @@
 
 .Account-body {
     background-color: #99ccff;
+    background-image: url("../images/rays.png");
+    /* Full height */
+    height: 100%;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .Main-body {
-    background-color: #99ccff;
+    background-color: #97B895;
+}
+#loginform {
+    margin-top: 20px;
+    background-color: rgba(232,232,232,0.8);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 25px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .Logo {
     display: block;
     margin: auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .left {
     float: left;
+
 }
 
 .right {
     float: right;
 }
+#play {
+    font-family: IBfont;
+    font-size: 37px;
+    color: #F7931E;
+    text-align: center
+} 
+
 
 .clearfix {
     overflow: auto;
@@ -34,12 +56,25 @@
 }
 
 .item {
-    text-align:center;
+    text-align: center;
+    
 }
 
 #AboutBox {
-    background-color: rgba(255,255,255,0.7);
+    background-color: rgba(232,232,232,0.7);
+    line-height: 1;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #726D86;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
+ #AboutBox h3 {
+    font-family: IBfont;
+    font-size: 27px;
+    color: #F7931E;
+    text-align: center;
+    
+    }
 
 #notification-count {
     top: -1px;
@@ -48,4 +83,22 @@
 
 #town {
     min-height: 800px;
+}
+.ui.inverted.blue.menu {
+    font-family: IBfont;
+    font-size:18px;
+    background-color: #F7931E;
+
+}
+
+#logo-container {
+    padding: 5px;
+}
+#ibfoot{
+    position:absolute;
+}
+
+@font-face {
+    font-family: "IBfont";
+    src:url('../Grinched 2.0.ttf');
 }
