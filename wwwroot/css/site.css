@@ -53,3 +53,15 @@
 #canvas {
     cursor: none;
 }
+.field .pointing.label {
+    position: absolute;
+    width: 200px;
+    right: -190px;
+    margin-top: 5px;
+}
+
+.field-validation-valid {
+    padding: 0 !important;
+    margin: 0 !important;
+    display: none !important;
+}

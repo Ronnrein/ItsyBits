@@ -9,17 +9,20 @@
             <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" role="form">
                 <div class="ui segment form">
                     <h2 class="center aligned header">Register</h2>
-                    <div asp-validation-summary="All"></div>
                     <div class="field">
+                        <span asp-validation-for="UserName" class="ui orange left pointing label"></span>
                         <input asp-for="UserName" placeholder="User name">
                     </div>
                     <div class="field">
+                        <span asp-validation-for="Email" class="ui orange left pointing label"></span>
                         <input asp-for="Email" placeholder="Email">
                     </div>
                     <div class="field">
+                        <span asp-validation-for="Password" class="ui orange left pointing label"></span>
                         <input asp-for="Password" placeholder="Password">
                     </div>
                     <div class="field">
+                        <span asp-validation-for="ConfirmPassword" class="ui orange left pointing label"></span>
                         <input asp-for="ConfirmPassword" placeholder="Confirm password">
                     </div>
                     <div class="field">
@@ -32,6 +35,3 @@
     </div>
     @Html.Partial("_AboutPartial")
 </body>
-@section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-}
