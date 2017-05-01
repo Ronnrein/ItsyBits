@@ -182,5 +182,10 @@ namespace ItsyBits.Controllers {
             await _db.SaveChangesAsync();
             return RedirectToAction("Details", "Building", new { id = buildingUpgrade.BuildingId });
         }
+
+        [HttpGet]
+        public IActionResult AnimalSelect() {
+            return View(_db.AnimalTypes);
+        }
     }
 }
