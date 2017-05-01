@@ -11,12 +11,14 @@
         <div class="description">
             @Model.GetStatusText()
         </div>
-        <div class="ui divider"></div>
-        <div class="extra content">
-            <div class="ui indicating small progress progressbar tooltip" data-content="@Model.HappinessPercentage%" data-value="@Model.HappinessPercentage" data-total="100">
-                <div class="bar"></div>
-                <div class="label">Animal Happiness</div>
+        @if (Model.Animals.Count > 0) {
+            <div class="ui divider"></div>
+            <div class="extra content">
+                <div class="ui indicating small progress progressbar tooltip" data-content="@Model.HappinessPercentage%" data-value="@Model.HappinessPercentage" data-total="100">
+                    <div class="bar"></div>
+                    <div class="label">Animal Happiness</div>
+                </div>
             </div>
-        </div>
+        }
     </div>
 </a>
