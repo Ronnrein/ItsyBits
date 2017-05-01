@@ -53,3 +53,15 @@
 #canvas {
     cursor: none;
 }
+
+.notifications {
+    max-width: 300px !important;
+}
+
+.notifications div.text {
+    white-space: initial;
+}
+
+.notifications .comment {
+    cursor: default !important;
+}

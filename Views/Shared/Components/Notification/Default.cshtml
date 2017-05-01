@@ -6,7 +6,7 @@
     @if (unread > 0) {
         <div class="floating ui red circular mini label" id="notification-count">@unread</div>
     }
-    <div class="ui menu comments">
+    <div class="ui menu comments notifications">
         @foreach (Notification notification in Model.OrderByDescending(n => n.Created).Take(5)) {
             string selected = notification.Read ? "" : "selected";
             <div class="comment item @selected">
