@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using ItsyBits.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,7 @@ namespace ItsyBits.Controllers
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
         private readonly string _externalCookieScheme;
+        private readonly ApplicationDbContext _db;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -32,7 +34,8 @@ namespace ItsyBits.Controllers
             IOptions<IdentityCookieOptions> identityCookieOptions,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            ApplicationDbContext db)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -40,6 +43,7 @@ namespace ItsyBits.Controllers
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            _db = db;
         }
 
         //
@@ -117,8 +121,23 @@ namespace ItsyBits.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Currency = 100 };
                 var result = await _userManager.CreateAsync(user, model.Password);
+                BuildingType type = _db.BuildingTypes.OrderBy(bt => bt.Capacity).First();
+                _db.Add(new Building {
+                    Type = type,
+                    Name = model.UserName+"'s first building",
+                    Plot = _db.Plots.First(),
+                    UserId = user.Id
+                });
+                _db.Add(new Notification {
+                    Message = $"Your farm already has a building, and you have enough money to buy your first pet!",
+                    Title = "Welcome to ItsyBits!",
+                    Image = $"buildings/{type.SpritePath}/icon.jpg",
+                    Link = "/store/animalselect",
+                    UserId = user.Id
+                });
+                await _db.SaveChangesAsync();
                 if (result.Succeeded)
                 {
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713

@@ -90,6 +90,9 @@ namespace ItsyBits.Models {
         /// </summary>
         /// <returns>Current status of building</returns>
         public string GetStatusText() {
+            if(Animals.Count == 0) {
+                return "You have no animals";
+            }
             if(HappinessPercentage >= 76) {
                 return "Your animals seem happy";
             }
