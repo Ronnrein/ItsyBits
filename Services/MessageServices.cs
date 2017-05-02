@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MailKit.Net.Smtp;
+using MimeKit;
+using MailKit.Security;
 
 namespace ItsyBits.Services
 {
@@ -12,7 +15,22 @@ namespace ItsyBits.Services
     {
         public Task SendEmailAsync(string email, string subject, string message)
         {
-            // Plug in your email service here to send an email.
+            try {
+                MimeMessage mail = new MimeMessage();
+                mail.From.Add(new MailboxAddress("ItsyBits", "admin@itsybits.world"));
+                mail.Subject = subject;
+                mail.Body = new TextPart("html") {
+                    Text = message
+                };
+                using (SmtpClient client = new SmtpClient()) {
+                    client.Connect("127.0.0.1", 25, false);
+                    client.Send(mail);
+                    client.Disconnect(true);
+                }
+            }
+            catch (Exception e) {
+                throw;
+            }
             return Task.FromResult(0);
         }
 
