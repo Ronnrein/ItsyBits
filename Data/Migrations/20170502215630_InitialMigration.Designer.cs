@@ -8,13 +8,13 @@ using ItsyBits.Data;
 namespace ItsyBits.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170422094052_InitialMigration")]
+    [Migration("20170502215630_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");
+                .HasAnnotation("ProductVersion", "1.1.1");
 
             modelBuilder.Entity("ItsyBits.Models.Animal", b =>
                 {
@@ -153,11 +153,15 @@ namespace ItsyBits.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
+                    b.Property<int>("PlotId");
+
                     b.Property<int>("TypeId");
 
                     b.Property<string>("UserId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PlotId");
 
                     b.HasIndex("TypeId");
 
@@ -215,11 +219,11 @@ namespace ItsyBits.Migrations
 
                     b.Property<string>("Image");
 
+                    b.Property<bool>("IsRead");
+
                     b.Property<string>("Link");
 
                     b.Property<string>("Message");
-
-                    b.Property<bool>("Read");
 
                     b.Property<string>("Title");
 
@@ -230,6 +234,22 @@ namespace ItsyBits.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Notifications");
+                });
+
+            modelBuilder.Entity("ItsyBits.Models.Plot", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<int>("PositionX");
+
+                    b.Property<int>("PositionY");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Plots");
                 });
 
             modelBuilder.Entity("ItsyBits.Models.Upgrade", b =>
@@ -401,6 +421,11 @@ namespace ItsyBits.Migrations
 
             modelBuilder.Entity("ItsyBits.Models.Building", b =>
                 {
+                    b.HasOne("ItsyBits.Models.Plot", "Plot")
+                        .WithMany("Buildings")
+                        .HasForeignKey("PlotId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("ItsyBits.Models.BuildingType", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId")
