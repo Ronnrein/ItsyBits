@@ -15,21 +15,18 @@ namespace ItsyBits.Services
     {
         public Task SendEmailAsync(string email, string subject, string message)
         {
-            try {
-                MimeMessage mail = new MimeMessage();
-                mail.From.Add(new MailboxAddress("ItsyBits", "admin@itsybits.world"));
-                mail.Subject = subject;
-                mail.Body = new TextPart("html") {
-                    Text = message
-                };
-                using (SmtpClient client = new SmtpClient()) {
-                    client.Connect("127.0.0.1", 25, false);
-                    client.Send(mail);
-                    client.Disconnect(true);
-                }
-            }
-            catch (Exception e) {
-                throw;
+            MimeMessage mail = new MimeMessage();
+            mail.From.Add(new MailboxAddress("ItsyBits", "admin@itsybits.world"));
+            mail.To.Add(new MailboxAddress(email, email));
+            mail.Subject = subject;
+            mail.Body = new TextPart("html") {
+                Text = message
+            };
+            using (SmtpClient client = new SmtpClient()) {
+                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                client.Connect("127.0.0.1", 25, false);
+                client.Send(mail);
+                client.Disconnect(true);
             }
             return Task.FromResult(0);
         }
