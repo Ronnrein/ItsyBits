@@ -1,4 +1,4 @@
 ﻿@model Building
-@{ ViewData["Title"] = "Details of " + Model.Name; }
+@{ ViewData["Title"] = Model.Name; }
 <h2>@ViewData["Title"]</h2>
 @Html.Partial("_BuildingDetailsPartial", Model)

@@ -1,6 +1,13 @@
 ﻿@model Animal
 @{ ViewData["Title"] = "Details for "+Model.Name; }
-<h2>@Model.Name, lives in "<a asp-controller="Building" asp-action="Details" asp-route-id="@Model.Building.Id">@Model.Building.Name</a>" building</h2>
+<h2 class="item">@Model.Name</h2>
+
+<a asp-controller="Building" asp-action="Details" asp-route-id="@Model.Building.Id" class="large floated left circular grey basic animated ui icon button">
+    <div class="visible content">
+        <i class="chevron left icon"></i>
+    </div>
+    <div class="hidden content">Back</div>
+</a>
 
 <div class="ui container">
     <div class="upgrades right floated" >
