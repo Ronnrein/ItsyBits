@@ -58,7 +58,7 @@ namespace ItsyBits.Models {
         /// <summary>
         /// Whether the notification has been read or not
         /// </summary>
-        public bool Read { get; set; }
+        public bool IsRead { get; set; }
 
         /// <summary>
         /// Constructor of notification
