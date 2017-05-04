@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Hangfire;
 using Hangfire.Common;
-using Hangfire.MemoryStorage;
+using Hangfire.MySql;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -49,7 +49,7 @@ namespace ItsyBits
         {
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>(o => {
                     o.Password.RequireDigit = false;
@@ -77,7 +77,7 @@ namespace ItsyBits
             });
 
             // Hangfire
-            services.AddHangfire(o => o.UseMemoryStorage());
+            services.AddHangfire(o => o.UseStorage(new MySqlStorage(Configuration.GetConnectionString("Hangfire"))));
             JobHelper.SetSerializerSettings(new JsonSerializerSettings{ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
             services.AddTransient<DailyUserRewards>();
 

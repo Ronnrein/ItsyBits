@@ -29,8 +29,8 @@ namespace ItsyBits.Controllers {
             for (int i = 20; i < notifications.Count(); i++) {
                 _db.Notifications.Remove(notifications.ElementAt(i));
             }
-            foreach (Notification notification in notifications.Where(n => !n.Read)) {
-                notification.Read = true;
+            foreach (Notification notification in notifications.Where(n => !n.IsRead)) {
+                notification.IsRead = true;
                 _db.Update(notification);
             }
             await _db.SaveChangesAsync();

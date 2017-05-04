@@ -1,5 +1,5 @@
 ﻿@model Building
-<h4>Animals in "<a asp-controller="Building" asp-action="Details", asp-route-id="@Model.Id">@Model.Name</a>" building</h4>
+<h3>My animals in @Model.Name</h3>
 
 <div class="ui container">
     <div class="upgrades right floated">
@@ -14,23 +14,28 @@
         }
     </div>
 </div>
+<p>@Model.Capacity</p>
 <div class="ui cards">
     @foreach (Animal animal in Model.Animals) {
     @Html.Partial("/Views/Animal/_AnimalCardPartial.cshtml", animal)
     }
-    <div class="ui card shop">
-        <div class="image">
-            <img src="~/images/animals/eggs/eggTrio_icon.jpg" />
+    @if (Model.Animals.Count < Model.Capacity)
+    {
+        <div class="ui card shop">
+            <div class="image">
+                <img src="~/images/animals/eggs/eggTrio_icon.jpg" />
+            </div>
+            <div class="content">
+                <div class="header">Empty room</div>
+                <div class="description">There is room for another pet in this house</div>
+            </div>
+            <div class="extra content">
+                <a class="ui button large fluid orange" asp-controller="Store" asp-action="Index">
+                    Buy
+                    <i class="icon shop"></i>
+                </a>
+            </div>
         </div>
-        <div class="content">
-            <div class="header">Empty room</div>
-            <div class="description">There is room for another pet in this house</div>
-        </div>
-        <div class="extra content">
-            <a class="ui button large fluid orange" asp-controller="Store" asp-action="Index">
-                Buy
-                <i class="icon shop"></i>
-            </a>
-        </div>
-    </div>
+    }
+  
 </div>

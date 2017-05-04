@@ -13,7 +13,7 @@ namespace ItsyBits.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");
+                .HasAnnotation("ProductVersion", "1.1.1");
 
             modelBuilder.Entity("ItsyBits.Models.Animal", b =>
                 {
@@ -218,11 +218,11 @@ namespace ItsyBits.Migrations
 
                     b.Property<string>("Image");
 
+                    b.Property<bool>("IsRead");
+
                     b.Property<string>("Link");
 
                     b.Property<string>("Message");
-
-                    b.Property<bool>("Read");
 
                     b.Property<string>("Title");
 
@@ -421,7 +421,7 @@ namespace ItsyBits.Migrations
             modelBuilder.Entity("ItsyBits.Models.Building", b =>
                 {
                     b.HasOne("ItsyBits.Models.Plot", "Plot")
-                        .WithMany()
+                        .WithMany("Buildings")
                         .HasForeignKey("PlotId")
                         .OnDelete(DeleteBehavior.Cascade);
 

@@ -29,7 +29,6 @@ namespace ItsyBits.Controllers {
                 .Include(b => b.Animals)
                 .ThenInclude(a => a.Type)
                 .AsEnumerable()
-                .SelectMany(b => b.Animals)
             );
         }
         

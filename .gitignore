@@ -2,8 +2,8 @@
 wwwroot/lib/
 *.min.js
 *.min.css
-appsettings.Production.json
-hosting.json
+appsettings*.json
+!appsettings.Example.json
 Thumbs.db
 
 # .NET Core
