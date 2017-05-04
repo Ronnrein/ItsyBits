@@ -117,7 +117,7 @@ function render(delta) {
 function getData(callback) {
     $.getJSON("/building/plots", function(data) {
         $.each(data, function (i, v) {
-            var image = v.buildings == null ? "empty" : "building" + v.buildings[0].id;
+            var image = v.buildings == null ? "empty" : "building" + v.buildings[0].typeId;
             buildings.push(new Building(
                 new Sprite(
                     "/images/town/" + image + ".png",

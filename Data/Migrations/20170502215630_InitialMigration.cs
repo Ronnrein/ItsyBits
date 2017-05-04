@@ -13,7 +13,7 @@ namespace ItsyBits.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     FeedTime = table.Column<TimeSpan>(nullable: false),
                     LevelMultiplier = table.Column<float>(nullable: false),
                     Name = table.Column<string>(nullable: false),
@@ -31,7 +31,8 @@ namespace ItsyBits.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<string>(nullable: false)
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
                     Currency = table.Column<int>(nullable: false),
@@ -58,7 +59,7 @@ namespace ItsyBits.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     Capacity = table.Column<int>(nullable: false),
                     MaxCapacity = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: false),
@@ -71,11 +72,26 @@ namespace ItsyBits.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Plots",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
+                    Description = table.Column<string>(nullable: true),
+                    PositionX = table.Column<int>(nullable: false),
+                    PositionY = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Plots", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Upgrades",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     CapacityModifier = table.Column<int>(nullable: false),
                     Description = table.Column<string>(nullable: false),
                     FeedModifier = table.Column<float>(nullable: false),
@@ -97,7 +113,8 @@ namespace ItsyBits.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<string>(nullable: false)
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true)
@@ -126,12 +143,12 @@ namespace ItsyBits.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     Created = table.Column<DateTime>(nullable: false),
                     Image = table.Column<string>(nullable: true),
+                    IsRead = table.Column<bool>(nullable: false),
                     Link = table.Column<string>(nullable: true),
                     Message = table.Column<string>(nullable: true),
-                    Read = table.Column<bool>(nullable: false),
                     Title = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true)
                 },
@@ -151,7 +168,7 @@ namespace ItsyBits.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
@@ -192,14 +209,21 @@ namespace ItsyBits.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     Name = table.Column<string>(nullable: false),
+                    PlotId = table.Column<int>(nullable: false),
                     TypeId = table.Column<int>(nullable: false),
                     UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Buildings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Buildings_Plots_PlotId",
+                        column: x => x.PlotId,
+                        principalTable: "Plots",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Buildings_BuildingTypes_TypeId",
                         column: x => x.TypeId,
@@ -219,7 +243,7 @@ namespace ItsyBits.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true),
                     RoleId = table.Column<string>(nullable: false)
@@ -264,7 +288,7 @@ namespace ItsyBits.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     BuildingId = table.Column<int>(nullable: false),
                     Created = table.Column<DateTime>(nullable: false),
                     LastFeed = table.Column<DateTime>(nullable: false),
@@ -297,7 +321,7 @@ namespace ItsyBits.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     BuildingId = table.Column<int>(nullable: false),
                     UpgradeId = table.Column<int>(nullable: false)
                 },
@@ -323,7 +347,7 @@ namespace ItsyBits.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     AnimalId = table.Column<int>(nullable: false),
                     UpgradeId = table.Column<int>(nullable: false)
                 },
@@ -374,6 +398,11 @@ namespace ItsyBits.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Buildings_PlotId",
+                table: "Buildings",
+                column: "PlotId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Buildings_TypeId",
@@ -467,6 +496,9 @@ namespace ItsyBits.Migrations
 
             migrationBuilder.DropTable(
                 name: "AnimalTypes");
+
+            migrationBuilder.DropTable(
+                name: "Plots");
 
             migrationBuilder.DropTable(
                 name: "BuildingTypes");
