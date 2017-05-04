@@ -30,6 +30,7 @@ namespace ItsyBits.Controllers {
             ApplicationUser user = await _userManager.GetUserAsync(User);
             return View(_db.Buildings
                 .Where(b => b.UserId == user.Id)
+                .Include(b => b.Type)
                 .Include(b => b.Animals)
                 .ThenInclude(a => a.Type)
                 .Include(b => b.BuildingUpgrades)
@@ -40,6 +41,7 @@ namespace ItsyBits.Controllers {
         [HttpGet]
         public async Task<IActionResult> Details(int id) {
             Building building = await _db.Buildings
+                .Include(b => b.Type)
                 .Include(b => b.Animals)
                 .ThenInclude(a => a.Type)
                 .Include(b => b.BuildingUpgrades)
