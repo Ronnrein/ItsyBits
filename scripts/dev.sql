@@ -13,6 +13,7 @@ FLUSH PRIVILEGES;
 /*
     Now run 'dotnet ef database update' to migrate the tables
     Afterwards, run this as root on your dev server
+    After this, you can start the server and login using username and password 'admin'
 */
 USE itsybits;
 INSERT INTO `aspnetroles` (`Id`,`ConcurrencyStamp`,`Name`,`NormalizedName`) VALUES (
