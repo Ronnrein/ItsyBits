@@ -15,7 +15,6 @@ namespace ItsyBits
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddEnvironmentVariables(prefix: "ASPNETCORE_")
-                .AddJsonFile("hosting.json", optional: true)
                 .Build();
 
             var host = new WebHostBuilder()

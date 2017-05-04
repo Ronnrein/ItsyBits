@@ -1,6 +1,6 @@
 ﻿@using ItsyBits.Helpers
 @model IEnumerable<Notification>
-@{ int unread = Model.Count(n => !n.Read); }
+@{ int unread = Model.Count(n => !n.IsRead); }
 <div class="ui dropdown item grey" id="notifications-button">
     <i class="alarm icon"></i>
     @if (unread > 0) {
@@ -8,7 +8,7 @@
     }
     <div class="ui menu comments notifications">
         @foreach (Notification notification in Model.OrderByDescending(n => n.Created).Take(5)) {
-            string selected = notification.Read ? "" : "selected";
+            string selected = notification.IsRead ? "" : "selected";
             <div class="comment item @selected">
                 <a class="avatar" href="@notification.Link">
                     <img src="/images/@notification.Image" />
