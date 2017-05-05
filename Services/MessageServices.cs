@@ -35,7 +35,6 @@ namespace ItsyBits.Services
             catch (SocketException e) {
                 Console.WriteLine("Cannot send emails: "+e.Message);
                 Directory.CreateDirectory(@"./bin/mails");
-                Console.WriteLine($@"./bin/mails/{DateTime.Now.Ticks}.eml");
                 mail.WriteTo($@"./bin/mails/{DateTime.Now.Ticks}.eml");
             }
             return Task.FromResult(0);
