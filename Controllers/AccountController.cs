@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using ItsyBits.Data;
+using ItsyBits.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ItsyBits.Models;
 using ItsyBits.Models.AccountViewModels;
+using ItsyBits.Models.ViewModels;
 using ItsyBits.Services;
 
 namespace ItsyBits.Controllers
@@ -71,9 +73,17 @@ namespace ItsyBits.Controllers
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                ApplicationUser user;
                 if (new EmailAddressAttribute().IsValid(model.User)) {
-                    ApplicationUser user = await _userManager.FindByEmailAsync(model.User);
+                    user = await _userManager.FindByEmailAsync(model.User);
                     model.User = user.UserName;
+                }
+                else {
+                    user = await _userManager.FindByNameAsync(model.User);
+                }
+                if (!user.EmailConfirmed) {
+                    TempData.Put("Result", new Result("Email not confirmed!", "Check your email for an activation link to activate your account!", ResultStatus.Error));
+                    return View(model);
                 }
                 var result = await _signInManager.PasswordSignInAsync(model.User, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
@@ -90,9 +100,8 @@ namespace ItsyBits.Controllers
                     _logger.LogWarning(2, "User account locked out.");
                     return View("Lockout");
                 }
-                else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    TempData.Put("Result", new Result("Wrong login!", "Wrong username, email or password!", ResultStatus.Error));
                     return View(model);
                 }
             }
@@ -105,9 +114,8 @@ namespace ItsyBits.Controllers
         // GET: /Account/Register
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Register(string returnUrl = null)
+        public IActionResult Register()
         {
-            ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
 
@@ -116,9 +124,8 @@ namespace ItsyBits.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Currency = 100 };
@@ -147,7 +154,8 @@ namespace ItsyBits.Controllers
                     await _emailSender.SendEmailAsync(model.Email, "Confirm your account", $"Please confirm your account by clicking this link:<br /><a href='{callbackUrl}'>{callbackUrl}</a>");
                     //await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
+                    TempData.Put("Result", new Result("Registered!", "Check your email for an activation link to activate your account!", ResultStatus.Success));
+                    return RedirectToAction("Login");
                 }
                 AddErrors(result);
             }
@@ -164,6 +172,7 @@ namespace ItsyBits.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation(4, "User logged out.");
+            TempData.Put("Result", new Result("Logged out!", "You have logged out. Come back soon!", ResultStatus.Success));
             return RedirectToAction("Login");
         }
 
@@ -259,19 +268,26 @@ namespace ItsyBits.Controllers
         // GET: /Account/ConfirmEmail
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> ConfirmEmail(string userId, string code)
-        {
+        public async Task<IActionResult> ConfirmEmail(string userId, string code) {
+            Result resultMessage = new Result("Invalid confirmation!", "Cannot confirm activation", ResultStatus.Error);
             if (userId == null || code == null)
             {
-                return View("Error");
+                TempData.Put("Result", resultMessage);
+                return View("Login");
             }
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return View("Error");
+                TempData.Put("Result", resultMessage);
+                return View("Login");
             }
             var result = await _userManager.ConfirmEmailAsync(user, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+            if (result.Succeeded) {
+                TempData.Put("Result", new Result("Email confirmed!", "You may now log in using your username and password", ResultStatus.Success));
+                return View("Login");
+            }
+            TempData.Put("Result", resultMessage);
+            return View("Login");
         }
 
         //
@@ -296,7 +312,8 @@ namespace ItsyBits.Controllers
                 if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
-                    return View("ForgotPasswordConfirmation");
+                    TempData.Put("Result", new Result("Password reset!", "Check your email for a reset link to reset your password!", ResultStatus.Success));
+                    return View("Login");
                 }
 
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
@@ -304,7 +321,8 @@ namespace ItsyBits.Controllers
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.Action(nameof(ResetPassword), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                 await _emailSender.SendEmailAsync(model.Email, "Reset Password", $"Please reset your password by clicking here:<br /><a href='{callbackUrl}'>{callbackUrl}</a>");
-                return View("ForgotPasswordConfirmation");
+                TempData.Put("Result", new Result("Password reset!", "Check your email for a reset link to reset your password!", ResultStatus.Success));
+                return View("Login");
             }
 
             // If we got this far, something failed, redisplay form
@@ -344,12 +362,14 @@ namespace ItsyBits.Controllers
             if (user == null)
             {
                 // Don't reveal that the user does not exist
-                return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
+                TempData.Put("Result", new Result("Password reset!", "Check your email for a reset link to reset your password!", ResultStatus.Success));
+                return RedirectToAction("Login");
             }
             var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
             if (result.Succeeded)
             {
-                return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
+                TempData.Put("Result", new Result("Password reset!", "Check your email for a reset link to reset your password!", ResultStatus.Success));
+                return RedirectToAction("Login");
             }
             AddErrors(result);
             return View();

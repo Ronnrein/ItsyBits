@@ -10,7 +10,7 @@
                 <div id="loginform" class="ui segment form">
                     <img class="Logo" src="~/images/ItsyBitsLogo.png" />
                     <h2 id="play">Login to play!</h2>
-                    <div asp-validation-summary="All"></div>
+                    @await Html.PartialAsync("_ResultPartial")
                     <div class="field">
                         <span asp-validation-for="User" class="ui orange left pointing label"></span>
                         <input asp-for="User" type="text" placeholder="Username or email" />

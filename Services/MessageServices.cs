@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MimeKit;
@@ -22,11 +24,18 @@ namespace ItsyBits.Services
             mail.Body = new TextPart("html") {
                 Text = message
             };
-            using (SmtpClient client = new SmtpClient()) {
-                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                client.Connect("127.0.0.1", 25, false);
-                client.Send(mail);
-                client.Disconnect(true);
+            try {
+                using (SmtpClient client = new SmtpClient()) {
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    client.Connect("127.0.0.1", 25, false);
+                    client.Send(mail);
+                    client.Disconnect(true);
+                }
+            }
+            catch (SocketException e) {
+                Console.WriteLine("Cannot send emails: "+e.Message);
+                Directory.CreateDirectory(@"./bin/mails");
+                mail.WriteTo($@"./bin/mails/{DateTime.Now.Ticks}.eml");
             }
             return Task.FromResult(0);
         }
