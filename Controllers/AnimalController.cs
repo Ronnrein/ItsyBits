@@ -62,6 +62,9 @@ namespace ItsyBits.Controllers {
             if (animal == null) {
                 return NotFound();
             }
+            if (animal.DeathTime == null) {
+                return RedirectToAction("Details", new { id = animal.Id });
+            }
             ApplicationUser user = await _userManager.GetUserAsync(User);
             if (user.Id != animal.Building.UserId) {
                 return Unauthorized();
