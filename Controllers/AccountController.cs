@@ -81,14 +81,13 @@ namespace ItsyBits.Controllers
                 else {
                     user = await _userManager.FindByNameAsync(model.User);
                 }
-                if (!user.EmailConfirmed) {
+                if (user != null && !user.EmailConfirmed) {
                     TempData.Put("Result", new Result("Email not confirmed!", "Check your email for an activation link to activate your account!", ResultStatus.Error));
                     return View(model);
                 }
                 var result = await _signInManager.PasswordSignInAsync(model.User, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation(1, "User logged in.");
                     return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -97,7 +96,6 @@ namespace ItsyBits.Controllers
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning(2, "User account locked out.");
                     return View("Lockout");
                 }
                 {
@@ -153,7 +151,6 @@ namespace ItsyBits.Controllers
                     var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                     await _emailSender.SendEmailAsync(model.Email, "Confirm your account", $"Please confirm your account by clicking this link:<br /><a href='{callbackUrl}'>{callbackUrl}</a>");
                     //await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation(3, "User created a new account with password.");
                     TempData.Put("Result", new Result("Registered!", "Check your email for an activation link to activate your account!", ResultStatus.Success));
                     return RedirectToAction("Login");
                 }
@@ -171,7 +168,6 @@ namespace ItsyBits.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            _logger.LogInformation(4, "User logged out.");
             TempData.Put("Result", new Result("Logged out!", "You have logged out. Come back soon!", ResultStatus.Success));
             return RedirectToAction("Login");
         }
