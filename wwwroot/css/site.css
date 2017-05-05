@@ -104,6 +104,7 @@
 
 .notifications {
     max-width: 300px !important;
+    font-size: 15px !important;
 }
 
 .notifications div.text {

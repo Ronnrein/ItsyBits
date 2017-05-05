@@ -1,0 +1,10 @@
+﻿@model Animal
+<h1>Recover @Model.Name</h1>
+<div class="ui container">
+    <img class="ui centered big image" src="~/images/animals/@Model.Type.SpritePath/full.png" />
+</div>
+<form class="ui massive form" method="post">
+    <input type="submit" class="ui orange button" value="Recover" />
+    <a asp-controller="Animal" asp-action="Index" class="ui default button">Back</a>
+</form>
+
