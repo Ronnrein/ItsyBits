@@ -43,11 +43,55 @@ namespace ItsyBits.Controllers {
             if (animal == null) {
                 return NotFound();
             }
+            if (animal.DeathTime != null) {
+                return RedirectToAction("Recover", new { id = animal.Id });
+            }
             ApplicationUser user = await _userManager.GetUserAsync(User);
             if (user.Id != animal.Building.UserId) {
                 return Unauthorized();
             }
             return View(animal);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Recover(int id) {
+            Animal animal = await _db.Animals
+                .Include(a => a.Building)
+                .Include(a => a.Type)
+                .SingleOrDefaultAsync(a => a.Id == id);
+            if (animal == null) {
+                return NotFound();
+            }
+            if (animal.DeathTime == null) {
+                return RedirectToAction("Details", new { id = animal.Id });
+            }
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            if (user.Id != animal.Building.UserId) {
+                return Unauthorized();
+            }
+            return View(animal);
+        }
+
+        [HttpPost, ActionName("Recover")]
+        public async Task<IActionResult> RecoverAnimal(int id) {
+            Animal animal = await _db.Animals
+                .Include(a => a.Building)
+                .Include(a => a.Type)
+                .SingleOrDefaultAsync(a => a.Id == id);
+            if (animal == null) {
+                return NotFound();
+            }
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            if (user.Id != animal.Building.UserId) {
+                return Unauthorized();
+            }
+            animal.DeathTime = null;
+            animal.LastFeed = DateTime.Now;
+            animal.LastPet = DateTime.Now;
+            animal.LastSleep = DateTime.Now;
+            _db.Update(animal);
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Details", new { id = animal.Id });
         }
 
         [HttpPost]

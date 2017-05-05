@@ -66,6 +66,12 @@ namespace ItsyBits.Models {
         public AnimalType Type { get; set; }
 
         /// <summary>
+        /// Time of death
+        /// </summary>
+        [ScaffoldColumn(false)]
+        public DateTime? DeathTime { get; set; }
+
+        /// <summary>
         /// Id of type of animal
         /// </summary>
         [ForeignKey("Type")]
@@ -143,6 +149,9 @@ namespace ItsyBits.Models {
         /// </summary>
         /// <returns>Current status of animal</returns>
         public string GetStatusText() {
+            if (DeathTime != null) {
+                return "I ran away!";
+            }
             if(new[] {FeedPercentage, SleepPercentage, PetPercentage}.All(s => s >= 80)) {
                 return "I'm happy ^_^";
             }

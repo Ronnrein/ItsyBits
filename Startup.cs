@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Hangfire;
 using Hangfire.Common;
+using Hangfire.Dashboard;
 using Hangfire.MySql;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -79,7 +80,7 @@ namespace ItsyBits
             // Hangfire
             services.AddHangfire(o => o.UseStorage(new MySqlStorage(Configuration.GetConnectionString("Hangfire"))));
             JobHelper.SetSerializerSettings(new JsonSerializerSettings{ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
-            services.AddTransient<DailyUserRewards>();
+            services.AddTransient<ScheduledTasks>();
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -109,11 +110,10 @@ namespace ItsyBits
             app.UseIdentity();
 
             // Hangfire
-            app.UseHangfireDashboard();
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions { Authorization = new [] { new RoleAuthorizationFilter() } });
             app.UseHangfireServer();
-            //RecurringJob.AddOrUpdate(() => ApplicationUser.AwardDailyCurrency(app.ApplicationServices.GetService<ApplicationDbContext>()), Cron.Minutely);
-            RecurringJob.AddOrUpdate<DailyUserRewards>(x => x.Reward(), Cron.Minutely);
-
+            RecurringJob.AddOrUpdate<ScheduledTasks>(x => x.AwardUserCoins(), Cron.Daily(0));
+            RecurringJob.AddOrUpdate<ScheduledTasks>(x => x.CheckAnimalHealth(), Cron.Hourly(0));
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 
             app.UseSession();
