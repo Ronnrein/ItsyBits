@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ItsyBits.Models;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace ItsyBits.Data {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser> {
@@ -17,5 +18,19 @@ namespace ItsyBits.Data {
         public virtual DbSet<Plot> Plots { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options) {}
+
+        protected override void OnModelCreating(ModelBuilder builder) {
+            builder.Entity<ApplicationUser>()
+                .HasMany(u => u.Buildings)
+                .WithOne(b => b.User)
+                .HasForeignKey(b => b.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<ApplicationUser>()
+                .HasMany(u => u.Notifications)
+                .WithOne(n => n.User)
+                .HasForeignKey(n => n.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+            base.OnModelCreating(builder);
+        }
     }
 }
