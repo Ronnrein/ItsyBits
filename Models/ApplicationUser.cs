@@ -41,6 +41,15 @@ namespace ItsyBits.Models {
         /// Overall happiness of all users animals
         /// </summary>
         public int HappinessPercentage => Buildings == null || Buildings.Count == 0 ? 0 : (int) Buildings.Where(b => b.Animals.Count > 0).Average(a => a.HappinessPercentage);
+
+        /// <summary>
+        /// Check which of the supplied plots are available for user
+        /// </summary>
+        /// <param name="plots">The plots to check</param>
+        /// <returns>The available plots</returns>
+        public IEnumerable<Plot> GetAvailablePlots(IEnumerable<Plot> plots) {
+            return plots.Where(p => Buildings.All(b => b.PlotId != p.Id));
+        }
     }
     
 }
