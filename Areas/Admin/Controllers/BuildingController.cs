@@ -48,7 +48,7 @@ namespace ItsyBits.Areas.Admin.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,UserId,TypeId")] Building building) {
+        public async Task<IActionResult> Create(Building building) {
             if (!ModelState.IsValid) {
                 ViewData["TypeId"] = new SelectList(_db.BuildingTypes, "Id", "Name", building.TypeId);
                 ViewData["UserId"] = new SelectList(_db.Users, "Id", "UserName", building.UserId);

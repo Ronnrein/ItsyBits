@@ -100,15 +100,32 @@ namespace ItsyBits.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> Building(int id) {
+            ApplicationUser user = await _db.Users
+                .Include(u => u.Buildings)
+                .SingleOrDefaultAsync(u => u.Id == _userManager.GetUserId(User)
+            );
+            IEnumerable<Plot> plots = user.GetAvailablePlots(_db.Plots);
+            if (!plots.Any()) {
+                TempData.Put("Result", new Result("No plots!", "There are no available plots to place your buildings!", ResultStatus.Error));
+                return RedirectToAction("Index");
+            }
             ViewData["BuildingType"] = await _db.BuildingTypes.SingleOrDefaultAsync(a => a.Id == id);
+            ViewData["BuildingPlot"] = plots;
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Building(int id, Building building) {
+            Result error = null;
             if (string.IsNullOrWhiteSpace(building.Name)) {
-                TempData.Put("Result", new Result("No name!", "You have to call your animal something!", ResultStatus.Error));
-                RedirectToAction("Building", new {id});
+                error = new Result("No name!", "You have to call your animal something!", ResultStatus.Error);
+            }
+            if (building.PlotId == 0) {
+                error = new Result("No plot!", "You have to select a plot for your building!", ResultStatus.Error);
+            }
+            if (error != null) {
+                TempData.Put("Result", error);
+                RedirectToAction("Building", new { id });
             }
             ApplicationUser user = await _userManager.GetUserAsync(User);
             BuildingType type = await _db.BuildingTypes.SingleOrDefaultAsync(bt => bt.Id == id);
