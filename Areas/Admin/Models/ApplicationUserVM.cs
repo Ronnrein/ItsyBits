@@ -9,7 +9,7 @@ namespace ItsyBits.Areas.Admin.Models {
 
         public virtual string NewPassword { get; set; }
 
-        public virtual string Role { get; set; }
+        public virtual bool IsAdmin { get; set; }
 
     }
 }
