@@ -14,7 +14,6 @@
                     <div class="field">
                         <span asp-validation-for="User" class="ui orange left pointing label"></span>
                         <input asp-for="User" type="text" placeholder="Username or email" />
-                        <!--Style test for the validation messages. Remove after adding properly. May need to use Jquery to properly place the messages outside of the field?-->
                     </div>
                     <div class="field">
                         <span asp-validation-for="Password" class="ui orange left pointing label"></span>
@@ -25,7 +24,6 @@
                             <input asp-for="RememberMe" />
                             <label>Remember me</label>
                         </div>
-                        <!-- the action "ForgotPassword" currently doesn't take you anywhere - does not currently load the ForgotPassword view-->
                         <a class="right" asp-action="ForgotPassword">Forgot your password?</a>
                     </div>
                     <div class="field">
