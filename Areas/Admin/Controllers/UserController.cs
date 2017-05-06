@@ -76,7 +76,8 @@ namespace ItsyBits.Areas.Admin.Controllers {
                 TwoFactorEnabled = user.TwoFactorEnabled,
                 LockoutEnd = user.LockoutEnd,
                 LockoutEnabled = user.LockoutEnabled,
-                Currency = user.Currency
+                Currency = user.Currency,
+                IsAdmin = await _userManager.IsInRoleAsync(user, "Administrator")
             });
         }
 
@@ -125,5 +126,17 @@ namespace ItsyBits.Areas.Admin.Controllers {
             await _userManager.DeleteAsync(user);
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> ToggleAdmin(string id) {
+            ApplicationUser user = await _userManager.FindByIdAsync(id);
+            if (await _userManager.IsInRoleAsync(user, "Administrator")) {
+                await _userManager.RemoveFromRoleAsync(user, "Administrator");
+            }
+            else {
+                await _userManager.AddToRoleAsync(user, "Administrator");
+            }
+            return RedirectToAction("Details", new { id });
+        }
+
     }
 }
