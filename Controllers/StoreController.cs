@@ -132,6 +132,9 @@ namespace ItsyBits.Controllers {
             building.UserId = user.Id;
             building.TypeId = id;
             building.Id = 0;
+            _db.Users.Attach(user);
+            user.Currency -= type.Price;
+            _db.Entry(user).Property(u => u.Currency).IsModified = true;
             _db.Add(building);
             _db.Add(new Notification {
                 Message = $"You have a new building!",
@@ -171,12 +174,16 @@ namespace ItsyBits.Controllers {
             upgrade.Id = 0;
             _db.Add(upgrade);
             Upgrade u = await _db.Upgrades.SingleOrDefaultAsync(x => x.Id == id);
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            _db.Users.Attach(user);
+            user.Currency -= u.Price;
+            _db.Entry(user).Property(x => x.Currency).IsModified = true;
             _db.Add(new Notification {
                 Message = $"You upgraded your animal!",
                 Title = "New upgrade!",
                 Image = $"upgrades/"+u.SpritePath,
                 Link = "/animal/"+upgrade.AnimalId,
-                UserId = _userManager.GetUserId(User)
+                UserId = user.Id
             });
             await _db.SaveChangesAsync();
             return RedirectToAction("Details", "Animal", new { id = upgrade.AnimalId });
@@ -218,13 +225,17 @@ namespace ItsyBits.Controllers {
             }
             buildingUpgrade.UpgradeId = id;
             buildingUpgrade.Id = 0;
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            _db.Users.Attach(user);
+            user.Currency -= upgrade.Price;
+            _db.Entry(user).Property(x => x.Currency).IsModified = true;
             _db.Add(buildingUpgrade);
             _db.Add(new Notification {
                 Message = $"You upgraded your building!",
                 Title = "New upgrade!",
                 Image = $"upgrades/" + upgrade.SpritePath,
                 Link = "/building/" + buildingUpgrade.BuildingId,
-                UserId = _userManager.GetUserId(User)
+                UserId = user.Id
             });
             await _db.SaveChangesAsync();
             return RedirectToAction("Details", "Building", new { id = buildingUpgrade.BuildingId });
