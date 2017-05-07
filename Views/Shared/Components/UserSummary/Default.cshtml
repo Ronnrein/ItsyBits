@@ -1,26 +1,52 @@
 ﻿@model ApplicationUser
-<div class="well">
-    <h4>@Model.UserName</h4>
-    <table class="table">
-        <tr>
-            <td>
-                <p>Total buildings:</p></td>
-            <td>@Model.Buildings.Count</td>
-        </tr>
-        <tr>
-            <td>
-                <p>Total animals:</p></td>
-            <td>@Model.Animals.Count()</td>
-        </tr>
-        <tr>
-            <td>
-                <p>Happiness</p>
-            </td>
-            <td>
-                <div class="progress">
-                    <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" style="width: @Model.HappinessPercentage%">@Model.HappinessPercentage%</div>
-                </div>
-            </td>
-        </tr>
-    </table>
+<div class="info">
+    <h3>Hi @Model.UserName!</h3>
+    <div class="ui divider"></div>
+    <h4>Here are your stats:</h4>
+    <div class="ui relaxed celled list">
+        <div class="item">Total animals: @Model.Animals.Count()</div>
+        <div class="item">Total buildings: @Model.Buildings.Count </div>
+        <div class="item">Total animal happiness: @Model.HappinessPercentage%</div>
+        <div class="item">My money: @Model.Currency</div>
+    </div>
 </div>
+<a class="ui link card" asp-controller="Animal" asp-action="Index"> 
+    <div class="content">
+        <div class="header">
+            Pets
+            <i class="right floated paw icon"></i>
+        </div>
+        <div class="description">
+            You have @Model.Animals.Count() pets!
+            
+        </div>
+    </div>
+    <div class="extra content">
+        <div class="ui small progress progressbar" data-content="@Model.HappinessPercentage%" data-value="@Model.HappinessPercentage" data-total="100">
+            <div class="bar">
+                <div class="progress"></div>
+            </div>
+            <div class="label">Overall animal happiness</div>
+        </div>
+    </div>
+</a>
+<div class="ui card shop">
+    <div class="content">
+        <div class="header">
+            My stats
+        </div>
+        <div class="description">
+            <div class="item">Total animals: @Model.Animals.Count()</div>
+            <div class="item">Total buildings: @Model.Buildings.Count </div>
+            <div class="item">Total animal happiness: @Model.HappinessPercentage%</div>
+        </div>
+    </div>
+    <div class="extra content">
+        <div class="ui small progress progressbar tooltip" data-content="@Model.HappinessPercentage%" data-value="@Model.HappinessPercentage" data-total="100">
+            <div class="bar"></div>
+            <div class="label">Overall animal happiness</div>
+        </div>
+    </div>
+</div>
+    <!-- Things to include: my stats: currency, amount of pets, amount of houses/total capacity
+        "News"- collection of latest notifications since last login (?), overall pet hapiness-->
