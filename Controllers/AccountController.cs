@@ -16,6 +16,7 @@ using ItsyBits.Models;
 using ItsyBits.Models.AccountViewModels;
 using ItsyBits.Models.ViewModels;
 using ItsyBits.Services;
+using Microsoft.Extensions.Configuration;
 
 namespace ItsyBits.Controllers
 {
@@ -29,6 +30,7 @@ namespace ItsyBits.Controllers
         private readonly ILogger _logger;
         private readonly string _externalCookieScheme;
         private readonly ApplicationDbContext _db;
+        private readonly IConfiguration _config;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -37,7 +39,8 @@ namespace ItsyBits.Controllers
             IEmailSender emailSender,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory,
-            ApplicationDbContext db)
+            ApplicationDbContext db,
+            IConfiguration config)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -46,6 +49,7 @@ namespace ItsyBits.Controllers
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
             _db = db;
+            _config = config;
         }
 
         //
@@ -126,7 +130,7 @@ namespace ItsyBits.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Currency = 100 };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Currency = int.Parse(_config["StartingCoin"]) };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 BuildingType type = _db.BuildingTypes.OrderBy(bt => bt.Capacity).First();
                 _db.Add(new Building {
