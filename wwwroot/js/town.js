@@ -117,13 +117,13 @@ function render(delta) {
 function getData(callback) {
     $.getJSON("/building/plots", function(data) {
         $.each(data, function (i, v) {
-            var image = v.buildings == null ? "empty" : "building" + v.buildings[0].typeId;
+            var image = "/images/" + (v.buildings == null ? "town/empty" : "buildings/" + v.buildings[0].type.spritePath + "/town");
             buildings.push(new Building(
                 new Sprite(
-                    "/images/town/" + image + ".png",
+                    image + ".png",
                     new Vector2(v.positionX, v.positionY),
                     null,
-                    "/images/town/" + image + "hover.png"
+                    image + "hover.png"
                 ),
                 "/building/details/" + v.id
             ));

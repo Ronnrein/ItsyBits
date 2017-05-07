@@ -79,7 +79,7 @@ namespace ItsyBits.Controllers {
         [HttpGet]
         public IActionResult Plots() {
             string userId = _userManager.GetUserId(User);
-            IEnumerable<Building> buildings = _db.Buildings.Where(b => b.UserId == userId);
+            IEnumerable<Building> buildings = _db.Buildings.Where(b => b.UserId == userId).Include(b => b.Type);
             IEnumerable<Plot> plots = _db.Plots;
             foreach (Plot plot in plots) {
                 Building building = buildings.SingleOrDefault(b => b.PlotId == plot.Id);
