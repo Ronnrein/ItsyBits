@@ -1,7 +1,7 @@
 ﻿@using ItsyBits.Helpers
 @model IEnumerable<Notification>
 @{ int unread = Model.Count(n => !n.IsRead); }
-<div class="ui dropdown item grey" id="notifications-button">
+<div class="ui pointing dropdown top right item grey" id="notifications-button">
     <i class="alarm icon"></i>
     @if (unread > 0) {
         <div class="floating ui red circular mini label" id="notification-count">@unread</div>

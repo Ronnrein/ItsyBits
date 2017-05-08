@@ -16,12 +16,17 @@
 .Main-body {
     background-color: #97B895;
 }
+
+.account-form {
+    margin-top: 20px !important;
+    background-color: rgba(232,232,232,0.8) !important;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+    border-radius: 25px !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+}
+
 #loginform {
-    margin-top: 20px;
-    background-color: rgba(232,232,232,0.8);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    border-radius: 25px;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-top: 200px
 }
 
 .Logo {
@@ -29,6 +34,10 @@
     margin: auto;
     margin-top: 10px;
     margin-bottom: 10px;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    margin-left: -127px;
 }
 
 .left {
@@ -39,7 +48,7 @@
 .right {
     float: right;
 }
-#play {
+.account-header {
     font-family: IBfont;
     font-size: 37px;
     color: #F7931E;
@@ -115,20 +124,54 @@
     cursor: default !important;
 }
 
-.ui.inverted.blue.menu {
-    font-family: IBfont;
-    font-size:18px;
-    background-color: #F7931E;
+.navigation {
+    font-family: IBfont !important;
+    background-color: #F7931E !important;
+    margin-top: 0 !important;
 }
 
-#logo-container {
-    padding: 5px;
+.navigation .item {
+    color: white !important;
+    text-shadow: 1px 1px 2px #000000;
 }
+
+.logo-container {
+    padding: 5px !important;
+}
+
+.sidebar .logo-container img {
+    margin: 40px !important;
+}
+
 #ibfoot{
     position:absolute;
+}
+
+#account-footer {
+    position: absolute;
+    bottom: 0;
+    z-index: -1;
 }
 
 @font-face {
     font-family: "IBfont";
     src:url('Grinched 2.0.ttf');
+}
+
+@media(min-width: 1024px) {
+    #computer-navbar {
+        display: flex !important;
+    }
+    #mobile-navbar {
+        display: none !important;
+    }
+}
+
+@media(max-width: 1023px) {
+    #mobile-navbar {
+        display: flex !important;
+    }
+    #computer-navbar {
+        display: none !important;
+    }
 }

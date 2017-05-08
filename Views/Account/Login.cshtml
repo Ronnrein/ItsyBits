@@ -3,41 +3,42 @@
     ViewData["Title"] = "Login";
     Layout = "_BasicLayout";
 }
-<body class="Account-body">
-    <div class="ui one column center aligned grid">
-        <div  class="column six wide">
-            <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" role="form">
-                <div id="loginform" class="ui segment form">
-                    <img class="Logo" src="~/images/ItsyBitsLogo.png" />
-                    <h2 id="play">Login to play!</h2>
-                    @await Html.PartialAsync("_ResultPartial")
-                    <div class="field">
-                        <span asp-validation-for="User" class="ui orange left pointing label"></span>
-                        <input asp-for="User" type="text" placeholder="Username or email" />
-                    </div>
-                    <div class="field">
-                        <span asp-validation-for="Password" class="ui orange left pointing label"></span>
-                        <input asp-for="Password" type="password" placeholder="Password">
-                    </div>
-                    <div class="clearfix login-options">    
-                        <div class="ui checkbox left">
-                            <input asp-for="RememberMe" />
-                            <label>Remember me</label>
-                        </div>
-                        <a class="right" asp-action="ForgotPassword">Forgot your password?</a>
-                    </div>
-                    <div class="field">
-                        <input type="submit" value="Login" class="ui button large fluid green">
-                    </div>
-                    <div class="ui horizontal divider">
-                        Or
-                    </div>
-                    <div>
-                        <a class="ui button large fluid orange" asp-action="Register">Register</a>
-                    </div>
+<div class="ui three column stackable grid">
+    <div class="column"></div>
+    <div class="column">
+        <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" role="form">
+            <div id="loginform" class="ui segment form account-form">
+                <img class="Logo" src="~/images/ItsyBitsLogo.png" />
+                <h2 class="account-header">Login to play!</h2>
+                @await Html.PartialAsync("_ResultPartial")
+                <div asp-validation-summary="All"></div>
+                <div class="field">
+                    <span asp-validation-for="User" class="ui orange left pointing label"></span>
+                    <input asp-for="User" type="text" placeholder="Username or email" />
                 </div>
-            </form>
-        </div>
+                <div class="field">
+                    <span asp-validation-for="Password" class="ui orange left pointing label"></span>
+                    <input asp-for="Password" type="password" placeholder="Password">
+                </div>
+                <div class="clearfix login-options">
+                    <div class="ui checkbox left">
+                        <input asp-for="RememberMe" />
+                        <label>Remember me</label>
+                    </div>
+                    <a class="right" asp-action="ForgotPassword">Forgot your password?</a>
+                </div>
+                <div class="field">
+                    <input type="submit" value="Login" class="ui button large fluid green">
+                </div>
+                <div class="ui horizontal divider">
+                    Or
+                </div>
+                <div>
+                    <a class="ui button large fluid orange" asp-action="Register">Register</a>
+                </div>
+            </div>
+        </form>
     </div>
-    @Html.Partial("_AboutPartial")
-</body>
+    <div class="column"></div>
+</div>
+@Html.Partial("_AboutPartial")

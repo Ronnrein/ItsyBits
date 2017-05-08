@@ -167,8 +167,7 @@ namespace ItsyBits.Controllers
 
         //
         // POST: /Account/Logout
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpGet]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
@@ -475,7 +474,6 @@ namespace ItsyBits.Controllers
             }
             if (result.IsLockedOut)
             {
-                _logger.LogWarning(7, "User account locked out.");
                 return View("Lockout");
             }
             else

@@ -4,6 +4,7 @@ $(document).ready(function () {
     $(".progressbar").progress();
     $(".tooltip").popup();
     $(".dropdown").dropdown();
+    $(".ui.sidebar").sidebar("attach events", "#sidebar-button");
     $(".message .close").on("click", function () {
         $(this).closest(".message").transition("fade");
     });
