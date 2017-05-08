@@ -1,6 +1,11 @@
 ﻿@model IEnumerable<Building>
 @{ ViewData["Title"] = "My animals"; }
 <h2>@ViewData["Title"]</h2>
-@foreach (Building building in Model) {
-    @Html.Partial("/Views/Building/_BuildingDetailsPartial.cshtml", building)
+@foreach (Building building in Model.Where(b => b.Animals.Count != 0)) {
+    <h3>My animals in @building.Name</h3>
+    <div class="ui cards">
+        @foreach (Animal animal in building.Animals) {
+            @Html.Partial("/Views/Animal/_AnimalCardPartial.cshtml", animal)
+        }
+    </div>
 }

@@ -1,10 +1,11 @@
-$(document).ready(function () {
+$(document).ready(function() {
 
     // Semantic events
     $(".progressbar").progress();
     $(".tooltip").popup();
     $(".dropdown").dropdown();
     $(".ui.sidebar").sidebar("attach events", "#sidebar-button");
+    $(".tabular .item").tab();
     $(".message .close").on("click", function () {
         $(this).closest(".message").transition("fade");
     });

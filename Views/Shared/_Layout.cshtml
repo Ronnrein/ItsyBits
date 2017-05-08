@@ -7,17 +7,13 @@
 @await Html.PartialAsync("_SidebarPartial")
 <div class="pusher">
     @await Html.PartialAsync("_NavigationPartial")
-    <div class="ui grid centered stackable">
-        <div class="four wide column">
-            <div class="ui segment">
-                @await Component.InvokeAsync("BuildingSummary")
-            </div>
+    <div class="ui equal width padded grid">
+        <div class="computer tablet only column left-column">
+            @await Component.InvokeAsync("UserSummary")
         </div>
-        <div class="eleven wide column">
-            <div class="ui segment">
-                @await Html.PartialAsync("_ResultPartial")
-                @RenderBody()
-            </div>
+        <div class="column">
+            @await Html.PartialAsync("_ResultPartial")
+            @RenderBody()
         </div>
     </div>
     @await Html.PartialAsync("_ScriptsPartial")
