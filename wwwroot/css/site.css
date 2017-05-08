@@ -123,14 +123,14 @@
     cursor: default !important;
 }
 
-.ui.stackable.inverted.menu {
-    font-family: IBfont;
-    font-size:18px;
-    background-color: #F7931E;
+.navigation {
+    font-family: IBfont !important;
+    background-color: #F7931E !important;
+    margin-top: 0 !important;
 }
 
-#logo-container {
-    padding: 5px;
+.logo-container {
+    padding: 5px !important;
 }
 #ibfoot{
     position:absolute;
@@ -142,9 +142,25 @@
     z-index: -1;
 }
 
-
 @font-face {
     font-family: "IBfont";
     src:url('Grinched 2.0.ttf');
 }
 
+@media(min-width: 1024px) {
+    #computer-navbar {
+        display: flex !important;
+    }
+    #mobile-navbar {
+        display: none !important;
+    }
+}
+
+@media(max-width: 1023px) {
+    #mobile-navbar {
+        display: flex !important;
+    }
+    #computer-navbar {
+        display: none !important;
+    }
+}

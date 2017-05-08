@@ -4,6 +4,8 @@
     @await Html.PartialAsync("_HeadPartial")
 </head>
 <body class="Main-body">
+@await Html.PartialAsync("_SidebarPartial")
+<div class="pusher">
     @await Html.PartialAsync("_NavigationPartial")
     <div class="ui grid centered stackable">
         <div class="four wide column">
@@ -20,5 +22,6 @@
     </div>
     @await Html.PartialAsync("_ScriptsPartial")
     @RenderSection("scripts", required: false)
+</div>
 </body>
 </html>
