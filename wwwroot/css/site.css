@@ -129,9 +129,19 @@
     margin-top: 0 !important;
 }
 
+.navigation .item {
+    color: white !important;
+    text-shadow: 1px 1px 2px #000000;
+}
+
 .logo-container {
     padding: 5px !important;
 }
+
+.sidebar .logo-container img {
+    margin: 40px !important;
+}
+
 #ibfoot{
     position:absolute;
 }
