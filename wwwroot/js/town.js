@@ -7,11 +7,12 @@ var buildings = [
 ];
 var sprites = [
     new Sprite("/images/misc/coin.png", new Vector2(400, 500), new Animation(10, 1, 10, 50)),
-    new Sprite("/images/misc/dance.png", new Vector2(400, 400), new Animation(8, 10, 80, 50))
+    new Sprite("/images/misc/dance.png", new Vector2(400, 400), new Animation(8, 10, 80, 50)),
+    //new Sprite("/images/misc/swaying_tree.png", new Vector2(20, 20), new Animation(2, 1, 2, 200)) Spritesheet needs to be fixed for further testing
 ];
 var scaleFactor = 1.05;
 var backgroundColor = "#9DCF3B";
-var minScale = 0.3;
+var minScale = 0.5;
 var maxScale = 1;
 
 // Variables

@@ -9,7 +9,7 @@
     @await Html.PartialAsync("_NavigationPartial")
     <div class="ui equal width padded grid">
         <div class="computer tablet only column left-column">
-            @await Component.InvokeAsync("BuildingSummary")
+            @await Component.InvokeAsync("UserSummary")
         </div>
         <div class="column">
             @await Html.PartialAsync("_ResultPartial")

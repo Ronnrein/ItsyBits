@@ -1,22 +1,29 @@
-﻿@model IEnumerable<Building>
-<h2>Buildings</h2>
-<div class="ui cards centered">
-    @foreach (Building building in Model) {
-        @await Html.PartialAsync("/Views/Building/_BuildingCardPartial.cshtml", building)
-    }
-    
-    <div class="ui card shop">
-        <div class="content">
-            <img class="left floated small rounded ui image" src="~/images/buildings/empty_icon.jpg" />
-            <div class="header">
-                Empty property
+﻿@model ApplicationUser
+<h2>Hi @User</h2>
+<hr />
+
+
+
+@*<div class="ui cards centered">
+        @foreach (Building building in Model) {
+            @await Html.PartialAsync("/Views/Building/_BuildingCardPartial.cshtml", building)
+        }
+
+        <div class="ui card shop">
+            <div class="content">
+                <img class="left floated small rounded ui image" src="~/images/buildings/empty_icon.jpg" />
+                <div class="header">
+                    Empty property
+                </div>
+            </div>
+            <div class="extra content">
+                <a class="ui button large fluid orange" asp-controller="Store" asp-action="Index">
+                Buy
+                <i class="icon shop"></i>
+                </a>
             </div>
         </div>
-        <div class="extra content">
-            <a class="ui button large fluid orange" asp-controller="Store" asp-action="Index">
-            Buy
-            <i class="icon shop"></i>
-            </a>
-        </div>
     </div>
-</div>
+*@
+<!-- Things to include: my stats: currency, amount of pets, amount of houses/total capacity
+    "News"- collection of latest notifications since last login (?), overall pet hapiness-->
