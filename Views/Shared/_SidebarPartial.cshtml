@@ -26,6 +26,9 @@
         <i class="mail icon"></i>
         Contact
     </a>
+    @if (User.IsInRole("Administrator")) {
+        <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="ui item">Admin</a>
+    }
     <a asp-controller="Account" asp-action="Logout" class="ui item">
         <i class="power icon"></i>
         Log out

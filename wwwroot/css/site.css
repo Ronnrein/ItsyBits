@@ -127,11 +127,11 @@
 .navigation {
     font-family: IBfont !important;
     background-color: #F7931E !important;
-    margin-top: 0 !important;
+    margin: 0 !important;
 }
 
 .navigation .item {
-    color: white !important;
+    color: ivory !important;
     text-shadow: 1px 1px 2px #000000;
 }
 
@@ -148,9 +148,15 @@
 }
 
 #account-footer {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     z-index: -1;
+}
+
+.left-column {
+    flex: 0 0 300px !important;
+    box-shadow: 2px 0 5px #888888;
+    background-color: ivory;
 }
 
 @font-face {

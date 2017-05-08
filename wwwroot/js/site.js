@@ -5,6 +5,7 @@ $(document).ready(function () {
     $(".tooltip").popup();
     $(".dropdown").dropdown();
     $(".ui.sidebar").sidebar("attach events", "#sidebar-button");
+    $(".tabular .item").tab();
     $(".message .close").on("click", function () {
         $(this).closest(".message").transition("fade");
     });
