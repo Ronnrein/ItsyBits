@@ -165,6 +165,17 @@ namespace ItsyBits.Models {
         }
 
         /// <summary>
+        /// Gets current reward amount of this pet
+        /// </summary>
+        /// <returns>Coins to reward</returns>
+        public int GetReward() {
+            if (!IsAlive) {
+                return 0;
+            }
+            return (int)(20f * (PetPercentage / 100f));
+        }
+
+        /// <summary>
         /// Calculate the percentage of the stat of the animal
         /// </summary>
         /// <param name="lastTime">Last time the action was taken</param>

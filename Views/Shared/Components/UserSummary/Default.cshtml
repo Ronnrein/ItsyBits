@@ -1,15 +1,11 @@
 ﻿@model ApplicationUser
-<div class="info">
-    <h3>Hi @Model.UserName!</h3>
-    <div class="ui divider"></div>
-    <h4>Here are your stats:</h4>
-    <div class="ui relaxed celled list">
-        <div class="item">Total animals: @Model.Animals.Count()</div>
-        <div class="item">Total buildings: @Model.Buildings.Count </div>
-        <div class="item">Total animal happiness: @Model.HappinessPercentage%</div>
-        <div class="item">My money: @Model.Currency</div>
-    </div>
-</div>
+@{
+    int buildingCapacity = Model.Buildings.Sum(b => b.Capacity);
+    int capacityFilled = (int)((float)Model.Animals.Count() / (float)buildingCapacity * 100f);
+    int coinPotential = (int)((float)Model.Animals.Sum(a => a.GetReward()) / (float)(20 * Model.Animals.Count()) * 100f);
+}
+<h2>Hi @Model.UserName!</h2>
+<div class="ui divider"></div>
 <a class="ui link card" asp-controller="Animal" asp-action="Index"> 
     <div class="content">
         <div class="header">
@@ -17,36 +13,54 @@
             <i class="right floated paw icon"></i>
         </div>
         <div class="description">
-            You have @Model.Animals.Count() pets!
-            
+            <p>You have <b>@Model.Animals.Count()</b> pet@(Model.Animals.Count() == 1 ? "" : "s")</p>
+            @if (Model.Animals.Count() >= 2) {
+                <p>Currently, your happiest pet is <b>@Model.Animals.OrderByDescending(a => a.HappinessPercentage).First().Name</b> and your least happy pet is <b>@Model.Animals.OrderBy(a => a.HappinessPercentage).First().Name</b></p>
+            }
         </div>
     </div>
     <div class="extra content">
-        <div class="ui small progress progressbar" data-content="@Model.HappinessPercentage%" data-value="@Model.HappinessPercentage" data-total="100">
-            <div class="bar">
-                <div class="progress"></div>
-            </div>
-            <div class="label">Overall animal happiness</div>
-        </div>
-    </div>
-</a>
-<div class="ui card shop">
-    <div class="content">
-        <div class="header">
-            My stats
-        </div>
-        <div class="description">
-            <div class="item">Total animals: @Model.Animals.Count()</div>
-            <div class="item">Total buildings: @Model.Buildings.Count </div>
-            <div class="item">Total animal happiness: @Model.HappinessPercentage%</div>
-        </div>
-    </div>
-    <div class="extra content">
-        <div class="ui small progress progressbar tooltip" data-content="@Model.HappinessPercentage%" data-value="@Model.HappinessPercentage" data-total="100">
+        <div class="ui small indicating progress progressbar tooltip" data-content="@Model.HappinessPercentage%" data-value="@Model.HappinessPercentage" data-total="100">
             <div class="bar"></div>
             <div class="label">Overall animal happiness</div>
         </div>
     </div>
-</div>
-    <!-- Things to include: my stats: currency, amount of pets, amount of houses/total capacity
-        "News"- collection of latest notifications since last login (?), overall pet hapiness-->
+</a>
+<div class="ui divider"></div>
+<a class="ui link card" asp-controller="Building" asp-action="Index">
+    <div class="content">
+        <div class="header">
+            Buildings
+            <i class="right floated home icon"></i>
+        </div>
+        <div class="description">
+            <p>You have <b>@Model.Buildings.Count</b> building@(Model.Buildings.Count == 1 ? "" : "s")</p>
+            <p>In total you have room for <b>@buildingCapacity</b> pet@(buildingCapacity == 1 ? "" : "s")</p>
+        </div>
+    </div>
+    <div class="extra content">
+        <div class="ui small progress progressbar tooltip" data-content="@capacityFilled%" data-value="@Model.Animals.Count()" data-total="@buildingCapacity">
+            <div class="bar"></div>
+            <div class="label">Building capacity filled</div>
+        </div>
+    </div>
+</a>
+<a class="ui link card" asp-controller="Store" asp-action="Index">
+    <div class="content">
+        <div class="header">
+            Currency
+            <i class="right floated dollar icon"></i>
+        </div>
+        <div class="description">
+            <p>You currently have @Model.Currency coins</p>
+            <p>Based on current animal happiness, you would get <b>@Model.Animals.Sum(a => a.GetReward())</b> coins from a harvest. Make sure to keep them happy to maximize profits!</p>
+            <p>At maximum happiness, you would get a total of <b>@(20*Model.Animals.Count())</b> coins at harvest</p>
+        </div>
+    </div>
+    <div class="extra content">
+        <div class="ui small indicating progress progressbar tooltip" data-content="@coinPotential%" data-value="@Model.Animals.Sum(a => a.GetReward())" data-total="@(20*Model.Animals.Count())">
+            <div class="bar"></div>
+            <div class="label">Coin potential</div>
+        </div>
+    </div>
+</a>

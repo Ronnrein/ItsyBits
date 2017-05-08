@@ -91,11 +91,12 @@
 }
 
 #town {
-    min-height: 800px;
+    width: 100%;
 }
 
 #canvas {
     cursor: none;
+    width: 100%;
 }
 
 .field .pointing.label {
@@ -118,6 +119,7 @@
 
 .notifications div.text {
     white-space: initial;
+    text-shadow: none;
 }
 
 .notifications .comment {
@@ -128,19 +130,15 @@
     font-family: IBfont !important;
     background-color: #F7931E !important;
     margin: 0 !important;
+    text-shadow: 1px 1px 2px #000000 !important;
 }
 
 .navigation .item {
     color: ivory !important;
-    text-shadow: 1px 1px 2px #000000;
 }
 
 .logo-container {
     padding: 5px !important;
-}
-
-.sidebar .logo-container img {
-    margin: 40px !important;
 }
 
 #ibfoot{
@@ -156,7 +154,7 @@
 .left-column {
     flex: 0 0 300px !important;
     box-shadow: 2px 0 5px #888888;
-    background-color: ivory;
+    background-color: ghostwhite;
 }
 
 @font-face {

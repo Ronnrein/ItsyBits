@@ -25,6 +25,9 @@ namespace ItsyBits.ViewComponents {
                 .ThenInclude(a => a.Type)
                 .Include(u => u.Buildings)
                 .ThenInclude(b => b.Type)
+                .Include(u => u.Buildings)
+                .ThenInclude(b => b.BuildingUpgrades)
+                .ThenInclude(b => b.Upgrade)
                 .Include(u => u.Notifications)
                 .Single(u => u.Id == user.Id)
             );

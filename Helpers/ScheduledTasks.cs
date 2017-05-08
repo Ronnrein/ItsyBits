@@ -27,13 +27,7 @@ namespace ItsyBits.Helpers {
                 .ThenInclude(b => b.Animals)
                 .ThenInclude(a => a.Type);
             foreach (ApplicationUser user in users) {
-                int reward = 0;
-                foreach (Animal animal in user.Animals) {
-                    if (!animal.IsAlive) {
-                        continue;
-                    }
-                    reward += (int)(20f * (animal.PetPercentage / 100f));
-                }
+                int reward = user.Animals.Sum(a => a.GetReward());
                 user.Currency += reward;
                 _db.Update(user);
                 if (reward > 0) {

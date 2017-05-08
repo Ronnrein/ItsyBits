@@ -1,5 +1,6 @@
 ﻿// Options
 var canvasElement = "#canvas";
+var aspectRatio = 2;
 var background = new Sprite("/images/town/background.png", new Vector2(0, 0));
 var cursor = new Sprite("/images/town/cursor.png", new Vector2(-2000, -2000), null, "/images/town/cursorPointer.png");
 var buildings = [
@@ -135,8 +136,9 @@ function getData(callback) {
 
 // Function to resize canvas to its containers size
 function resizeCanvas() {
-    canvas.attr("width", $(canvasContainer).width());
-    canvas.attr("height", $(canvasContainer).height());
+    console.log();
+    ctx.canvas.width = canvas.width();
+    ctx.canvas.height = canvas.width() / aspectRatio;
 }
 
 // Function to load images and assign them to image object
