@@ -156,10 +156,18 @@
     box-shadow: 2px 0 5px #888888;
     background-color: ghostwhite;
 }
+.myh {
+    font-family: cartoon !important;
+}
 
 @font-face {
     font-family: "IBfont";
     src:url('Grinched 2.0.ttf');
+}
+
+@font-face {
+    font-family: "cartoon";
+    src: url('Cartoon_Regular.ttf');
 }
 
 @media(min-width: 1024px) {
