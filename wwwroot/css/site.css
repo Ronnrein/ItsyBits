@@ -13,8 +13,8 @@
     background-size: cover;
 }
 
-.Main-body {
-    background-color: #97B895;
+#Main-body {
+    background-color: #99ccff;
 }
 
 .account-form {
@@ -156,10 +156,7 @@
     box-shadow: 2px 0 5px #888888;
     background-color: ghostwhite;
 }
-.myh {
-    font-family: cartoon !important;
-   
-}
+
 
 @font-face {
     font-family: "IBfont";
@@ -187,4 +184,17 @@
     #computer-navbar {
         display: none !important;
     }
+}
+
+h2.names {
+    font-family: cartoon !important;
+    font-size: 30px !important;
+    text-align: center;
+    color:black;
+}
+.ui.card {
+    background-color: #B5B9A4;
+}
+.ui.cards > .card {
+    background-color: #C4CACE;
 }
