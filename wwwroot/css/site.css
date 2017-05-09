@@ -73,7 +73,7 @@
     background-color: rgba(232,232,232,0.7);
     line-height: 1;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    color: #726D86;
+    color: #2b2c2d;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -158,6 +158,7 @@
 }
 .myh {
     font-family: cartoon !important;
+   
 }
 
 @font-face {
