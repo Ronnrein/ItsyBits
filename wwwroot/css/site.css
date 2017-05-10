@@ -193,8 +193,6 @@ h2.names {
     color:black;
 }
 .ui.card {
-    background-color: #B5B9A4;
 }
-.ui.cards > .card {
-    background-color: #C4CACE;
+#animal-box {
 }
