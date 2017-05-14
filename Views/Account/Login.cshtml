@@ -8,7 +8,7 @@
     <div class="column">
         <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" role="form">
             <div id="loginform" class="ui segment form account-form">
-                <img class="Logo" src="~/images/ItsyBitsLogo.png" />
+                <img class="logo" src="~/images/ItsyBitsLogo.png" />
                 <h2 class="account-header">Login to play!</h2>
                 @await Html.PartialAsync("_ResultPartial")
                 <div asp-validation-summary="All"></div>

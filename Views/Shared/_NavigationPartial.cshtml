@@ -1,4 +1,4 @@
-﻿<div class="ui secondary pointing massive menu navigation" id="computer-navbar">
+﻿<div class="ui pointing massive menu navigation active-check" id="computer-navbar">
     <a asp-controller="Home" asp-action="Index" class="item logo-container"><img src="~/images/ItsyBitsLogo.png" />
     </a>
     <a asp-controller="Home" asp-action="Index" class="item">
@@ -37,7 +37,7 @@
         </a>
     </div>
 </div>
-<div class="ui massive pointing secondary menu navigation" id="mobile-navbar">
+<div class="ui massive pointing secondary menu navigation active-check" id="mobile-navbar">
     <a asp-controller="Home" asp-action="Index" class="item logo-container"><img src="~/images/ItsyBitsLogo.png" /></a>
     <div class="right menu">
         @await Component.InvokeAsync("Notification")
