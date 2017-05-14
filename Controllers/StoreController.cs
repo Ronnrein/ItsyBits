@@ -170,11 +170,17 @@ namespace ItsyBits.Controllers {
                 TempData.Put("Result", new Result("Select an animal!", "You have to select an animal to upgrade!", ResultStatus.Error));
                 return RedirectToAction("AnimalUpgrade", new {id});
             }
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            Upgrade u = await _db.Upgrades.SingleOrDefaultAsync(x => x.Id == id);
+            Animal animal = await _db.Animals
+                .Include(a => a.AnimalUpgrades)
+                .SingleOrDefaultAsync(a => a.Id == upgrade.AnimalId);
+            if (!u.IsStackable && animal.AnimalUpgrades.Any(au => au.UpgradeId == id)) {
+                TempData.Put("Result", new Result("Cannot upgrade further!", "You already upgraded this animal with that upgrade!", ResultStatus.Error));
+                return RedirectToAction("AnimalUpgrade", new { id });
+            }
             upgrade.UpgradeId = id;
             upgrade.Id = 0;
-            _db.Add(upgrade);
-            Upgrade u = await _db.Upgrades.SingleOrDefaultAsync(x => x.Id == id);
-            ApplicationUser user = await _userManager.GetUserAsync(User);
             _db.Users.Attach(user);
             user.Currency -= u.Price;
             _db.Entry(user).Property(x => x.Currency).IsModified = true;
@@ -185,6 +191,7 @@ namespace ItsyBits.Controllers {
                 Link = "/animal/"+upgrade.AnimalId,
                 UserId = user.Id
             });
+            _db.Add(upgrade);
             await _db.SaveChangesAsync();
             return RedirectToAction("Details", "Animal", new { id = upgrade.AnimalId });
         }
@@ -212,6 +219,7 @@ namespace ItsyBits.Controllers {
                 .ThenInclude(bu => bu.Upgrade)
                 .SingleOrDefaultAsync(b => b.Id == buildingUpgrade.BuildingId);
             Upgrade upgrade = await _db.Upgrades.SingleOrDefaultAsync(u => u.Id == id);
+            ApplicationUser user = await _userManager.GetUserAsync(User);
             Result error = null;
             if (buildingUpgrade.BuildingId == 0) {
                 error = new Result("Select a building!", "You have to select a building to upgrade!", ResultStatus.Error);
@@ -219,13 +227,15 @@ namespace ItsyBits.Controllers {
             else if (building.Capacity + upgrade.CapacityModifier > building.Type.MaxCapacity) {
                 error = new Result("Cannot upgrade!", "Your building is already max upgraded!", ResultStatus.Error);
             }
+            else if (!upgrade.IsStackable && building.BuildingUpgrades.Any(bu => bu.UpgradeId == id)) {
+                error = new Result("Cannot upgrade!", "You already upgraded this building with that upgrade!", ResultStatus.Error);
+            }
             if (error != null) {
                 TempData.Put("Result", error);
                 return RedirectToAction("BuildingUpgrade", new { id });
             }
             buildingUpgrade.UpgradeId = id;
             buildingUpgrade.Id = 0;
-            ApplicationUser user = await _userManager.GetUserAsync(User);
             _db.Users.Attach(user);
             user.Currency -= upgrade.Price;
             _db.Entry(user).Property(x => x.Currency).IsModified = true;
