@@ -14,7 +14,7 @@
 }
 
 .main-body {
-    background-color: #97B895;
+    background-color: #99ccff;
 }
 
 .account-form {
@@ -73,7 +73,7 @@
     background-color: rgba(232,232,232,0.7);
     line-height: 1;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    color: #726D86;
+    color: #2b2c2d;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -166,6 +166,11 @@
     src:url('Grinched 2.0.ttf');
 }
 
+@font-face {
+    font-family: "cartoon";
+    src: url('Cartoon_Regular.ttf');
+}
+
 @media(min-width: 1024px) {
     #computer-navbar {
         display: flex !important;
@@ -182,4 +187,11 @@
     #computer-navbar {
         display: none !important;
     }
+}
+
+h2.names {
+    font-family: cartoon !important;
+    font-size: 30px !important;
+    text-align: center;
+    color:black;
 }

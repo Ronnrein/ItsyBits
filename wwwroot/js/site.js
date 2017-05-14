@@ -46,9 +46,7 @@ function clearNotifications() {
 // Sets menu items to be active if links to current page
 function setActiveMenuItem() {
     $(".active-check a.item").each(function () {
-        console.log($(this).attr("href") + " = " + window.location.pathname);
         if ($(this).attr("href") === window.location.pathname) {
-            console.log("SUCCESS");
             $(this).addClass("active");
         }
     });

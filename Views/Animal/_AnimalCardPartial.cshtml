@@ -1,13 +1,13 @@
 ﻿@model Animal
-<a asp-controller="Animal" asp-action="Details" asp-route-id="@Model.Id" class="ui card">
+<a asp-controller="Animal" asp-action="Details" asp-route-id="@Model.Id"  class="ui card">
     <div class="image">
         <img src="~/images/animals/@Model.Type.SpritePath/portrait.png"/>
     </div>
     <div class="content">
-        <div class="header">
+        <h2 class="names">
             @Model.Name
             <i class="@(Model.Male ? "man" : "woman") icon"></i>
-        </div>
+        </h2>
         <div class="meta">
             <p>@Model.Age old</p>
         </div>
