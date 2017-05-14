@@ -40,7 +40,7 @@ namespace ItsyBits.Models {
         /// <summary>
         /// Overall happiness of all users animals
         /// </summary>
-        public int HappinessPercentage => Buildings == null || Buildings.Count == 0 ? 0 : (int) Buildings.Where(b => b.Animals.Count > 0).Average(a => a.HappinessPercentage);
+        public int HappinessPercentage => !Animals.Any() ? 0 : (int)Animals.Average(a => a.HappinessPercentage);
 
         /// <summary>
         /// Check which of the supplied plots are available for user
