@@ -2,7 +2,7 @@
 
     // Options
     var aspectRatio = 2;
-    var background = new Sprite("/images/town/background.png", new Vector2(0, 0));
+    var background = new Sprite("/images/town/background2.png", new Vector2(0, 0));
     var cursor = new Sprite("/images/town/cursor.png", new Vector2(-2000, -2000), null, "/images/town/cursorPointer.png");
     var buildings = [
         new Building(0, new Sprite("/images/town/store.png", new Vector2(1720, 480), null, "/images/town/storehover.png"), "/store")
@@ -12,7 +12,7 @@
         new Sprite("/images/misc/dance.png", new Vector2(400, 400), new Animation(8, 10, 80, 50))
     ];
     var scaleFactor = 1.05;
-    var backgroundColor = "#9DCF3B";
+    var backgroundColor = "#3b7dcf";
     var minScale = 0.3;
     var maxScale = 1;
 
