@@ -1,4 +1,4 @@
-﻿<div class="ui thin sidebar vertical massive menu navigation">
+﻿<div class="ui thin sidebar vertical massive pointing menu navigation active-check">
     <a asp-controller="Home" asp-action="Index" class="item logo-container">
         <img src="~/images/ItsyBitsLogo.png" />
     </a>
@@ -18,16 +18,16 @@
         Store
         <i class="icon shop"></i>
     </a>
-    <a asp-controller="Home" asp-action="About" class="ui item">
+    <a asp-controller="Home" asp-action="About" class="item">
         <i class="info icon"></i>
         About
     </a>
-    <a asp-controller="Home" asp-action="Contact" class="ui item">
+    <a asp-controller="Home" asp-action="Contact" class="item">
         <i class="mail icon"></i>
         Contact
     </a>
     @if (User.IsInRole("Administrator")) {
-        <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="ui item">Admin</a>
+        <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="item">Admin</a>
     }
     <a asp-controller="Account" asp-action="Logout" class="ui item">
         <i class="power icon"></i>
