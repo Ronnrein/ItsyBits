@@ -92,6 +92,7 @@
 
 #town {
     width: 100%;
+    position: relative;
 }
 
 #canvas {
@@ -159,6 +160,12 @@
 
 #computer-navbar .item:before {
     width: 0 !important;
+}
+
+#zoom-buttons {
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 
 @font-face {

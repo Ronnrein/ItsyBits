@@ -15,6 +15,7 @@
     var backgroundColor = "#3b7dcf";
     var minScale = 0.3;
     var maxScale = 1;
+    var buttonZoom = 3;
 
     // Set default settings
     var settings = $.extend({
@@ -39,6 +40,8 @@
     canvas.on("mouseup touchend", mouseUp);
     canvas.on("mousemove touchmove", mouseMove);
     canvas.on("mousewheel DOMMouseScroll", mouseScroll);
+    $("#zoom-in").click(function() { zoom(buttonZoom) });
+    $("#zoom-out").click(function() { zoom(-buttonZoom) });
 
     // Load images
     getData(function () {
@@ -167,7 +170,7 @@
     }
 
     // Gets called when mouse button is released
-    function mouseUp(e) {
+    function mouseUp() {
         dragStartPosition = null;
         if (!dragged) {
             $.each(buildings, function (i, building) {
@@ -201,6 +204,7 @@
         e = e.originalEvent;
         var delta = e.wheelDelta ? e.wheelDelta / 40 : e.detail ? -e.detail : 0;
         if (delta) {
+            console.log(delta)
             zoom(delta);
         }
         e.preventDefault();
@@ -247,7 +251,7 @@
             ctx.translate(0, center.y - (box.y + box.height));
             changed = true;
         }
-        if (changed) {
+        if (dragStartPosition && changed) {
             dragStartPosition = ctx.transformedPoint(lastMousePosition.x, lastMousePosition.y);
         }
     }
