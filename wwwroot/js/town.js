@@ -15,6 +15,7 @@
     var backgroundColor = "#3b7dcf";
     var minScale = 0.3;
     var maxScale = 1;
+    var buttonZoom = 3;
 
     // Set default settings
     var settings = $.extend({
@@ -25,7 +26,6 @@
     // Variables
     var sources, dragStartPosition, dragged, clickedPlot;
     var canvas = this;
-    var canvasContainer = $(canvas[0]).parent();
     var ctx = canvas[0].getContext("2d");
     var currentScale = 1;
     var lastUpdate = Date.now();
@@ -36,11 +36,12 @@
 
     // Events
     $(window).resize(resizeCanvas);
-    canvas.on("mousedown", mouseDown);
-    canvas.on("mouseup", mouseUp);
-    canvas.on("mousemove", mouseMove);
-    canvas.on("mousewheel", mouseScroll);
-    canvas.on("DOMMouseScroll", mouseScroll);
+    canvas.on("mousedown touchstart", mouseDown);
+    canvas.on("mouseup touchend", mouseUp);
+    canvas.on("mousemove touchmove", mouseMove);
+    canvas.on("mousewheel DOMMouseScroll", mouseScroll);
+    $("#zoom-in").click(function() { zoom(buttonZoom) });
+    $("#zoom-out").click(function() { zoom(-buttonZoom) });
 
     // Load images
     getData(function () {
@@ -101,10 +102,6 @@
         containBackground();
         render(delta);
     }
-
-
-        
-
 
     // Function to render elements
     function render(delta) {
@@ -173,7 +170,7 @@
     }
 
     // Gets called when mouse button is released
-    function mouseUp(e) {
+    function mouseUp() {
         dragStartPosition = null;
         if (!dragged) {
             $.each(buildings, function (i, building) {
@@ -207,6 +204,7 @@
         e = e.originalEvent;
         var delta = e.wheelDelta ? e.wheelDelta / 40 : e.detail ? -e.detail : 0;
         if (delta) {
+            console.log(delta)
             zoom(delta);
         }
         e.preventDefault();
@@ -230,20 +228,35 @@
     // Function to contain the center of the screen within the background image
     function containBackground() {
         var center = ctx.transformedPoint(canvas[0].width / 2, canvas[0].height / 2);
-        if (center.x < 0) {
-            ctx.translate(center.x, 0);
+        var box = new Rect(
+            background.rect.width / 4,
+            background.rect.height / 4,
+            background.rect.width / 2,
+            background.rect.height / 2
+        );
+        var changed = false;
+        if (center.x < box.x) {
+            ctx.translate(center.x - box.x, 0);
+            changed = true;
         }
-        if (center.x > background.rect.width) {
-            ctx.translate(-(background.rect.width - center.x), 0);
+        if (center.x > box.x + box.width) {
+            ctx.translate(center.x - (box.x + box.width), 0);
+            changed = true;
         }
-        if (center.y < 0) {
-            ctx.translate(0, center.y);
+        if (center.y < box.y) {
+            ctx.translate(0, center.y - box.y);
+            changed = true;
         }
-        if (center.y > background.rect.height) {
-            ctx.translate(0, -(background.rect.height - center.y));
+        if (center.y > box.y + box.height) {
+            ctx.translate(0, center.y - (box.y + box.height));
+            changed = true;
+        }
+        if (dragStartPosition && changed) {
+            dragStartPosition = ctx.transformedPoint(lastMousePosition.x, lastMousePosition.y);
         }
     }
 
+    // Default building click handler
     function handleBuildingClick(building) {
         building.click();
     }
