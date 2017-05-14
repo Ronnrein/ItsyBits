@@ -66,10 +66,16 @@ namespace ItsyBits.Models {
         public bool ForBuilding { get; set; }
 
         /// <summary>
-        /// Whether or not the building works for animals
+        /// Whether or not the upgrade works for animals
         /// </summary>
         [Display(Name = "For animal", Description = "Whether or not the upgrade works for animals")]
         public bool ForAnimal { get; set; }
+
+        /// <summary>
+        /// Whether the upgrade is stackable
+        /// </summary>
+        [Display(Name= "Is stackable", Description = "Whether the upgrade is stackable")]
+        public bool IsStackable { get; set; }
 
         /// <summary>
         /// The path to the sprite for upgrade
