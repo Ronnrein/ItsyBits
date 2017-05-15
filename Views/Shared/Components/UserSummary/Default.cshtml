@@ -45,6 +45,7 @@
         </div>
     </div>
 </a>
+<div class="ui divider"></div>
 <a class="ui link card" asp-controller="Store" asp-action="Index">
     <div class="content">
         <div class="header">
@@ -52,7 +53,7 @@
             <i class="right floated dollar icon"></i>
         </div>
         <div class="description">
-            <p>You currently have @Model.Currency coins</p>
+            <p>You currently have <b>@Model.Currency</b> coins</p>
             <p>Based on current animal happiness, you would get <b>@Model.Animals.Sum(a => a.GetReward())</b> coins from a harvest. Make sure to keep them happy to maximize profits!</p>
             <p>At maximum happiness, you would get a total of <b>@(20*Model.Animals.Count())</b> coins at harvest</p>
         </div>
