@@ -10,25 +10,24 @@
     <div class="two field">
         <div class="field">
             <label>What would you like to name your building?</label>
-            <input asp-for="Name" />
+            <input asp-for="Name"/>
         </div>
         <div class="field">
-            <label>Where would you like to place your building? (PLACEHOLDER FOR TOWN)</label>
-            <div class="ui selection dropdown">
-                <input type="hidden" name="PlotId" />
-                <i class="dropdown icon"></i>
-                <div class="default text">Select plot</div>
-                <div class="menu">
-                    @foreach (Plot plot in (IEnumerable<Plot>)ViewData["BuildingPlot"]) {
-                        <div class="item" data-value="@plot.Id">
-                            <img class="ui mini avatar image" src="/images/buildings/empty_icon.jpg" />
-                            @plot.Description
-                        </div>
-                    }
+            <input type="hidden" id="PlotId" name="PlotId" value="0" />
+            <label id="plot-text">Where would you like your animal to live?</label>
+            <div id="town">
+                <canvas id="canvas" width="500" height="500"></canvas>
+                <div class="ui vertical buttons" id="zoom-buttons">
+                    <button class="ui button" id="zoom-in">+</button>
+                    <button class="ui button" id="zoom-out">-</button>
                 </div>
             </div>
-
+        </div>
     </div>
-    <input type="submit" class="ui orange button" value="Buy" />
+    <input type="submit" class="ui orange button" value="Buy"/>
     <a asp-controller="Store" asp-action="Index" class="ui default button">Back</a>
 </form>
+@section Scripts {
+    <script src="~/js/town.js"></script>
+    <script src="~/js/store.js"></script>
+}
