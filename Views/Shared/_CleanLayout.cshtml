@@ -1,0 +1,18 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    @await Html.PartialAsync("_HeadPartial")
+</head>
+<body>
+    <div class="pusher">
+        @await Html.PartialAsync("_NavigationPartial")
+            <div class="column">
+                @await Html.PartialAsync("_ResultPartial")
+                @RenderBody()
+            </div>
+        </div>
+        @await Html.PartialAsync("_ScriptsPartial")
+        @RenderSection("scripts", required: false)
+    
+</body>
+</html>

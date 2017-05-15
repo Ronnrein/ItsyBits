@@ -1,2 +1,24 @@
-@{ ViewData["Title"] = "Contact"; }
-<h2>@ViewData["Title"]</h2>
+@{
+    Layout = "_CleanLayout";
+}
+
+<div class="ui text container">
+    <div class="ui small form">
+        <div class="two fields">
+            <div class="field">
+                <label>Name</label>
+                <input placeholder="Name" type="text">
+            </div>
+            <div class="field">
+                <label>E-mail</label>
+                <input placeholder="E-mail" type="email">
+            </div>
+        </div>
+        <div class="field">
+            <label>Message</label>
+            <input placeholder="Message" type="text">
+        </div>
+    </div>
+        <div class="ui submit button">Send</div>
+    </div>
+        </div>
