@@ -182,11 +182,11 @@
 
 #about-top {
     background-color: #4397a5 !important;
-    font-family: IBfont;
     text-align:center;
-   
     color:ghostwhite;
+    
 }
+
 #about-top p {
     margin-bottom:20px;
       
@@ -198,10 +198,13 @@
     display: block;
 }
 .ui.segment:last-child {
-    background-color: #A7C2AC;
-   
+    background-color: #DFE8E0;
 }
 .ui.segment:last-child img {
    margin-bottom:20px;
+}
+.about-header {
+    
+    font-size: 60px;
 }
 
