@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -100,17 +101,7 @@ namespace ItsyBits.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> Building(int id) {
-            ApplicationUser user = await _db.Users
-                .Include(u => u.Buildings)
-                .SingleOrDefaultAsync(u => u.Id == _userManager.GetUserId(User)
-            );
-            IEnumerable<Plot> plots = user.GetAvailablePlots(_db.Plots);
-            if (!plots.Any()) {
-                TempData.Put("Result", new Result("No plots!", "There are no available plots to place your buildings!", ResultStatus.Error));
-                return RedirectToAction("Index");
-            }
             ViewData["BuildingType"] = await _db.BuildingTypes.SingleOrDefaultAsync(a => a.Id == id);
-            ViewData["BuildingPlot"] = plots;
             return View();
         }
 
@@ -118,24 +109,40 @@ namespace ItsyBits.Controllers {
         public async Task<IActionResult> Building(int id, Building building) {
             Result error = null;
             if (string.IsNullOrWhiteSpace(building.Name)) {
-                error = new Result("No name!", "You have to call your animal something!", ResultStatus.Error);
+                error = new Result("No name!", "You have to call your building something!", ResultStatus.Error);
             }
-            if (building.PlotId == 0) {
+            else if (building.PlotId == 0) {
                 error = new Result("No plot!", "You have to select a plot for your building!", ResultStatus.Error);
             }
             if (error != null) {
                 TempData.Put("Result", error);
-                RedirectToAction("Building", new { id });
+                return RedirectToAction("Building", new { id });
             }
             ApplicationUser user = await _userManager.GetUserAsync(User);
             BuildingType type = await _db.BuildingTypes.SingleOrDefaultAsync(bt => bt.Id == id);
-            building.UserId = user.Id;
+            Building plotBuilding = await _db.Buildings
+                .Include(b => b.Animals)
+                .SingleOrDefaultAsync(b => b.UserId == user.Id && b.PlotId == building.PlotId
+            );
+            if (plotBuilding != null) {
+                if (plotBuilding.Animals.Count > type.Capacity) {
+                    TempData.Put("Result", new Result("No room!", "You cannot replace this building as it does not have enough room to store your existing animals", ResultStatus.Error));
+                    return RedirectToAction("Building", new { id });
+                }
+                string name = building.Name;
+                building = plotBuilding;
+                building.Name = name;
+                _db.Update(building);
+            }
+            else {
+                building.UserId = user.Id;
+                building.Id = 0;
+                _db.Add(building);
+            }
             building.TypeId = id;
-            building.Id = 0;
             _db.Users.Attach(user);
             user.Currency -= type.Price;
             _db.Entry(user).Property(u => u.Currency).IsModified = true;
-            _db.Add(building);
             _db.Add(new Notification {
                 Message = $"You have a new building!",
                 Title = "New building!",
