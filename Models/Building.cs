@@ -86,6 +86,11 @@ namespace ItsyBits.Models {
         public int Capacity => Type == null || BuildingUpgrades == null ? 0 : Type.Capacity + Upgrades.Sum(u => u.CapacityModifier);
 
         /// <summary>
+        /// Reward from the animals in this building
+        /// </summary>
+        public int Reward => Animals?.Sum(a => a.GetReward()) ?? 0;
+
+        /// <summary>
         /// Gets status text for building
         /// </summary>
         /// <returns>Current status of building</returns>

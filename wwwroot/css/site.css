@@ -227,6 +227,24 @@ h2.names {
    margin-bottom:20px;
 }
 .about-header {
-    
     font-size: 60px;
+}
+
+.animal-image-container {
+    background-color: #99ccff !important;
+    padding: 20px !important;
+    background-image: url("../images/rays.png") !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    border: 2px solid gray !important;
+    border-radius: 5px !important;
+}
+
+.ribbon.label {
+    margin-bottom: 10px !important;
+}
+
+.styled.accordion {
+    width: 100% !important;
 }

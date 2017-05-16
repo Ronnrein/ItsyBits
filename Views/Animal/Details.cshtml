@@ -1,29 +1,88 @@
 ﻿@model Animal
-@{ ViewData["Title"] = "Details for "+Model.Name; }
-<h2 class="item">@Model.Name</h2>
-
-<a asp-controller="Building" asp-action="Details" asp-route-id="@Model.Building.Id" class="large floated left circular grey basic animated ui icon button">
-    <div class="visible content">
-        <i class="chevron left icon"></i>
+@{ 
+    ViewData["Title"] = "Details for "+Model.Name;
+    string[] ageSplit = Model.Age.Split(' ');
+}
+<div class="ui stackable two column grid">
+    <div class="column">
+        <div class="ui segments">
+            <div class="ui raised segment secondary">
+                <div class="ui breadcrumb">
+                    <a class="section" asp-controller="Home" asp-action="Index">Home</a>
+                    <div class="divider"> / </div>
+                    <a class="section" asp-controller="Animal" asp-action="Index">Animals</a>
+                    <div class="divider"> / </div>
+                    <div class="active section">@Model.Name</div>
+                </div>
+            </div>
+            <div class="ui raised segment">
+                <p class="ui orange ribbon label">Statistics</p>
+                <div class="ui four small statistics">
+                    <div class="statistic">
+                        <div class="value">
+                            @ageSplit[0]
+                        </div>
+                        <div class="label">
+                            @ageSplit[1] old
+                        </div>
+                    </div>
+                    <div class="statistic">
+                        <div class="value">
+                            <i class="@(Model.Male ? "man" : "woman") icon"></i>
+                        </div>
+                        <div class="label">
+                            @(Model.Male ? "male" : "female")
+                        </div>
+                    </div>
+                    <div class="statistic">
+                        <div class="value">
+                            @Model.GetReward()
+                        </div>
+                        <div class="label">
+                            value
+                        </div>
+                    </div>
+                    <div class="statistic">
+                        <div class="value">
+                            @Model.AnimalUpgrades.Count
+                        </div>
+                        <div class="label">
+                            upgrades
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui raised segment">
+                <p class="ui orange ribbon label">Upgrades</p>
+                <div class="upgrades clearfix" >
+                    <a asp-controller="Store" asp-action="Index">
+                        <img class="ui mini bordered circular image left floated tooltip" data-content="Buy upgrades" src="~/images/upgrades/upgrade.png" />
+                    </a>
+                    @foreach (Upgrade upgrade in Model.Upgrades) {
+                        <a asp-controller="Store" asp-action="AnimalUpgrade" asp-route-id="@upgrade.Id">
+                            <img class="ui mini bordered circular image left floated tooltip" data-content="@upgrade.Name" src="~/images/upgrades/@upgrade.SpritePath" />
+                        </a>
+                    }
+                </div>
+            </div>
+            <div class="ui raised segment">
+                <p class="ui orange ribbon label">Status</p>
+                <p>@Model.GetStatusText()</p>
+            </div>
+            <div class="ui raised segment">
+                <div class="ui small indicating progress progressbar tooltip" data-content="@Model.HappinessPercentage%" data-value="@Model.HappinessPercentage" data-total="100">
+                    <div class="bar"></div>
+                    <div class="label">Happiness</div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="hidden content">Back</div>
-</a>
-
-<div class="ui container">
-    <div class="upgrades right floated" >
-        <h3>Animal upgrades</h3>
-        <a asp-controller="Store" asp-action="Index">
-            <img class="ui mini bordered circular image left floated tooltip" data-content="Buy upgrades" src="~/images/upgrades/upgrade.png" />
-        </a>
-            @foreach (Upgrade upgrade in Model.Upgrades) {
-                <a asp-controller="Store" asp-action="AnimalUpgrade" asp-route-id="@upgrade.Id">
-                    <img class="ui mini bordered circular image left floated tooltip" data-content="@upgrade.Name" src="~/images/upgrades/@upgrade.SpritePath" />
-                </a>
-            }
+    <div class="column">
+        <div class="ui raised segment animal-image-container">
+            <img class="ui centered big image" src="~/images/animals/@Model.Type.SpritePath/full.png"/>
+        </div>
     </div>
-    <img class="ui centered big image" src="~/images/animals/@Model.Type.SpritePath/full.png"/>
 </div>
-
 <div class="ui three column stackable grid">
     <div class="column">
         <form class="animal-action" asp-controller="Animal" asp-action="Feed" asp-route-id="@Model.Id" method="post">
