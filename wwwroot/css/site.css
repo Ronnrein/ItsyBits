@@ -265,7 +265,6 @@ h2.names {
 }
 
 .main-container {
-    overflow: auto;
     padding: 0 !important;
 }
 
@@ -287,4 +286,29 @@ h2.names {
     border-radius: 0 !important;
     width: 150% !important;
     margin: 15px -15px !important;
+}
+
+.main-grid {
+    min-height: calc(100% - 53px) !important;
+}
+
+.pusher {
+    overflow: auto !important;
+}
+
+.upgrades {
+    overflow: visible !important;
+}
+
+.upgrades > div {
+    display: inline !important;
+    width: 28px !important;
+}
+
+.upgrades img {
+    box-shadow: 0 0 10px #888888;
+}
+
+.main-segment {
+    overflow: hidden;
 }

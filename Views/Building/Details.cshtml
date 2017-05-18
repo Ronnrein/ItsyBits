@@ -46,13 +46,26 @@
             <div class="ui raised segment">
                 <p class="ui orange ribbon label">Upgrades</p>
                 <div class="upgrades clearfix" >
-                    <a asp-controller="Store" asp-action="Index">
-                        <img class="ui mini bordered circular image left floated tooltip" data-content="Buy upgrades" src="~/images/upgrades/upgrade.png" />
-                    </a>
+                    <div class="ui inline simple dropdown">
+                        <div class="text">
+                            <img class="ui avatar image" src="~/images/upgrades/upgrade.png" />
+                        </div>
+                        <div class="menu vertical basic buttons">
+                            @foreach (Upgrade upgrade in (IEnumerable<Upgrade>)ViewData["Upgrades"]) {
+                                <form asp-controller="Store" asp-action="BuildingUpgrade" asp-route-id="@upgrade.Id">
+                                    <input type="hidden" name="BuildingId" value="@Model.Id" />
+                                    <button type="submit" class="ui item basic button tooltip" data-content="@upgrade.Description" name="UpgradeId" value="@upgrade.Id">
+                                        <img class="ui avatar image" src="~/images/upgrades/@upgrade.SpritePath" />
+                                        @upgrade.Name
+                                    </button>
+                                </form>
+                            }
+                        </div>
+                    </div>
                     @foreach (Upgrade upgrade in Model.Upgrades) {
-                        <a asp-controller="Store" asp-action="BuildingUpgrade" asp-route-id="@upgrade.Id">
-                            <img class="ui mini bordered circular image left floated tooltip" data-content="@upgrade.Name" src="~/images/upgrades/@upgrade.SpritePath" />
-                        </a>
+                        <div>
+                            <img class="ui avatar image image tooltip" data-content="@upgrade.Description" src="~/images/upgrades/@upgrade.SpritePath" />
+                        </div>
                     }
                 </div>
             </div>

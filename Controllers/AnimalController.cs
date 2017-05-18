@@ -36,6 +36,7 @@ namespace ItsyBits.Controllers {
         public async Task<IActionResult> Details(int id) {
             Animal animal = await _db.Animals
                 .Include(a => a.Building)
+                .ThenInclude(b => b.Type)
                 .Include(a => a.Type)
                 .Include(a => a.AnimalUpgrades)
                 .ThenInclude(au => au.Upgrade)
@@ -50,6 +51,7 @@ namespace ItsyBits.Controllers {
             if (user.Id != animal.Building.UserId) {
                 return Unauthorized();
             }
+            ViewData["Upgrades"] = _db.Upgrades.Where(u => u.ForAnimal);
             return View(animal);
         }
 
