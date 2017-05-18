@@ -295,3 +295,20 @@ h2.names {
 .pusher {
     overflow: auto !important;
 }
+
+.upgrades {
+    overflow: visible !important;
+}
+
+.upgrades > div {
+    display: inline !important;
+    width: 28px !important;
+}
+
+.upgrades img {
+    box-shadow: 0 0 10px #888888;
+}
+
+.main-segment {
+    overflow: hidden;
+}
