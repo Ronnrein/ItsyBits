@@ -236,7 +236,7 @@ h2.names {
 
 .ray-image-container {
     background-color: #99ccff !important;
-    padding: 20px !important;
+    padding: 0 !important;
     background-image: url("../images/rays.png") !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
