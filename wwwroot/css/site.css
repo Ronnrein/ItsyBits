@@ -212,8 +212,8 @@ h2.names {
 
 #about-top p {
     margin-bottom:20px;
-      
-    }
+}
+
 #about-top img {
     margin-bottom:20px;
     margin-left: auto;
@@ -221,13 +221,33 @@ h2.names {
     display: block;
 }
 
-.ui.segment:last-child {
-    background-color: #DFE8E0;
+.about-footer {
+    background-color: #DFE8E0 !important;
 }
-.ui.segment:last-child img {
-   margin-bottom:20px;
+
+.about-footer img {
+   margin-bottom:20px !important;
 }
+
 .about-header {
-    
     font-size: 60px;
+}
+
+.animal-image-container {
+    background-color: #99ccff !important;
+    padding: 20px !important;
+    background-image: url("../images/rays.png") !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    border: 2px solid gray !important;
+    border-radius: 5px !important;
+}
+
+.ribbon.label {
+    margin-bottom: 10px !important;
+}
+
+.styled.accordion {
+    width: 100% !important;
 }
