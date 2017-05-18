@@ -54,26 +54,8 @@ namespace ItsyBits.Controllers {
             if (user.Id != building.UserId) {
                 return Unauthorized();
             }
+            ViewData["Upgrades"] = _db.Upgrades.Where(u => u.ForBuilding);
             return View(building);
-        }
-
-        [HttpGet]
-        public IActionResult Create() {
-            ViewData["BuildingTypes"] = new SelectList(_db.BuildingTypes, "Id", "Name");
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Building building) {
-            if (!ModelState.IsValid) {
-                ViewData["BuildingTypes"] = new SelectList(_db.BuildingTypes, "Id", "Name");
-                return View(building);
-            }
-            building.User = await _userManager.GetUserAsync(User);
-            _db.Add(building);
-            await _db.SaveChangesAsync();
-            return RedirectToAction("Details", new {id = building.Id});
         }
 
         [HttpGet]
