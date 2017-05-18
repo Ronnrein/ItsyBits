@@ -212,20 +212,23 @@ h2.names {
 
 #about-top p {
     margin-bottom:20px;
-      
-    }
+}
+
 #about-top img {
     margin-bottom:20px;
     margin-left: auto;
     margin-right: auto;
     display: block;
 }
-.ui.segment:last-child {
-    background-color: #DFE8E0;
+
+.about-footer {
+    background-color: #DFE8E0 !important;
 }
-.ui.segment:last-child img {
-   margin-bottom:20px;
+
+.about-footer img {
+   margin-bottom:20px !important;
 }
+
 .about-header {
     font-size: 60px;
 }
