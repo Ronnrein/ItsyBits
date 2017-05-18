@@ -7,7 +7,7 @@
 @await Html.PartialAsync("_SidebarPartial")
 <div class="pusher full-height">
     @await Html.PartialAsync("_NavigationPartial")
-    <div class="ui equal width padded grid full-height">
+    <div class="ui equal width padded grid main-grid">
         <div class="computer tablet only column left-column">
             @await Component.InvokeAsync("UserSummary")
         </div>
