@@ -17,6 +17,7 @@ $(document).ready(function() {
 
     // Call functions
     setActiveMenuItem();
+    setBreadcrumbs();
 });
 
 // Intercept submit and do it through ajax
@@ -42,6 +43,29 @@ function clearNotifications() {
             $(that).find(".label").remove();
         });
     }
+}
+
+// Set the breadcrumbs element based on url
+function setBreadcrumbs() {
+    var el = $("<div class='ui breadcrumb'>");
+    var dividerHtml = "<div class='divider'>/</div>";
+    var split = window.location.pathname.split("/");
+    el.append("<a class='section' href='/'>Home</a>");
+    var path = "";
+    $.each(split, function (i, v) {
+        if (v === "") {
+            return true;
+        }
+        el.append(dividerHtml);
+        console.log(split[i]);
+        if (split[i + 1] === undefined || !isNaN(split[i + 1])) {
+            el.append("<p class='section'>" + document.title.split(" - ")[0] + "</p>");
+            return false;
+        }
+        path += "/" + v;
+        el.append("<a class='section' href='" + path + "'>" + v.charAt(0).toUpperCase() + v.slice(1) +"</a>");
+    });
+    $("#breadcrumbs").html(el);
 }
 
 // Sets menu items to be active if links to current page

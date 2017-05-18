@@ -87,13 +87,17 @@
 }
 
 #town {
-    width: 100%;
     position: relative;
+    box-shadow: 0 0 117px -15px rgba(0,0,0,0.75);
+    border-radius: 20px;
+    border: 2px solid grey;
+    overflow: hidden;
+    /* Fixes overflow bug */
+    -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
 }
 
 #canvas {
     cursor: none;
-    width: 100%;
 }
 
 .field .pointing.label {
@@ -152,6 +156,7 @@
     flex: 0 0 300px !important;
     box-shadow: 2px 0 5px #888888;
     background-color: ghostwhite;
+    z-index: 1;
 }
 
 #computer-navbar .item:before {
@@ -229,23 +234,22 @@ h2.names {
     font-size: 60px;
 }
 
-.animal-image-container {
+.ray-image-container {
     background-color: #99ccff !important;
     padding: 20px !important;
     background-image: url("../images/rays.png") !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
     background-size: cover !important;
-    border: 2px solid gray !important;
-    border-radius: 5px !important;
+    box-shadow: inset 0 0 10px #000000 !important;
+}
+
+.ray-image-container img {
+    width: 100%;
 }
 
 .ribbon.label {
     margin-bottom: 10px !important;
-}
-
-.styled.accordion {
-    width: 100% !important;
 }
 
 .sidebar {
@@ -253,5 +257,34 @@ h2.names {
 }
 
 .full-height {
-    height: 100%;
+    height: 100% !important;
+}
+
+.full-width {
+    width: 100% !important;
+}
+
+.main-container {
+    overflow: auto;
+    padding: 0 !important;
+}
+
+.inline {
+    display: inline;
+}
+
+#breadcrumbs {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.info-column {
+    padding-left: 25px !important;
+}
+
+.mid-segment-header {
+    border-radius: 0 !important;
+    width: 150% !important;
+    margin: 15px -15px !important;
 }

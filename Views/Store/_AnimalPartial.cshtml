@@ -1,14 +1,23 @@
 ﻿@model AnimalType
 @{
-    string disabled = (int) ViewData["Currency"] >= Model.Price ? "" : "disabled";
+    string disabled = (int)ViewData["Currency"] >= Model.Price ? "" : "disabled";
 }
 <div class="card">
-    <div class="cntr content">
-        <div class="header">@Model.Name</div>
-        <img class="ui image" src="~/images/animals/@Model.SpritePath/egg.png">
+    <div class="ui segments">
+        <div class="ui segment header">@Model.Name</div>
+        <div class="ui segment ray-image-container">
+            <img class="ui image" src="~/images/animals/@Model.SpritePath/egg.png">
+        </div>
+        <div class="ui segment">
+            <div class="description">Need to add animal descriptions</div>
+        </div>
+        <div class="ui left labeled button full-width" tabindex="0">
+            <p class="ui basic right pointing label">
+                <i class="money icon"></i> @Model.Price
+            </p>
+            <a asp-controller="Store" asp-action="Animal" asp-route-id="@Model.Id" class="ui orange button full-width @disabled">
+                <i class="add to cart icon"></i> Buy
+            </a>
+        </div>
     </div>
-    <a asp-controller="Store" asp-action="Animal" asp-route-id="@Model.Id" class="ui bottom attached orange button @disabled">
-        Buy (
-        <i class="fitted dollar icon"></i>@Model.Price)
-    </a>
 </div>

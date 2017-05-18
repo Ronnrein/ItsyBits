@@ -1,17 +1,12 @@
 ﻿@model IEnumerable<Building>
 @{ ViewData["Title"] = "My animals"; }
-<div class="ui styled accordion">
-    @foreach (Building building in Model.Where(b => b.Animals.Count != 0)) {
-        <div class="active title">
-            <i class="dropdown icon"></i>
-            @building.Name
-        </div>
-        <div class="active content">
-            <div class="ui cards">
-                @foreach (Animal animal in building.Animals) {
-                    @Html.Partial("/Views/Animal/_AnimalCardPartial.cshtml", animal)
-                }
-            </div>
-        </div>
-    }
-</div>
+@foreach (Building building in Model.Where(b => b.Animals.Count != 0)) {
+    <div class="ui segment secondary mid-segment-header">
+        <h4>@building.Name</h4>
+    </div>
+    <div class="ui cards">
+        @foreach (Animal animal in building.Animals) {
+            @Html.Partial("/Views/Animal/_AnimalCardPartial.cshtml", animal)
+        }
+    </div>
+}

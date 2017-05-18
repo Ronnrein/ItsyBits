@@ -11,9 +11,17 @@
         <div class="computer tablet only column left-column">
             @await Component.InvokeAsync("UserSummary")
         </div>
-        <div class="column">
-            @await Html.PartialAsync("_ResultPartial")
-            @RenderBody()
+        <div class="column main-container">
+            <div class="ui segments">
+                <div class="ui segment secondary">
+                    <h3 class="inline">@ViewData["Title"]</h3>
+                    <div id="breadcrumbs">Breadcrumbs</div>
+                </div>
+                @await Html.PartialAsync("_ResultPartial")
+                <div class="ui segment">
+                    @RenderBody()
+                </div>
+            </div>
         </div>
     </div>
     @await Html.PartialAsync("_ScriptsPartial")
