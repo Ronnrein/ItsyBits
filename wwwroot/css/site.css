@@ -5,8 +5,6 @@
 .account-body {
     background-color: #99ccff;
     background-image: url("../images/rays.png");
-    /* Full height */
-    height: 100%;
     /* Center and scale the image nicely */
     background-position: center;
     background-repeat: no-repeat;
@@ -42,7 +40,6 @@
 
 .left {
     float: left;
-
 }
 
 .right {
@@ -54,7 +51,6 @@
     color: #F7931E;
     text-align: center
 } 
-
 
 .clearfix {
     overflow: auto;
@@ -250,4 +246,12 @@ h2.names {
 
 .styled.accordion {
     width: 100% !important;
+}
+
+.sidebar {
+    overflow: hidden;
+}
+
+.full-height {
+    height: 100%;
 }

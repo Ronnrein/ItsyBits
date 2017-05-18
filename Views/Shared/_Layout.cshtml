@@ -5,9 +5,9 @@
 </head>
 <body class="main-body">
 @await Html.PartialAsync("_SidebarPartial")
-<div id="Main-body" class="pusher">
+<div class="pusher full-height">
     @await Html.PartialAsync("_NavigationPartial")
-    <div class="ui equal width padded grid">
+    <div class="ui equal width padded grid full-height">
         <div class="computer tablet only column left-column">
             @await Component.InvokeAsync("UserSummary")
         </div>
