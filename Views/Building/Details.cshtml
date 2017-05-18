@@ -1,16 +1,10 @@
 ﻿@model Building
-@{ ViewData["Title"] = Model.Name; }
+@{ ViewData["Title"] = "Animal details"; }
 <div class="ui stackable two column grid">
-    <div class="column">
+    <div class="column info-column">
         <div class="ui segments">
             <div class="ui raised segment secondary">
-                <div class="ui breadcrumb">
-                    <a class="section" asp-controller="Home" asp-action="Index">Home</a>
-                    <div class="divider"> / </div>
-                    <a class="section" asp-controller="Building" asp-action="Index">Buildings</a>
-                    <div class="divider"> / </div>
-                    <div class="active section">@Model.Name</div>
-                </div>
+                <h4>@Model.Name</h4>
             </div>
             <div class="ui raised segment">
                 <p class="ui orange ribbon label">Statistics</p>
@@ -75,10 +69,13 @@
         </div>
     </div>
     <div class="column">
-        <div class="ui raised segment animal-image-container">
+        <div class="ui raised segment ray-image-container">
             <img class="ui centered big image" src="~/images/buildings/@Model.Type.SpritePath/full.png"/>
         </div>
     </div>
+</div>
+<div class="ui segment secondary mid-segment-header">
+    <h4>Animals in building</h4>
 </div>
 <div class="ui cards">
     @foreach(Animal animal in Model.Animals) {

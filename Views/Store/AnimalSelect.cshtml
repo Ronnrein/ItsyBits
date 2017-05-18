@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<AnimalType>
+@{ ViewData["Title"] = "Select an animal"; }
 <h1 class="ui center aligned header">Select your first pet!</h1>
 <div class="ui three column doubling grid container">
     @foreach (AnimalType type in Model) {

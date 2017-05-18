@@ -1,32 +1,41 @@
 ﻿@model Building
 @{
+    ViewData["Title"] = "Buy building";
     BuildingType type = (BuildingType)ViewData["BuildingType"];
 }
-<h1>Buy a new @type.Name</h1>
-<div class="ui container">
-    <img class="ui centered big image" src="~/images/buildings/@type.SpritePath/portrait.png" />
-</div>
-<form class="ui massive form" method="post">
-    <div class="two field">
-        <div class="field">
-            <label>What would you like to name your building?</label>
-            <input asp-for="Name"/>
-        </div>
-        <div class="field">
+<div class="ui stackable two column grid">
+    <div class="column">
+        <form class="ui segments form" method="post">
             <input type="hidden" id="PlotId" name="PlotId" value="0" />
-            <label id="plot-text">Where would you like your animal to live?</label>
-            <div id="town">
-                <canvas id="canvas" width="500" height="500"></canvas>
-                <div class="ui vertical buttons" id="zoom-buttons">
-                    <button class="ui button" id="zoom-in">+</button>
-                    <button class="ui button" id="zoom-out">-</button>
+            <div class="ui raised segment secondary header">
+                Buy a @type.Name
+            </div>
+            <div class="ui raised segment field">
+                <label>What would you like to name your building?</label>
+                <input asp-for="Name"/>
+            </div>
+            <div class="ui raised segment field">
+                <label id="plot-text">Where would you like your animal to live?</label>
+                <div id="town" class="full-width">
+                    <canvas id="canvas" class="full-width" width="500" height="500"></canvas>
+                    <div class="ui vertical buttons" id="zoom-buttons">
+                        <button class="ui button" id="zoom-in">+</button>
+                        <button class="ui button" id="zoom-out">-</button>
+                    </div>
                 </div>
             </div>
+            <div class="ui two bottom attached buttons">
+                <button type="submit" class="ui orange button"><i class="add to cart icon"></i> Buy</button>
+                <a asp-controller="Store" asp-action="Index" class="ui default button">Back</a>
+            </div>
+        </form>
+    </div>
+    <div class="column">
+        <div class="ui raised segment ray-image-container">
+            <img class="ui centered big image" src="~/images/buildings/@type.SpritePath/portrait.png" />
         </div>
     </div>
-    <input type="submit" class="ui orange button" value="Buy"/>
-    <a asp-controller="Store" asp-action="Index" class="ui default button">Back</a>
-</form>
+</div>
 @section Scripts {
     <script src="~/js/town.js"></script>
     <script src="~/js/store.js"></script>

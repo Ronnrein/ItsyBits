@@ -1,19 +1,13 @@
 ﻿@model Animal
-@{ 
-    ViewData["Title"] = "Details for "+Model.Name;
+@{
+    ViewData["Title"] = "Building details";
     string[] ageSplit = Model.Age.Split(' ');
 }
 <div class="ui stackable two column grid">
-    <div class="column">
+    <div class="column info-column">
         <div class="ui segments">
             <div class="ui raised segment secondary">
-                <div class="ui breadcrumb">
-                    <a class="section" asp-controller="Home" asp-action="Index">Home</a>
-                    <div class="divider"> / </div>
-                    <a class="section" asp-controller="Animal" asp-action="Index">Animals</a>
-                    <div class="divider"> / </div>
-                    <div class="active section">@Model.Name</div>
-                </div>
+                <h4>@Model.Name</h4>
             </div>
             <div class="ui raised segment">
                 <p class="ui orange ribbon label">Statistics</p>
@@ -78,10 +72,13 @@
         </div>
     </div>
     <div class="column">
-        <div class="ui raised segment animal-image-container">
+        <div class="ui raised segment ray-image-container">
             <img class="ui centered big image" src="~/images/animals/@Model.Type.SpritePath/full.png"/>
         </div>
     </div>
+</div>
+<div class="ui segment secondary mid-segment-header">
+    <h4>Animal actions</h4>
 </div>
 <div class="ui three column stackable grid">
     <div class="column">
