@@ -56,12 +56,12 @@
                 <p class="ui orange ribbon label">Upgrades</p>
                 <div class="upgrades clearfix" >
                     <a asp-controller="Store" asp-action="Index">
-                        <img class="ui mini bordered circular image left floated tooltip" data-content="Buy upgrades" src="~/images/upgrades/upgrade.png" />
+                        <img class="ui mini bordered circular image left floated tooltip" data-content="Buy a new upgrade" src="~/images/upgrades/upgrade.png" />
                     </a>
                     @foreach (Upgrade upgrade in Model.Upgrades) {
-                        <a asp-controller="Store" asp-action="AnimalUpgrade" asp-route-id="@upgrade.Id">
-                            <img class="ui mini bordered circular image left floated tooltip" data-content="@upgrade.Name" src="~/images/upgrades/@upgrade.SpritePath" />
-                        </a>
+                        <div asp-controller="Store" asp-action="AnimalUpgrade" asp-route-id="@upgrade.Id">
+                            <img class="ui mini bordered circular image left floated tooltip" data-content="@upgrade.Description" src="~/images/upgrades/@upgrade.SpritePath" />
+                        </div>
                     }
                 </div>
             </div>
@@ -75,11 +75,6 @@
                     <div class="label">Happiness</div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="column">
-        <div class="ui raised segment animal-image-container">
-            <img class="ui centered big image" src="~/images/animals/@Model.Type.SpritePath/full.png"/>
         </div>
     </div>
 </div>
