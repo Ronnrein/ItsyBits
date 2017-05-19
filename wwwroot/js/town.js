@@ -5,7 +5,7 @@
     var background = new Sprite("/images/town/background2.png", new Vector2(0, 0));
     var cursor = new Sprite("/images/town/cursor.png", new Vector2(-2000, -2000), null, "/images/town/cursorPointer.png");
     var plots = [
-        new Plot(0, null, new Sprite("/images/town/store.png", new Vector2(1720, 480), null, "/images/town/storehover.png"), "/store")
+        new Plot(0, null, new Sprite("/images/town/store.png", new Vector2(2020, 862), null, "/images/town/storehover.png"), "/store")
     ];
     var sprites = [
         new Sprite("/images/misc/coin.png", new Vector2(400, 500), new Animation(10, 1, 10, 50)),
@@ -62,6 +62,11 @@
             $.each(sprites, function(i, sprite) {
                 sprite.rect.width = sprite.image.width;
                 sprite.rect.height = sprite.image.height;
+            });
+
+            $.each(plots, function(i, plot) {
+                plot.sprite.rect.x -= plot.sprite.rect.width / 2;
+                plot.sprite.rect.y -= plot.sprite.rect.height;
             });
 
             // Remove cursor from array to render it independently
@@ -157,7 +162,8 @@
     function loadImages(callback) {
         var loaded = 0;
         for (var i in sources) {
-            sources[i].target.onload = function() {
+            sources[i].source += "?cache=" + new Date().getTime();
+            sources[i].target.onload = function () {
                 if (++loaded >= sources.length) {
                     callback();
                 }
