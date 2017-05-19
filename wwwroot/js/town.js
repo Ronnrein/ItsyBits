@@ -36,7 +36,7 @@
     // Events
     $(window).resize(resizeCanvas);
     canvas.on("mousedown touchstart", mouseDown);
-    canvas.on("mouseup touchend", mouseUp);
+    canvas.on("mouseup touchend mouseleave", mouseUp);
     canvas.on("mousemove touchmove", mouseMove);
     canvas.on("mousewheel DOMMouseScroll", mouseScroll);
     $("#zoom-in").click(function() { zoom(buttonZoom) });
@@ -69,13 +69,13 @@
 
             // Startup
             resizeCanvas();
-            setInterval(update, 1000 / 60);
             update();
         });
     });
 
     // Function to update scene
     function update() {
+        window.requestAnimationFrame(update);
         var delta = Date.now() - lastUpdate;
         lastUpdate = Date.now();
         cursor.hover = false;
