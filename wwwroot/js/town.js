@@ -104,12 +104,13 @@
 
     // Function to render elements
     function render(delta) {
-        var p1 = ctx.transformedPoint(0, 0);
-        var p2 = ctx.transformedPoint(canvas[0].width, canvas[0].height);
+        ctx.save();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.beginPath();
-        ctx.rect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
+        ctx.rect(0, 0, canvas[0].width, canvas[0].height);
         ctx.fillStyle = backgroundColor;
         ctx.fill();
+        ctx.restore();
 
         $.each(sprites, function(i, sprite) {
             sprite.render(delta);
