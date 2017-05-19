@@ -5,7 +5,7 @@
     var background = new Sprite("/images/town/background2.png", new Vector2(0, 0));
     var cursor = new Sprite("/images/town/cursor.png", new Vector2(-2000, -2000), null, "/images/town/cursorPointer.png");
     var plots = [
-        new Plot(0, null, new Sprite("/images/town/store.png", new Vector2(1720, 480), null, "/images/town/storehover.png"), "/store")
+        new Plot(0, null, new Sprite("/images/town/store.png", new Vector2(2020, 862), null, "/images/town/storehover.png"), "/store")
     ];
     var sprites = [
         new Sprite("/images/misc/coin.png", new Vector2(400, 500), new Animation(10, 1, 10, 50)),
@@ -36,7 +36,7 @@
     // Events
     $(window).resize(resizeCanvas);
     canvas.on("mousedown touchstart", mouseDown);
-    canvas.on("mouseup touchend", mouseUp);
+    canvas.on("mouseup touchend mouseleave", mouseUp);
     canvas.on("mousemove touchmove", mouseMove);
     canvas.on("mousewheel DOMMouseScroll", mouseScroll);
     $("#zoom-in").click(function() { zoom(buttonZoom) });
@@ -64,18 +64,23 @@
                 sprite.rect.height = sprite.image.height;
             });
 
+            $.each(plots, function(i, plot) {
+                plot.sprite.rect.x -= plot.sprite.rect.width / 2;
+                plot.sprite.rect.y -= plot.sprite.rect.height;
+            });
+
             // Remove cursor from array to render it independently
             sprites.splice(sprites.indexOf(cursor));
 
             // Startup
             resizeCanvas();
-            setInterval(update, 1000 / 60);
             update();
         });
     });
 
     // Function to update scene
     function update() {
+        window.requestAnimationFrame(update);
         var delta = Date.now() - lastUpdate;
         lastUpdate = Date.now();
         cursor.hover = false;
@@ -104,12 +109,13 @@
 
     // Function to render elements
     function render(delta) {
-        var p1 = ctx.transformedPoint(0, 0);
-        var p2 = ctx.transformedPoint(canvas[0].width, canvas[0].height);
+        ctx.save();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.beginPath();
-        ctx.rect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
+        ctx.rect(0, 0, canvas[0].width, canvas[0].height);
         ctx.fillStyle = backgroundColor;
         ctx.fill();
+        ctx.restore();
 
         $.each(sprites, function(i, sprite) {
             sprite.render(delta);
@@ -156,7 +162,8 @@
     function loadImages(callback) {
         var loaded = 0;
         for (var i in sources) {
-            sources[i].target.onload = function() {
+            sources[i].source += "?cache=" + new Date().getTime();
+            sources[i].target.onload = function () {
                 if (++loaded >= sources.length) {
                     callback();
                 }
