@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace ItsyBits.Controllers {
 
@@ -19,10 +20,12 @@ namespace ItsyBits.Controllers {
 
         private readonly ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IConfiguration _config;
 
-        public StoreController(ApplicationDbContext db, UserManager<ApplicationUser> userManager) {
+        public StoreController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IConfiguration config) {
             _db = db;
             _userManager = userManager;
+            _config = config;
         }
 
         [HttpGet]
@@ -83,7 +86,8 @@ namespace ItsyBits.Controllers {
             }
             animal.Male = new Random().NextDouble() < 0.5;
             animal.Id = 0;
-            animal.TypeId = id;
+            animal.Type = await _db.AnimalTypes.SingleOrDefaultAsync(at => at.Id == id);
+            animal.HappinessPercentage = int.Parse(_config["AnimalStartingHappiness"]);
             _db.Users.Attach(user);
             user.Currency -= animalType.Price;
             _db.Entry(user).Property(u => u.Currency).IsModified = true;
