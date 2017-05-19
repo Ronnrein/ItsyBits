@@ -106,22 +106,43 @@ namespace ItsyBits.Models {
         /// <summary>
         /// The percentage of how well fed the animal is
         /// </summary>
-        public int FeedPercentage => Type == null ? 0 : CalculateStatPercentage(LastFeed, Type.FeedTime);
+        [NotMapped]
+        public int FeedPercentage {
+            get { return Type == null ? 0 : CalculateStatPercentage(LastFeed, Type.FeedTime); }
+            set { LastFeed = DateTime.Now - TimeSpan.FromTicks(Type.FeedTime.Ticks * (100 - value) / 100); }
+        }
 
         /// <summary>
         /// The percentage of how rested the animal is
         /// </summary>
-        public int SleepPercentage => Type == null ? 0 : CalculateStatPercentage(LastSleep, Type.SleepTime);
+        [NotMapped]
+        public int SleepPercentage {
+            get { return Type == null ? 0 : CalculateStatPercentage(LastSleep, Type.SleepTime); }
+            set { LastSleep = DateTime.Now - TimeSpan.FromTicks(Type.SleepTime.Ticks * (100 - value) / 100); }
+        }
 
         /// <summary>
         /// The percentage of how loved the animal is
         /// </summary>
-        public int PetPercentage => Type == null ? 0 : CalculateStatPercentage(LastPet, Type.PetTime);
+        [NotMapped]
+        public int PetPercentage {
+            get { return Type == null ? 0 : CalculateStatPercentage(LastPet, Type.PetTime); }
+            set { LastPet = DateTime.Now - TimeSpan.FromTicks(Type.PetTime.Ticks * (100 - value) / 100); }
+        }
 
         /// <summary>
         /// The percentage avarage of all stats
         /// </summary>
-        public int HappinessPercentage => (int) new[] {FeedPercentage, SleepPercentage, PetPercentage}.Average();
+        [NotMapped]
+        public int HappinessPercentage {
+            get { return (int) new[] {FeedPercentage, SleepPercentage, PetPercentage}.Average(); }
+            set {
+                DeathTime = null;
+                LastFeed = DateTime.Now - TimeSpan.FromTicks(Type.FeedTime.Ticks * (100 - value) / 100);
+                LastPet = DateTime.Now - TimeSpan.FromTicks(Type.PetTime.Ticks * (100 - value) / 100);
+                LastSleep = DateTime.Now - TimeSpan.FromTicks(Type.SleepTime.Ticks * (100 - value) / 100);
+            }
+        }
 
         /// <summary>
         /// Whether the animal is alive or not

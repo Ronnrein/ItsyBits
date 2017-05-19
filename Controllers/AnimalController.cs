@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace ItsyBits.Controllers {
 
@@ -15,10 +16,12 @@ namespace ItsyBits.Controllers {
 
         private readonly ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IConfiguration _config;
 
-        public AnimalController(ApplicationDbContext db, UserManager<ApplicationUser> userManager) {
+        public AnimalController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IConfiguration config) {
             _db = db;
             _userManager = userManager;
+            _config = config;
         }
 
         [HttpGet]
@@ -87,10 +90,7 @@ namespace ItsyBits.Controllers {
             if (user.Id != animal.Building.UserId) {
                 return Unauthorized();
             }
-            animal.DeathTime = null;
-            animal.LastFeed = DateTime.Now;
-            animal.LastPet = DateTime.Now;
-            animal.LastSleep = DateTime.Now;
+            animal.HappinessPercentage = int.Parse(_config["AnimalRecoveryHappiness"]);
             _db.Update(animal);
             await _db.SaveChangesAsync();
             return RedirectToAction("Details", new { id = animal.Id });
@@ -100,6 +100,7 @@ namespace ItsyBits.Controllers {
         public async Task<IActionResult> Feed(int id) {
             Animal animal = await _db.Animals
                 .Include(a => a.Building)
+                .Include(a => a.Type)
                 .SingleOrDefaultAsync(a => a.Id == id);
             if (animal == null) {
                 return NotFound();
@@ -108,7 +109,7 @@ namespace ItsyBits.Controllers {
             if (user.Id != animal.Building.UserId) {
                 return Unauthorized();
             }
-            animal.LastFeed = DateTime.Now;
+            animal.FeedPercentage = 100;
             _db.Update(animal);
             await _db.SaveChangesAsync();
             return Redirect(Request.Headers["Referer"].ToString());
@@ -118,6 +119,7 @@ namespace ItsyBits.Controllers {
         public async Task<IActionResult> Sleep(int id) {
             Animal animal = await _db.Animals
                 .Include(a => a.Building)
+                .Include(a => a.Type)
                 .SingleOrDefaultAsync(a => a.Id == id);
             if (animal == null) {
                 return NotFound();
@@ -126,7 +128,7 @@ namespace ItsyBits.Controllers {
             if (user.Id != animal.Building.UserId) {
                 return Unauthorized();
             }
-            animal.LastSleep = DateTime.Now;
+            animal.SleepPercentage = 100;
             _db.Update(animal);
             _db.SaveChanges();
             return Redirect(Request.Headers["Referer"].ToString());
@@ -136,6 +138,7 @@ namespace ItsyBits.Controllers {
         public async Task<IActionResult> Pet(int id) {
             Animal animal = await _db.Animals
                 .Include(a => a.Building)
+                .Include(a => a.Type)
                 .SingleOrDefaultAsync(a => a.Id == id);
             if (animal == null) {
                 return NotFound();
@@ -144,7 +147,7 @@ namespace ItsyBits.Controllers {
             if (user.Id != animal.Building.UserId) {
                 return Unauthorized();
             }
-            animal.LastPet = DateTime.Now;
+            animal.PetPercentage = 100;
             _db.Update(animal);
             _db.SaveChanges();
             return Redirect(Request.Headers["Referer"].ToString());
