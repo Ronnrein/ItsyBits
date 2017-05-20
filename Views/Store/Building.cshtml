@@ -1,21 +1,18 @@
 ﻿@model ItsyBits.Models.ViewModels.Store.StoreBuildingViewModel
-@{
-    ViewData["Title"] = "Buy building";
-    BuildingType type = (BuildingType)ViewData["BuildingType"];
-}
+@{ ViewData["Title"] = "Buy building"; }
 <div class="ui stackable two column grid">
     <div class="column info-column">
         <form class="ui segments form" method="post">
             <div class="ui raised segment secondary">
-                <h4 class="inline">Buy a @type.Name</h4>
+                <h4 class="inline">Buy a @Model.BuildingType.Name</h4>
                 <p class="right floated">
                     <i class="ui money icon"></i>
-                    @type.Price
+                    @Model.BuildingType.Price
                 </p>
             </div>
             <div class="ui raised segment">
                 <p class="ui orange ribbon label">Description</p>
-                <p>@type.Description</p>
+                <p>@Model.BuildingType.Description</p>
             </div>
             <div class="ui raised segment field">
                 <p class="ui orange ribbon label inline">
@@ -46,7 +43,7 @@
     </div>
     <div class="column">
         <div class="ui raised segment ray-image-container">
-            <img class="ui centered big image" src="~/images/buildings/@type.SpritePath/portrait.png" />
+            <img class="ui centered big image" src="~/images/buildings/@Model.BuildingType.SpritePath/portrait.png" />
         </div>
     </div>
 </div>

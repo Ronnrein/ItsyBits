@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ItsyBits.Models.ViewModels.Store {
     public class StoreAnimalViewModel {
@@ -11,6 +12,9 @@ namespace ItsyBits.Models.ViewModels.Store {
         [Required(ErrorMessage = "You have to select a building for the animal")]
         [Display(Name = "Where should this animal live?")]
         public int? BuildingId { get; set; }
+
+        public IEnumerable<Building> Buildings { get; set; }
+        public AnimalType AnimalType { get; set; }
 
     }
 }

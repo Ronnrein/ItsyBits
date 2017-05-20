@@ -1,21 +1,18 @@
 ﻿@model ItsyBits.Models.ViewModels.Store.StoreAnimalViewModel
-@{
-    ViewData["Title"] = "Buy animal";
-    AnimalType type = (AnimalType) ViewData["AnimalType"];
-}
+@{ ViewData["Title"] = "Buy animal"; }
 <div class="ui stackable two column grid">
     <div class="column info-column">
         <form class="ui segments form" method="post">
             <div class="ui raised segment secondary">
-                <h4 class="inline">Buy a @type.Name</h4>
+                <h4 class="inline">Buy a @Model.AnimalType.Name</h4>
                 <p class="right floated">
                     <i class="ui money icon"></i>
-                    @type.Price
+                    @Model.AnimalType.Price
                 </p>
             </div>
             <div class="ui raised segment">
                 <p class="ui orange ribbon label">Description</p>
-                <p>@type.Description</p>
+                <p>@Model.AnimalType.Description</p>
             </div>
             <div class="ui raised segment field">
                 <p class="ui orange ribbon label inline">
@@ -33,7 +30,7 @@
                     <i class="dropdown icon"></i>
                     <div class="default text">Select building</div>
                     <div class="menu">
-                        @foreach (Building building in (IEnumerable<Building>)ViewData["BuildingId"]) {
+                        @foreach (Building building in Model.Buildings) {
                             <div class="item" data-value="@building.Id">
                                 <img class="ui mini avatar image" src="/images/buildings/@building.Type.SpritePath/portrait.png" />
                                 @building.Name
@@ -51,7 +48,7 @@
     </div>
     <div class="column">
         <div class="ui raised segment ray-image-container">
-            <img class="ui centered big image" src="~/images/animals/@type.SpritePath/full.png" />
+            <img class="ui centered big image" src="~/images/animals/@Model.AnimalType.SpritePath/full.png" />
         </div>
     </div>
 </div>

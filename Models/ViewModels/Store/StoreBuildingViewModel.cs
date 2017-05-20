@@ -12,5 +12,7 @@ namespace ItsyBits.Models.ViewModels.Store {
         [Display(Name = "Where should this building be placed?")]
         public int? PlotId { get; set; }
 
+        public BuildingType BuildingType { get; set; }
+
     }
 }

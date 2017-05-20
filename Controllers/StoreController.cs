@@ -71,15 +71,16 @@ namespace ItsyBits.Controllers {
                 return RedirectToAction("Index");
             }
 
-            ViewData["BuildingId"] = buildings;
-            ViewData["AnimalType"] = type;
-            return View(new StoreAnimalViewModel());
+            return View(new StoreAnimalViewModel {
+                Buildings = buildings,
+                AnimalType = type
+            });
         }
 
         [HttpPost]
         public async Task<IActionResult> Animal(int id, StoreAnimalViewModel animalVm) {
             ApplicationUser user = await _userManager.GetUserAsync(User);
-            AnimalType animalType = await _db.AnimalTypes.SingleOrDefaultAsync(a => a.Id == id);
+            AnimalType type = await _db.AnimalTypes.SingleOrDefaultAsync(a => a.Id == id);
             Building building = await _db.Buildings
                 .Include(b => b.Type)
                 .Include(b => b.Animals)
@@ -101,19 +102,20 @@ namespace ItsyBits.Controllers {
                     .ThenInclude(bu => bu.Upgrade)
                     .Where(b => b.UserId == user.Id && b.Animals.Count < b.Capacity
                 );
-                ViewData["BuildingId"] = buildings;
-                ViewData["AnimalType"] = animalType;
-                return View(animalVm);
+                return View(new StoreAnimalViewModel {
+                    Buildings = buildings,
+                    AnimalType = type
+                });
             }
 
             // Check for requests that should not be possible
-            if (animalType == null) {
+            if (type == null) {
                 return NotFound();
             }
             if (building.UserId != user.Id) {
                 return Unauthorized();
             }
-            if (user.Currency < animalType.Price) {
+            if (user.Currency < type.Price) {
                 return BadRequest();
             }
 
@@ -123,14 +125,14 @@ namespace ItsyBits.Controllers {
             animal.Type = await _db.AnimalTypes.SingleOrDefaultAsync(at => at.Id == id);
             animal.HappinessPercentage = int.Parse(_config["AnimalStartingHappiness"]);
             _db.Users.Attach(user);
-            user.Currency -= animalType.Price;
+            user.Currency -= type.Price;
             _db.Entry(user).Property(u => u.Currency).IsModified = true;
             _db.Add(animal);
 
             _db.Add(new Notification {
                 Message = $"Your farm welcomes a new pet!",
                 Title = "New pet!",
-                Image = $"animals/{animalType.SpritePath}/portrait.png",
+                Image = $"animals/{type.SpritePath}/portrait.png",
                 Link = "/animal",
                 UserId = user.Id
             });
@@ -154,8 +156,9 @@ namespace ItsyBits.Controllers {
                 return RedirectToAction("Index");
             }
 
-            ViewData["BuildingType"] = type;
-            return View(new StoreBuildingViewModel());
+            return View(new StoreBuildingViewModel {
+                BuildingType = type
+            });
         }
 
         [HttpPost]
@@ -163,8 +166,9 @@ namespace ItsyBits.Controllers {
 
             // If the modelstate is invalid, show view with errors displayed
             if (!ModelState.IsValid) {
-                ViewData["BuildingType"] = await _db.BuildingTypes.SingleOrDefaultAsync(a => a.Id == id);
-                return View(buildingVm);
+                return View(new StoreBuildingViewModel {
+                    BuildingType = await _db.BuildingTypes.SingleOrDefaultAsync(a => a.Id == id)
+                });
             }
 
             // At this point all should be well, set up the model and update database
@@ -191,8 +195,9 @@ namespace ItsyBits.Controllers {
                 // Check if the new building can support the animals of the previous building, if so simply update the old building
                 if (plotBuilding.Animals.Count > type.Capacity) {
                     ModelState.SetModelValue(nameof(buildingVm.PlotId), "You cannot replace this building as it does not have enough room to store your existing animals");
-                    ViewData["BuildingType"] = await _db.BuildingTypes.SingleOrDefaultAsync(a => a.Id == id);
-                    return View(buildingVm);
+                    return View(new StoreBuildingViewModel {
+                        BuildingType = await _db.BuildingTypes.SingleOrDefaultAsync(a => a.Id == id)
+                    });
                 }
                 string name = building.Name;
                 building = plotBuilding;
@@ -249,9 +254,10 @@ namespace ItsyBits.Controllers {
                 return RedirectToAction("Index");
             }
             
-            ViewData["AnimalId"] = user.Animals;
-            ViewData["Upgrade"] = upgrade;
-            return View(new StoreAnimalUpgradeViewModel());
+            return View(new StoreAnimalUpgradeViewModel {
+                Animals = user.Animals,
+                Upgrade = upgrade
+            });
         }
 
         [HttpPost]
@@ -269,7 +275,7 @@ namespace ItsyBits.Controllers {
             }
 
             // Check whether this upgrade is stackable, and if it is not, if it is already applied
-            if (!upgrade.IsStackable && animal.AnimalUpgrades.Any(au => au.UpgradeId == id)) {
+            if (animal != null && !upgrade.IsStackable && animal.AnimalUpgrades.Any(au => au.UpgradeId == id)) {
                 ModelState.SetModelValue(nameof(upgradeVm.AnimalId), "You already upgraded this animal with that upgrade!");
                 Console.WriteLine("Should be set to false now");
             }
@@ -281,10 +287,11 @@ namespace ItsyBits.Controllers {
                     .Include(u => u.Buildings)
                     .ThenInclude(b => b.Animals)
                     .ThenInclude(a => a.Type)
-                    .SingleOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
-                ViewData["AnimalId"] = viewUser.Animals;
-                ViewData["Upgrade"] = upgrade;
-                return View(upgradeVm);
+                    .SingleOrDefaultAsync(u => u.Id == user.Id);
+                return View(new StoreAnimalUpgradeViewModel {
+                    Animals = viewUser.Animals,
+                    Upgrade = upgrade
+                });
             }
 
             // Check for requests that should not be possible
@@ -341,9 +348,10 @@ namespace ItsyBits.Controllers {
                 return RedirectToAction("Index");
             }
 
-            ViewData["BuildingId"] = buildings;
-            ViewData["Upgrade"] = upgrade;
-            return View(new StoreBuildingUpgradeViewModel());
+            return View(new StoreBuildingUpgradeViewModel {
+                Buildings = buildings,
+                Upgrade = upgrade
+            });
         }
 
         [HttpPost]
@@ -373,11 +381,13 @@ namespace ItsyBits.Controllers {
 
             // If the modelstate is invalid, show view with errors displayed
             if (!ModelState.IsValid) {
-                ViewData["BuildingId"] = _db.Buildings
+                IEnumerable<Building> buildings = _db.Buildings
                     .Where(b => b.UserId == user.Id)
                     .Include(b => b.Type);
-                ViewData["Upgrade"] = upgrade;
-                return View(upgradeVm);
+                return View(new StoreBuildingUpgradeViewModel {
+                    Buildings = buildings,
+                    Upgrade = upgrade
+                });
             }
 
             // Check for requests that should not be possible
@@ -400,7 +410,7 @@ namespace ItsyBits.Controllers {
             _db.Add(new Notification {
                 Message = $"You upgraded your building!",
                 Title = "New upgrade!",
-                Image = $"upgrades/" + upgrade.SpritePath,
+                Image = "upgrades/" + upgrade.SpritePath,
                 Link = "/building/" + upgradeVm.BuildingId,
                 UserId = user.Id
             });
