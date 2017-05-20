@@ -20,6 +20,12 @@ namespace ItsyBits.Models {
         public string Name { get; set; }
 
         /// <summary>
+        /// Description of building type
+        /// </summary>
+        [Required(ErrorMessage = "Please enter building description")]
+        public string Description { get; set; }
+
+        /// <summary>
         /// Path to spriteset of building
         /// </summary>
         [Required(ErrorMessage = "Please enter path to spriteset")]

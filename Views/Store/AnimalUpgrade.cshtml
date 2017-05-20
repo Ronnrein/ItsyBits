@@ -4,13 +4,21 @@
     Upgrade upgrade = (Upgrade) ViewData["Upgrade"];
 }
 <div class="ui stackable two column grid">
-    <div class="column">
+    <div class="column info-column">
         <form class="ui segments form" method="post">
-            <div class="ui raised segment secondary header">
-                Buy a @upgrade.Name
+            <div class="ui raised segment secondary">
+                <h4 class="inline">Buy a @upgrade.Name</h4>
+                <p class="right floated">
+                    <i class="ui money icon"></i>
+                    @upgrade.Price
+                </p>
+            </div>
+            <div class="ui raised segment">
+                <p class="ui orange ribbon label">Description</p>
+                <p>@upgrade.Description</p>
             </div>
             <div class="ui raised segment field">
-                <label>Which animal would you like to upgrade?</label>
+                <p class="ui orange ribbon label">Which animal would you like to upgrade?</p>
                 <div class="ui selection dropdown">
                     <input type="hidden" name="AnimalId" />
                     <i class="dropdown icon"></i>

@@ -15,7 +15,7 @@
             <div class="ui segments">
                 <div class="ui segment secondary">
                     <h3 class="inline">@ViewData["Title"]</h3>
-                    <div id="breadcrumbs">Breadcrumbs</div>
+                    @await Html.PartialAsync("_BreadcrumbPartial")
                 </div>
                 @await Html.PartialAsync("_ResultPartial")
                 <div class="ui segment main-segment">
