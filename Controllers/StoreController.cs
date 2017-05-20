@@ -277,12 +277,10 @@ namespace ItsyBits.Controllers {
             // Check whether this upgrade is stackable, and if it is not, if it is already applied
             if (animal != null && !upgrade.IsStackable && animal.AnimalUpgrades.Any(au => au.UpgradeId == id)) {
                 ModelState.SetModelValue(nameof(upgradeVm.AnimalId), "You already upgraded this animal with that upgrade!");
-                Console.WriteLine("Should be set to false now");
             }
 
             // If the modelstate is invalid, show view with errors displayed
             if (!ModelState.IsValid) {
-                Console.WriteLine("Its false");
                 ApplicationUser viewUser = await _db.Users
                     .Include(u => u.Buildings)
                     .ThenInclude(b => b.Animals)
