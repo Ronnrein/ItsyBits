@@ -22,37 +22,31 @@ namespace ItsyBits.Models {
         /// <summary>
         /// Name of animal
         /// </summary>
-        [Required(ErrorMessage = "Please enter its name")]
         public string Name { get; set; }
 
         /// <summary>
         /// Date the animal was created
         /// </summary>
-        [ScaffoldColumn(false)]
         public DateTime Created { get; set; }
 
         /// <summary>
         /// Last time animal was fed
         /// </summary>
-        [ScaffoldColumn(false)]
         public DateTime LastFeed { get; set; }
 
         /// <summary>
         /// Last time animal slept
         /// </summary>
-        [ScaffoldColumn(false)]
         public DateTime LastSleep { get; set; }
 
         /// <summary>
         /// Last time animal was pet
         /// </summary>
-        [ScaffoldColumn(false)]
         public DateTime LastPet { get; set; }
 
         /// <summary>
         /// Level of animal
         /// </summary>
-        [ScaffoldColumn(false)]
         public int Level { get; set; }
 
         /// <summary>
@@ -68,7 +62,6 @@ namespace ItsyBits.Models {
         /// <summary>
         /// Time of death
         /// </summary>
-        [ScaffoldColumn(false)]
         public DateTime? DeathTime { get; set; }
 
         /// <summary>
@@ -81,7 +74,6 @@ namespace ItsyBits.Models {
         /// <summary>
         /// Building animal lives in
         /// </summary>
-        [ScaffoldColumn(false)]
         public Building Building { get; set; }
 
         /// <summary>
@@ -94,7 +86,6 @@ namespace ItsyBits.Models {
         /// <summary>
         /// Junction for animal upgrades
         /// </summary>
-        [ScaffoldColumn(false)]
         public ICollection<AnimalUpgrade> AnimalUpgrades { get; set; }
 
         /// <summary>

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace ItsyBits.Models.ViewModels {
+namespace ItsyBits.Models.ViewModels.Store {
 
     /// <summary>
     /// View model for the store
     /// </summary>
-    public class StoreViewModel {
+    public class StoreIndexViewModel {
         
         /// <summary>
         /// Animals to buy

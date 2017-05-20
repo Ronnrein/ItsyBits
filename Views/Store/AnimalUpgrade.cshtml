@@ -1,4 +1,4 @@
-﻿@model AnimalUpgrade
+﻿@model ItsyBits.Models.ViewModels.Store.StoreAnimalUpgradeViewModel
 @{
     ViewData["Title"] = "Buy animal upgrade";
     Upgrade upgrade = (Upgrade) ViewData["Upgrade"];
@@ -18,9 +18,11 @@
                 <p>@upgrade.Description</p>
             </div>
             <div class="ui raised segment field">
-                <p class="ui orange ribbon label">Which animal would you like to upgrade?</p>
+                <p class="ui orange ribbon label inline">
+                    <label asp-for="AnimalId"></label>
+                </p>
                 <div class="ui selection dropdown">
-                    <input type="hidden" name="AnimalId" />
+                    <input type="hidden" asp-for="AnimalId" />
                     <i class="dropdown icon"></i>
                     <div class="default text">Select animal</div>
                     <div class="menu">
@@ -32,6 +34,7 @@
                         }
                     </div>
                 </div>
+                <span asp-validation-for="AnimalId" class="ui pointing red basic label"></span>
             </div>
             <div class="ui two bottom attached buttons">
                 <button type="submit" class="ui orange button"><i class="add to cart icon"></i> Buy</button>

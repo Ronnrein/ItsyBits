@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Hangfire;
 using Hangfire.Common;
 using Hangfire.Dashboard;
@@ -17,6 +18,7 @@ using ItsyBits.Data;
 using ItsyBits.Models;
 using ItsyBits.Services;
 using ItsyBits.Helpers;
+using ItsyBits.Models.ViewModels.Store;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -88,6 +90,16 @@ namespace ItsyBits
 
             // Add config
             services.AddSingleton<IConfiguration>(Configuration);
+
+            // Add automapper
+            MapperConfiguration config = new MapperConfiguration(o => {
+                o.CreateMap<StoreAnimalViewModel, Animal>();
+                o.CreateMap<StoreBuildingViewModel, Building>();
+                o.CreateMap<StoreAnimalUpgradeViewModel, AnimalUpgrade>();
+                o.CreateMap<StoreBuildingUpgradeViewModel, BuildingUpgrade>();
+            });
+            IMapper mapper = config.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
