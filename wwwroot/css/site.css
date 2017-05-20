@@ -272,20 +272,17 @@ h2.names {
     display: inline;
 }
 
-#breadcrumbs {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-}
-
 .info-column {
     padding-left: 25px !important;
 }
 
 .mid-segment-header {
     border-radius: 0 !important;
-    width: 150% !important;
-    margin: 15px -15px !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    width: 100% !important;
+    margin: 15px -1em !important;
+    box-sizing: content-box;
 }
 
 .main-grid {
@@ -310,5 +307,5 @@ h2.names {
 }
 
 .main-segment {
-    overflow: hidden;
+    overflow: visible !important;
 }

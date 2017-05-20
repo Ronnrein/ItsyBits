@@ -1,5 +1,5 @@
 ﻿@model Building
-@{ ViewData["Title"] = "Animal details"; }
+@{ ViewData["Title"] = "Building details"; }
 <div class="ui stackable two column grid">
     <div class="column info-column">
         <div class="ui segments">
@@ -54,7 +54,7 @@
                             @foreach (Upgrade upgrade in (IEnumerable<Upgrade>)ViewData["Upgrades"]) {
                                 <form asp-controller="Store" asp-action="BuildingUpgrade" asp-route-id="@upgrade.Id">
                                     <input type="hidden" name="BuildingId" value="@Model.Id" />
-                                    <button type="submit" class="ui item basic button tooltip" data-content="@upgrade.Description" name="UpgradeId" value="@upgrade.Id">
+                                    <button type="submit" class="ui item basic button tooltip" data-content="@upgrade.Description" data-position="right center" name="UpgradeId" value="@upgrade.Id">
                                         <img class="ui avatar image" src="~/images/upgrades/@upgrade.SpritePath" />
                                         @upgrade.Name
                                     </button>
@@ -68,6 +68,10 @@
                         </div>
                     }
                 </div>
+            </div>
+            <div class="ui raised segment">
+                <p class="ui orange ribbon label">Description</p>
+                <p>@Model.Type.Description</p>
             </div>
             <div class="ui raised segment">
                 <p class="ui orange ribbon label">Status</p>

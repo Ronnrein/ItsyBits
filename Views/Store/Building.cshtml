@@ -4,18 +4,26 @@
     BuildingType type = (BuildingType)ViewData["BuildingType"];
 }
 <div class="ui stackable two column grid">
-    <div class="column">
+    <div class="column info-column">
         <form class="ui segments form" method="post">
             <input type="hidden" id="PlotId" name="PlotId" value="0" />
-            <div class="ui raised segment secondary header">
-                Buy a @type.Name
+            <div class="ui raised segment secondary">
+                <h4 class="inline">Buy a @type.Name</h4>
+                <p class="right floated">
+                    <i class="ui money icon"></i>
+                    @type.Price
+                </p>
+            </div>
+            <div class="ui raised segment">
+                <p class="ui orange ribbon label">Description</p>
+                <p>@type.Description</p>
             </div>
             <div class="ui raised segment field">
-                <label>What would you like to name your building?</label>
+                <p class="ui orange ribbon label">What would you like to name your building?</p>
                 <input asp-for="Name"/>
             </div>
             <div class="ui raised segment field">
-                <label id="plot-text">Where would you like your animal to live?</label>
+                <p id="plot-text" class="ui orange ribbon label">Where would you like your animal to live?</p>
                 <div id="town" class="full-width">
                     <canvas id="canvas" class="full-width" width="500" height="500"></canvas>
                     <div class="ui vertical buttons" id="zoom-buttons">

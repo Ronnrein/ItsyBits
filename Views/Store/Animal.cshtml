@@ -4,17 +4,25 @@
     AnimalType type = (AnimalType) ViewData["AnimalType"];
 }
 <div class="ui stackable two column grid">
-    <div class="column">
+    <div class="column info-column">
         <form class="ui segments form" method="post">
-            <div class="ui raised segment secondary header">
-                Buy a @type.Name
+            <div class="ui raised segment secondary">
+                <h4 class="inline">Buy a @type.Name</h4>
+                <p class="right floated">
+                    <i class="ui money icon"></i>
+                    @type.Price
+                </p>
+            </div>
+            <div class="ui raised segment">
+                <p class="ui orange ribbon label">Description</p>
+                <p>@type.Description</p>
             </div>
             <div class="ui raised segment field">
-                <label>What would you like to name your animal?</label>
+                <p class="ui orange ribbon label">What would you like to name your animal?</p>
                 <input asp-for="Name" />
             </div>
             <div class="ui raised segment field">
-                <label>Where should the animal live?</label>
+                <p class="ui orange ribbon label">Where should the animal live?</p>
                 <div class="ui selection dropdown">
                     <input type="hidden" name="BuildingId" />
                     <i class="dropdown icon"></i>
