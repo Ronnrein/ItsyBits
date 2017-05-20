@@ -16,6 +16,13 @@
             </div>
         </div>
         <div class="form-group">
+            <label asp-for="Description" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
             <label asp-for="FeedTime" class="col-md-2 control-label" data-toggle="tooltip" data-placement="right" title="@Html.DescriptionFor(model => model.FeedTime)"></label>
             <div class="col-md-10">
                 <input asp-for="FeedTime" class="form-control" />

@@ -22,6 +22,12 @@ namespace ItsyBits.Models {
         public string Name { get; set; }
 
         /// <summary>
+        /// Description of animal type
+        /// </summary>
+        [Required(ErrorMessage = "Please enter animal description")]
+        public string Description { get; set; }
+
+        /// <summary>
         /// Time before animal needs food
         /// </summary>
         [Display(Name = "Feed time", Description = "Time before animal needs food")]
