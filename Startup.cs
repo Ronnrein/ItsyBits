@@ -100,8 +100,6 @@ namespace ItsyBits
                 o.CreateMap<Upgrade, UpgradeViewModel>().MaxDepth(1);
                 o.CreateMap<AnimalType, AnimalTypeViewModel>().MaxDepth(1);
                 o.CreateMap<Animal, AnimalViewModel>()
-                    .ForMember(d => d.Upgrades, opts => opts.MapFrom(a => a.Upgrades))
-                    .ForMember(d => d.Building, opts => opts.MapFrom(a => a.Building))
                     .ForMember(d => d.Type, opts => opts.MapFrom(a => a.Type.Name))
                     .ForMember(d => d.SpritePath, opts => opts.MapFrom(a => a.Type.SpritePath))
                     .ForMember(d => d.Description, opts => opts.MapFrom(a => a.Type.Description))
@@ -109,7 +107,6 @@ namespace ItsyBits
                     .MaxDepth(2);
                 o.CreateMap<BuildingType, BuildingTypeViewModel>();
                 o.CreateMap<Building, BuildingViewModel>()
-                    .ForMember(d => d.Upgrades, opts => opts.MapFrom(b => b.Upgrades))
                     .ForMember(d => d.Type, opts => opts.MapFrom(b => b.Type.Name))
                     .ForMember(d => d.SpritePath, opts => opts.MapFrom(b => b.Type.SpritePath))
                     .ForMember(d => d.Description, opts => opts.MapFrom(b => b.Type.Description))
