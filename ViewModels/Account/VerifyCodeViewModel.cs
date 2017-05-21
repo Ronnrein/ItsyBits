@@ -1,9 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ItsyBits.Models.ViewModels.Account
-{
-    public class VerifyCodeViewModel
-    {
+namespace ItsyBits.ViewModels {
+    public class VerifyCodeViewModel {
         [Required]
         public string Provider { get; set; }
 

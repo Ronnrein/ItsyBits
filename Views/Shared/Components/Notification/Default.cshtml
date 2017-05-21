@@ -1,5 +1,5 @@
 ﻿@using ItsyBits.Helpers
-@model IEnumerable<Notification>
+@model IEnumerable<NotificationViewModel>
 @{ int unread = Model.Count(n => !n.IsRead); }
 <div class="ui pointing dropdown top right item grey" id="notifications-button">
     <i class="alarm icon"></i>
@@ -7,7 +7,7 @@
         <div class="floating ui red circular mini label" id="notification-count">@unread</div>
     }
     <div class="ui menu comments notifications">
-        @foreach (Notification notification in Model.OrderByDescending(n => n.Created).Take(5)) {
+        @foreach (NotificationViewModel notification in Model.OrderByDescending(n => n.Created).Take(5)) {
             string selected = notification.IsRead ? "" : "selected";
             <div class="comment item @selected">
                 <a class="avatar" href="@notification.Link">

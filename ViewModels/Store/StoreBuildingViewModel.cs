@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ItsyBits.Models.ViewModels.Store {
+namespace ItsyBits.ViewModels {
     public class StoreBuildingViewModel {
 
         [Required(ErrorMessage = "Please enter the name of the building")]
@@ -12,7 +12,7 @@ namespace ItsyBits.Models.ViewModels.Store {
         [Display(Name = "Where should this building be placed?")]
         public int? PlotId { get; set; }
 
-        public BuildingType BuildingType { get; set; }
+        public BuildingTypeViewModel BuildingType { get; set; }
 
     }
 }

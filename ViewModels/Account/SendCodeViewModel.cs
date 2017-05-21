@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace ItsyBits.Models.ViewModels.Account
-{
-    public class SendCodeViewModel
-    {
+namespace ItsyBits.ViewModels {
+    public class SendCodeViewModel {
         public string SelectedProvider { get; set; }
 
         public ICollection<SelectListItem> Providers { get; set; }

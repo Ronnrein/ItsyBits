@@ -1,9 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ItsyBits.Models.ViewModels.Account
-{
-    public class LoginViewModel
-    {
+namespace ItsyBits.ViewModels {
+    public class LoginViewModel {
         [Required]
         public string User { get; set; }
 

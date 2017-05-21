@@ -1,9 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ItsyBits.Models.ViewModels.Account
-{
-    public class ResetPasswordViewModel
-    {
+namespace ItsyBits.ViewModels {
+    public class ResetPasswordViewModel {
         [Required]
         [EmailAddress]
         public string Email { get; set; }

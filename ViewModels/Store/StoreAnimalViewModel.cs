@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ItsyBits.Models.ViewModels.Store {
+namespace ItsyBits.ViewModels {
     public class StoreAnimalViewModel {
 
         [Required(ErrorMessage = "Please enter the animals name")]
@@ -13,8 +13,8 @@ namespace ItsyBits.Models.ViewModels.Store {
         [Display(Name = "Where should this animal live?")]
         public int? BuildingId { get; set; }
 
-        public IEnumerable<Building> Buildings { get; set; }
-        public AnimalType AnimalType { get; set; }
+        public IEnumerable<BuildingViewModel> Buildings { get; set; }
+        public AnimalTypeViewModel AnimalType { get; set; }
 
     }
 }

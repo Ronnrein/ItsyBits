@@ -1,4 +1,3 @@
-@using ItsyBits.Models.ViewModels.Store
 @model StoreIndexViewModel
 @{ ViewData["Title"] = "Store"; }
 <div class="ui top attached tabular menu" id="tabs">
@@ -20,7 +19,7 @@
 <div class="ui bottom attached tab segment active" data-tab="first">
     <h2>Animals</h2>
     <div class="ui cards">
-        @foreach (AnimalType animal in Model.AnimalTypes) {
+        @foreach (AnimalTypeViewModel animal in Model.AnimalTypes) {
             @await Html.PartialAsync("_AnimalPartial", animal)
         }
     </div>
@@ -28,7 +27,7 @@
 <div class="ui bottom attached tab segment" data-tab="second">
     <h2>Buildings</h2>
     <div class="ui cards">
-        @foreach (BuildingType building in Model.BuildingTypes) {
+        @foreach (BuildingTypeViewModel building in Model.BuildingTypes) {
             @await Html.PartialAsync("_BuildingPartial", building)
         }
     </div>
@@ -36,7 +35,7 @@
 <div class="ui bottom attached tab segment" data-tab="third">
     <h2>Animal upgrades</h2>
     <div class="ui cards">
-        @foreach (Upgrade upgrade in Model.Upgrades.Where(u => u.ForAnimal)) {
+        @foreach (UpgradeViewModel upgrade in Model.Upgrades.Where(u => u.ForAnimal)) {
             @await Html.PartialAsync("_AnimalUpgradePartial", upgrade)
         }
     </div>
@@ -44,7 +43,7 @@
 <div class="ui bottom attached tab segment" data-tab="fourth">
     <h2>Building upgrades</h2>
     <div class="ui cards">
-        @foreach (Upgrade upgrade in Model.Upgrades.Where(u => u.ForBuilding)) {
+        @foreach (UpgradeViewModel upgrade in Model.Upgrades.Where(u => u.ForBuilding)) {
             @await Html.PartialAsync("_BuildingUpgradePartial", upgrade)
         }
     </div>

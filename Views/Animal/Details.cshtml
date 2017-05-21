@@ -1,15 +1,15 @@
-﻿@model Animal
+﻿@model AnimalDetailsViewModel
 @{
     ViewData["Title"] = "Animal details";
-    string[] ageSplit = Model.Age.Split(' ');
+    string[] ageSplit = Model.Animal.Age.Split(' ');
 }
 <div class="ui stackable two column grid">
     <div class="column info-column">
         <div class="ui segments">
             <div class="ui raised segment secondary">
-                <h4 class="inline">@Model.Name</h4>
-                <a asp-controller="Building" asp-action="Details" asp-route-id="@Model.BuildingId">
-                    <img class="ui avatar right floated image tooltip" data-content="Resides in @Model.Building.Name" src="~/images/buildings/@Model.Building.Type.SpritePath/portrait.png" />
+                <h4 class="inline">@Model.Animal.Name</h4>
+                <a asp-controller="Building" asp-action="Details" asp-route-id="@Model.Animal.Building.Id">
+                    <img class="ui avatar right floated image tooltip" data-content="Resides in @Model.Animal.Building.Name" src="~/images/buildings/@Model.Animal.Building.SpritePath/portrait.png" />
                 </a>
             </div>
             <div class="ui raised segment">
@@ -25,15 +25,15 @@
                     </div>
                     <div class="statistic">
                         <div class="value">
-                            <i class="@(Model.Male ? "man" : "woman") icon"></i>
+                            <i class="@(Model.Animal.Male ? "man" : "woman") icon"></i>
                         </div>
                         <div class="label">
-                            @(Model.Male ? "male" : "female")
+                            @(Model.Animal.Male ? "male" : "female")
                         </div>
                     </div>
                     <div class="statistic">
                         <div class="value">
-                            @Model.GetReward()
+                            @Model.Animal.Reward
                         </div>
                         <div class="label">
                             value
@@ -41,7 +41,7 @@
                     </div>
                     <div class="statistic">
                         <div class="value">
-                            @Model.AnimalUpgrades.Count
+                            @Model.Animal.Upgrades.Count()
                         </div>
                         <div class="label">
                             upgrades
@@ -57,9 +57,9 @@
                             <img class="ui avatar image" src="~/images/upgrades/upgrade.png" />
                         </div>
                         <div class="menu vertical basic buttons">
-                            @foreach (Upgrade upgrade in (IEnumerable<Upgrade>) ViewData["Upgrades"]) {
+                            @foreach (UpgradeViewModel upgrade in Model.AvailableUpgrades) {
                                 <form asp-controller="Store" asp-action="AnimalUpgrade" asp-route-id="@upgrade.Id">
-                                    <input type="hidden" name="AnimalId" value="@Model.Id" />
+                                    <input type="hidden" name="AnimalId" value="@Model.Animal.Id" />
                                     <button type="submit" class="ui item basic button tooltip" data-content="@upgrade.Description" data-position="right center" name="UpgradeId" value="@upgrade.Id">
                                         <img class="ui avatar image" src="~/images/upgrades/@upgrade.SpritePath" />
                                         @upgrade.Name
@@ -68,7 +68,7 @@
                             }
                         </div>
                     </div>
-                    @foreach (Upgrade upgrade in Model.Upgrades) {
+                    @foreach (UpgradeViewModel upgrade in Model.Animal.Upgrades) {
                         <div>
                             <img class="ui avatar image tooltip" data-content="@upgrade.Description" src="~/images/upgrades/@upgrade.SpritePath"/>
                         </div>
@@ -77,14 +77,14 @@
             </div>
             <div class="ui raised segment">
                 <p class="ui orange ribbon label">Description</p>
-                <p>@Model.Type.Description</p>
+                <p>@Model.Animal.Description</p>
             </div>
             <div class="ui raised segment">
                 <p class="ui orange ribbon label">Status</p>
-                <p>@Model.GetStatusText()</p>
+                <p>@Model.Animal.StatusText</p>
             </div>
             <div class="ui raised segment">
-                <div class="ui small indicating progress progressbar tooltip" data-content="@Model.HappinessPercentage%" data-value="@Model.HappinessPercentage" data-total="100">
+                <div class="ui small indicating progress progressbar tooltip" data-content="@Model.Animal.HappinessPercentage%" data-value="@Model.Animal.HappinessPercentage" data-total="100">
                     <div class="bar"></div>
                     <div class="label">Happiness</div>
                 </div>
@@ -93,7 +93,7 @@
     </div>
     <div class="column">
         <div class="ui raised segment ray-image-container">
-            <img class="ui centered big image" src="~/images/animals/@Model.Type.SpritePath/full.png"/>
+            <img class="ui centered big image" src="~/images/animals/@Model.Animal.SpritePath/full.png"/>
         </div>
     </div>
 </div>
@@ -102,12 +102,12 @@
 </div>
 <div class="ui three column stackable grid">
     <div class="column">
-        <form class="animal-action" asp-controller="Animal" asp-action="Feed" asp-route-id="@Model.Id" method="post">
+        <form class="animal-action" asp-controller="Animal" asp-action="Feed" asp-route-id="@Model.Animal.Id" method="post">
             <div class="ui fluid card">
                 <div class="content">
                     <div class="header">Well fed</div>
                     <div class="ui divider"></div>
-                    <div class="ui indicating progress progressbar tooltip" data-content="@Model.FeedPercentage%" data-value="@Model.FeedPercentage" data-total="100">
+                    <div class="ui indicating progress progressbar tooltip" data-content="@Model.Animal.FeedPercentage%" data-value="@Model.Animal.FeedPercentage" data-total="100">
                         <div class="bar"></div>
                     </div>
                 </div>
@@ -119,12 +119,12 @@
         </form>
     </div>
     <div class="column">
-        <form class="animal-action" asp-controller="Animal" asp-action="Sleep" asp-route-id="@Model.Id" method="post">
+        <form class="animal-action" asp-controller="Animal" asp-action="Sleep" asp-route-id="@Model.Animal.Id" method="post">
             <div class="ui fluid card">
                 <div class="content">
                     <div class="header">Rested</div>
                     <div class="ui divider"></div>
-                    <div class="ui indicating progress progressbar tooltip" data-content="@Model.SleepPercentage%" data-value="@Model.SleepPercentage" data-total="100">
+                    <div class="ui indicating progress progressbar tooltip" data-content="@Model.Animal.SleepPercentage%" data-value="@Model.Animal.SleepPercentage" data-total="100">
                         <div class="bar"></div>
                     </div>
                 </div>
@@ -136,12 +136,12 @@
         </form>
     </div>
     <div class="column">
-        <form class="animal-action" asp-controller="Animal" asp-action="Pet" asp-route-id="@Model.Id" method="post">
+        <form class="animal-action" asp-controller="Animal" asp-action="Pet" asp-route-id="@Model.Animal.Id" method="post">
             <div class="ui fluid card">
                 <div class="content">
                     <div class="header">Loved</div>
                     <div class="ui divider"></div>
-                    <div class="ui indicating progress progressbar tooltip" data-content="@Model.PetPercentage%" data-value="@Model.PetPercentage" data-total="100">
+                    <div class="ui indicating progress progressbar tooltip" data-content="@Model.Animal.PetPercentage%" data-value="@Model.Animal.PetPercentage" data-total="100">
                         <div class="bar"></div>
                     </div>
                 </div>

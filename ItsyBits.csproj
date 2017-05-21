@@ -39,8 +39,4 @@
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.0-msbuild3-final" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0-msbuild3-final" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\ViewModels\Animal\" />
-    <Folder Include="Models\ViewModels\NewFolder\" />
-  </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-﻿@model ItsyBits.Models.ViewModels.Store.StoreAnimalViewModel
+﻿@model StoreAnimalViewModel
 @{ ViewData["Title"] = "Buy animal"; }
 <div class="ui stackable two column grid">
     <div class="column info-column">
@@ -30,9 +30,9 @@
                     <i class="dropdown icon"></i>
                     <div class="default text">Select building</div>
                     <div class="menu">
-                        @foreach (Building building in Model.Buildings) {
+                        @foreach (BuildingViewModel building in Model.Buildings) {
                             <div class="item" data-value="@building.Id">
-                                <img class="ui mini avatar image" src="/images/buildings/@building.Type.SpritePath/portrait.png" />
+                                <img class="ui mini avatar image" src="/images/buildings/@building.SpritePath/portrait.png" />
                                 @building.Name
                             </div>
                         }

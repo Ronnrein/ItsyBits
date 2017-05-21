@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,8 +7,7 @@ using AutoMapper;
 using ItsyBits.Data;
 using ItsyBits.Helpers;
 using ItsyBits.Models;
-using ItsyBits.Models.ViewModels;
-using ItsyBits.Models.ViewModels.Store;
+using ItsyBits.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -36,9 +36,9 @@ namespace ItsyBits.Controllers {
             ApplicationUser user = await _userManager.GetUserAsync(User);
             ViewData["Currency"] = user.Currency;
             return View(new StoreIndexViewModel {
-                AnimalTypes = _db.AnimalTypes,
-                BuildingTypes = _db.BuildingTypes,
-                Upgrades = _db.Upgrades
+                AnimalTypes = _mapper.Map<IEnumerable<AnimalType>, IEnumerable<AnimalTypeViewModel>>(_db.AnimalTypes),
+                BuildingTypes = _mapper.Map<IEnumerable<BuildingType>, IEnumerable<BuildingTypeViewModel>>(_db.BuildingTypes),
+                Upgrades = _mapper.Map<IEnumerable<Upgrade>, IEnumerable<UpgradeViewModel>>(_db.Upgrades)
             });
         }
 
@@ -72,8 +72,8 @@ namespace ItsyBits.Controllers {
             }
 
             return View(new StoreAnimalViewModel {
-                Buildings = buildings,
-                AnimalType = type
+                Buildings = _mapper.Map<IEnumerable<Building>, IEnumerable<BuildingViewModel>>(buildings),
+                AnimalType = _mapper.Map<AnimalType, AnimalTypeViewModel>(type)
             });
         }
 
@@ -103,8 +103,8 @@ namespace ItsyBits.Controllers {
                     .Where(b => b.UserId == user.Id && b.Animals.Count < b.Capacity
                 );
                 return View(new StoreAnimalViewModel {
-                    Buildings = buildings,
-                    AnimalType = type
+                    Buildings = _mapper.Map<IEnumerable<Building>, IEnumerable<BuildingViewModel>>(buildings),
+                    AnimalType = _mapper.Map<AnimalType, AnimalTypeViewModel>(type)
                 });
             }
 
@@ -157,7 +157,7 @@ namespace ItsyBits.Controllers {
             }
 
             return View(new StoreBuildingViewModel {
-                BuildingType = type
+                BuildingType = _mapper.Map<BuildingType, BuildingTypeViewModel>(type)
             });
         }
 
@@ -167,7 +167,7 @@ namespace ItsyBits.Controllers {
             // If the modelstate is invalid, show view with errors displayed
             if (!ModelState.IsValid) {
                 return View(new StoreBuildingViewModel {
-                    BuildingType = await _db.BuildingTypes.SingleOrDefaultAsync(a => a.Id == id)
+                    BuildingType = _mapper.Map<BuildingType, BuildingTypeViewModel>(await _db.BuildingTypes.SingleOrDefaultAsync(a => a.Id == id))
                 });
             }
 
@@ -196,7 +196,7 @@ namespace ItsyBits.Controllers {
                 if (plotBuilding.Animals.Count > type.Capacity) {
                     ModelState.SetModelValue(nameof(buildingVm.PlotId), "You cannot replace this building as it does not have enough room to store your existing animals");
                     return View(new StoreBuildingViewModel {
-                        BuildingType = await _db.BuildingTypes.SingleOrDefaultAsync(a => a.Id == id)
+                        BuildingType = _mapper.Map<BuildingType, BuildingTypeViewModel>(type)
                     });
                 }
                 string name = building.Name;
@@ -218,7 +218,7 @@ namespace ItsyBits.Controllers {
             _db.Add(new Notification {
                 Message = $"You have a new building!",
                 Title = "New building!",
-                Image = $"buildings/{type.SpritePath}/icon.jpg",
+                Image = $"buildings/{type.SpritePath}/portrait.png",
                 Link = "/building",
                 UserId = user.Id
             });
@@ -255,8 +255,8 @@ namespace ItsyBits.Controllers {
             }
             
             return View(new StoreAnimalUpgradeViewModel {
-                Animals = user.Animals,
-                Upgrade = upgrade
+                Animals = _mapper.Map<IEnumerable<Animal>, IEnumerable<AnimalViewModel>>(user.Animals),
+                Upgrade = _mapper.Map<Upgrade, UpgradeViewModel>(upgrade)
             });
         }
 
@@ -287,8 +287,8 @@ namespace ItsyBits.Controllers {
                     .ThenInclude(a => a.Type)
                     .SingleOrDefaultAsync(u => u.Id == user.Id);
                 return View(new StoreAnimalUpgradeViewModel {
-                    Animals = viewUser.Animals,
-                    Upgrade = upgrade
+                    Animals = _mapper.Map<IEnumerable<Animal>, IEnumerable<AnimalViewModel>>(viewUser.Animals),
+                    Upgrade = _mapper.Map<Upgrade, UpgradeViewModel>(upgrade)
                 });
             }
 
@@ -347,8 +347,8 @@ namespace ItsyBits.Controllers {
             }
 
             return View(new StoreBuildingUpgradeViewModel {
-                Buildings = buildings,
-                Upgrade = upgrade
+                Buildings = _mapper.Map<IEnumerable<Building>, IEnumerable<BuildingViewModel>>(buildings),
+                Upgrade = _mapper.Map<Upgrade, UpgradeViewModel>(upgrade)
             });
         }
 
@@ -383,8 +383,8 @@ namespace ItsyBits.Controllers {
                     .Where(b => b.UserId == user.Id)
                     .Include(b => b.Type);
                 return View(new StoreBuildingUpgradeViewModel {
-                    Buildings = buildings,
-                    Upgrade = upgrade
+                    Buildings = _mapper.Map<IEnumerable<Building>, IEnumerable<BuildingViewModel>>(buildings),
+                    Upgrade = _mapper.Map<Upgrade, UpgradeViewModel>(upgrade)
                 });
             }
 
@@ -419,7 +419,7 @@ namespace ItsyBits.Controllers {
 
         [HttpGet]
         public IActionResult AnimalSelect() {
-            return View(_db.AnimalTypes);
+            return View(_mapper.Map<IEnumerable<AnimalType>, IEnumerable<AnimalTypeViewModel>>(_db.AnimalTypes));
         }
     }
 }

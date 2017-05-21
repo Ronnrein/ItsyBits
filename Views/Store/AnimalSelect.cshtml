@@ -1,8 +1,8 @@
-﻿@model IEnumerable<AnimalType>
+﻿@model IEnumerable<AnimalTypeViewModel>
 @{ ViewData["Title"] = "Select an animal"; }
 <h1 class="ui center aligned header">Select your first pet!</h1>
 <div class="ui three column doubling grid container">
-    @foreach (AnimalType type in Model) {
+    @foreach (AnimalTypeViewModel type in Model) {
         <a asp-controller="Store" asp-action="Animal" asp-route-id="@type.Id" class="centered column">
             <h3 class="ui center aligned header">@type.Name</h3>
             <img class="ui fluid image" src="/images/animals/@type.SpritePath/full.png"/>

@@ -1,9 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ItsyBits.Models.ViewModels.Account
-{
-    public class ForgotPasswordViewModel
-    {
+namespace ItsyBits.ViewModels {
+    public class ExternalLoginConfirmationViewModel {
         [Required]
         [EmailAddress]
         public string Email { get; set; }

@@ -13,9 +13,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ItsyBits.Models;
-using ItsyBits.Models.ViewModels;
-using ItsyBits.Models.ViewModels.Account;
 using ItsyBits.Services;
+using ItsyBits.ViewModels;
 using Microsoft.Extensions.Configuration;
 
 namespace ItsyBits.Controllers
