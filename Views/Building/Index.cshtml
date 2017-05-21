@@ -1,7 +1,7 @@
-﻿@model IEnumerable<Building>
+﻿@model IEnumerable<BuildingViewModel>
 @{ ViewData["Title"] = "My buildings"; }
 <div class="ui cards">
-    @foreach (Building building in Model) {
+    @foreach (BuildingViewModel building in Model) {
         @Html.Partial("_BuildingCardPartial", building)
     }
 </div>

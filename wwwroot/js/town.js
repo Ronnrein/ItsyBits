@@ -133,12 +133,12 @@
     // Function to get user data
     function getData(callback) {
         $.getJSON("/building/plots", function(data) {
-            $.each(data, function(i, v) {
-                var image = "/images/" + (v.buildings == null ? "town/empty" : "buildings/" + v.buildings[0].type.spritePath + "/town");
-                var url = v.buildings == null ? "/store" : "/building/details/" + v.buildings[0].id;
+            $.each(data, function (i, v) {
+                var image = "/images/" + (v.building == null ? "town/empty" : "buildings/" + v.building.spritePath + "/town");
+                var url = v.building == null ? "/store" : "/building/details/" + v.building.id;
                 plots.push(new Plot(
                     v.id,
-                    v.buildings == null ? null : v.buildings[0],
+                    v.building,
                     new Sprite(
                         image + ".png",
                         new Vector2(v.positionX, v.positionY),

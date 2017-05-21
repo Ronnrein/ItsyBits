@@ -1,37 +1,37 @@
-﻿@model AnimalUpgrade
-@{
-    ViewData["Title"] = "Buy animal upgrade";
-    Upgrade upgrade = (Upgrade) ViewData["Upgrade"];
-}
+﻿@model StoreAnimalUpgradeViewModel
+@{ ViewData["Title"] = "Buy animal upgrade"; }
 <div class="ui stackable two column grid">
     <div class="column info-column">
         <form class="ui segments form" method="post">
             <div class="ui raised segment secondary">
-                <h4 class="inline">Buy a @upgrade.Name</h4>
+                <h4 class="inline">Buy a @Model.Upgrade.Name</h4>
                 <p class="right floated">
                     <i class="ui money icon"></i>
-                    @upgrade.Price
+                    @Model.Upgrade.Price
                 </p>
             </div>
             <div class="ui raised segment">
                 <p class="ui orange ribbon label">Description</p>
-                <p>@upgrade.Description</p>
+                <p>@Model.Upgrade.Description</p>
             </div>
             <div class="ui raised segment field">
-                <p class="ui orange ribbon label">Which animal would you like to upgrade?</p>
+                <p class="ui orange ribbon label inline">
+                    <label asp-for="AnimalId"></label>
+                </p>
                 <div class="ui selection dropdown">
-                    <input type="hidden" name="AnimalId" />
+                    <input type="hidden" asp-for="AnimalId" />
                     <i class="dropdown icon"></i>
                     <div class="default text">Select animal</div>
                     <div class="menu">
-                        @foreach (Animal animal in (IEnumerable<Animal>)ViewData["AnimalId"]) {
+                        @foreach (AnimalViewModel animal in Model.Animals) {
                             <div class="item" data-value="@animal.Id">
-                                <img class="ui mini avatar image" src="/images/animals/@animal.Type.SpritePath/portrait.png" />
+                                <img class="ui mini avatar image" src="/images/animals/@animal.SpritePath/portrait.png" />
                                 @animal.Name
                             </div>
                         }
                     </div>
                 </div>
+                <span asp-validation-for="AnimalId" class="ui pointing red basic label"></span>
             </div>
             <div class="ui two bottom attached buttons">
                 <button type="submit" class="ui orange button"><i class="add to cart icon"></i> Buy</button>
@@ -41,7 +41,7 @@
     </div>
     <div class="column">
         <div class="ui raised segment ray-image-container">
-            <img class="ui centered small image" src="~/images/upgrades/@upgrade.SpritePath" />
+            <img class="ui centered small image" src="~/images/upgrades/@Model.Upgrade.SpritePath" />
         </div>
     </div>
 </div>

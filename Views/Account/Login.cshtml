@@ -11,7 +11,6 @@
                 <img class="logo" src="~/images/ItsyBitsLogo.png" />
                 <h2 class="account-header">Login to play!</h2>
                 @await Html.PartialAsync("_ResultPartial")
-                <div asp-validation-summary="All"></div>
                 <div class="field">
                     <span asp-validation-for="User" class="ui orange left pointing label"></span>
                     <input asp-for="User" type="text" placeholder="Username or email" />

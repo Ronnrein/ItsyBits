@@ -1,10 +1,16 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Globalization;
 using System.Linq.Expressions;
+using System.Reflection;
+using AutoMapper;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
+using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 
 namespace ItsyBits.Helpers {
@@ -104,5 +110,21 @@ namespace ItsyBits.Helpers {
             tempData.TryGetValue(key, out o);
             return o == null ? null : JsonConvert.DeserializeObject<T>((string) o);
         }
+
+        /// <summary>
+        /// Sets model value
+        /// </summary>
+        /// <param name="modelState">The modelstate object to use</param>
+        /// <param name="key">The key to set</param>
+        /// <param name="value">The value to set</param>
+        public static void SetModelValue(this ModelStateDictionary modelState, string key, string value) {
+            try {
+                modelState.TryAddModelError(key, value);
+            }
+            catch (TooManyModelErrorsException) {
+                modelState.SetModelValue(key, new ValueProviderResult(new StringValues(value), CultureInfo.InvariantCulture));
+            }
+        }
+
     }
 }

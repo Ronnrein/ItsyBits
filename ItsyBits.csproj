@@ -15,6 +15,7 @@
     <PackageReference Include="BuildBundlerMinifier" Version="2.4.337" />
     <PackageReference Include="Hangfire" Version="1.6.12" />
     <PackageReference Include="Mailkit" Version="1.16.0" />
+    <PackageReference Include="AutoMapper" Version="6.0.2" />
     <PackageReference Include="Hangfire.MySql.NetCore" Version="1.0.7" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.0" />

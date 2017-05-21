@@ -20,7 +20,6 @@ namespace ItsyBits.Models {
         /// <summary>
         /// Name of building
         /// </summary>
-        [Required(ErrorMessage = "Please enter name of building")]
         public string Name { get; set; }
 
         /// <summary>

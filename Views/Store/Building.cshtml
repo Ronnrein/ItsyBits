@@ -1,29 +1,30 @@
-﻿@model Building
-@{
-    ViewData["Title"] = "Buy building";
-    BuildingType type = (BuildingType)ViewData["BuildingType"];
-}
+﻿@model StoreBuildingViewModel
+@{ ViewData["Title"] = "Buy building"; }
 <div class="ui stackable two column grid">
     <div class="column info-column">
         <form class="ui segments form" method="post">
-            <input type="hidden" id="PlotId" name="PlotId" value="0" />
             <div class="ui raised segment secondary">
-                <h4 class="inline">Buy a @type.Name</h4>
+                <h4 class="inline">Buy a @Model.BuildingType.Name</h4>
                 <p class="right floated">
                     <i class="ui money icon"></i>
-                    @type.Price
+                    @Model.BuildingType.Price
                 </p>
             </div>
             <div class="ui raised segment">
                 <p class="ui orange ribbon label">Description</p>
-                <p>@type.Description</p>
+                <p>@Model.BuildingType.Description</p>
             </div>
             <div class="ui raised segment field">
-                <p class="ui orange ribbon label">What would you like to name your building?</p>
-                <input asp-for="Name"/>
+                <p class="ui orange ribbon label inline">
+                    <label asp-for="Name"></label>
+                </p>
+                <input asp-for="Name" placeholder="Name" />
+                <span asp-validation-for="Name" class="ui pointing red basic label"></span>
             </div>
             <div class="ui raised segment field">
-                <p id="plot-text" class="ui orange ribbon label">Where would you like your animal to live?</p>
+                <p class="ui orange ribbon label inline">
+                    <label id="plot-text" asp-for="PlotId"></label>
+                </p>
                 <div id="town" class="full-width">
                     <canvas id="canvas" class="full-width" width="500" height="500"></canvas>
                     <div class="ui vertical buttons" id="zoom-buttons">
@@ -31,6 +32,8 @@
                         <button class="ui button" id="zoom-out">-</button>
                     </div>
                 </div>
+                <input type="hidden" asp-for="PlotId" value="" />
+                <span asp-validation-for="PlotId" class="ui pointing red basic label"></span>
             </div>
             <div class="ui two bottom attached buttons">
                 <button type="submit" class="ui orange button"><i class="add to cart icon"></i> Buy</button>
@@ -40,7 +43,7 @@
     </div>
     <div class="column">
         <div class="ui raised segment ray-image-container">
-            <img class="ui centered big image" src="~/images/buildings/@type.SpritePath/portrait.png" />
+            <img class="ui centered big image" src="~/images/buildings/@Model.BuildingType.SpritePath/portrait.png" />
         </div>
     </div>
 </div>

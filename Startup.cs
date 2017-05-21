@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Hangfire;
 using Hangfire.Common;
-using Hangfire.Dashboard;
 using Hangfire.MySql;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -17,9 +17,7 @@ using ItsyBits.Data;
 using ItsyBits.Models;
 using ItsyBits.Services;
 using ItsyBits.Helpers;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Storage;
+using ItsyBits.ViewModels;
 using Newtonsoft.Json;
 
 namespace ItsyBits
@@ -88,6 +86,39 @@ namespace ItsyBits
 
             // Add config
             services.AddSingleton<IConfiguration>(Configuration);
+
+            // Add automapper
+            MapperConfiguration config = new MapperConfiguration(o => {
+                // Inputs
+                o.CreateMap<StoreAnimalViewModel, Animal>();
+                o.CreateMap<StoreBuildingViewModel, Building>();
+                o.CreateMap<StoreAnimalUpgradeViewModel, AnimalUpgrade>()
+                    .ForMember(s => s.Upgrade, opts => opts.Ignore());
+                o.CreateMap<StoreBuildingUpgradeViewModel, BuildingUpgrade>()
+                    .ForMember(s => s.Upgrade, opts => opts.Ignore());
+                // Outputs
+                o.CreateMap<Upgrade, UpgradeViewModel>().MaxDepth(1);
+                o.CreateMap<AnimalType, AnimalTypeViewModel>().MaxDepth(1);
+                o.CreateMap<Animal, AnimalViewModel>()
+                    .ForMember(d => d.Type, opts => opts.MapFrom(a => a.Type.Name))
+                    .ForMember(d => d.SpritePath, opts => opts.MapFrom(a => a.Type.SpritePath))
+                    .ForMember(d => d.Description, opts => opts.MapFrom(a => a.Type.Description))
+                    .ForMember(d => d.StatusText, opts => opts.MapFrom(a => a.GetStatusText()))
+                    .MaxDepth(2);
+                o.CreateMap<BuildingType, BuildingTypeViewModel>();
+                o.CreateMap<Building, BuildingViewModel>()
+                    .ForMember(d => d.Type, opts => opts.MapFrom(b => b.Type.Name))
+                    .ForMember(d => d.SpritePath, opts => opts.MapFrom(b => b.Type.SpritePath))
+                    .ForMember(d => d.Description, opts => opts.MapFrom(b => b.Type.Description))
+                    .ForMember(d => d.StatusText, opts => opts.MapFrom(b => b.GetStatusText()))
+                    .ForMember(d => d.Capacity, opts => opts.MapFrom(b => b.Type.Capacity))
+                    .MaxDepth(2); ;
+                o.CreateMap<Notification, NotificationViewModel>().MaxDepth(2);
+                o.CreateMap<ApplicationUser, UserViewModel>().MaxDepth(2);
+                o.CreateMap<Plot, PlotViewModel>().MaxDepth(1);
+            });
+            IMapper mapper = config.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
