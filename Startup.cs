@@ -111,6 +111,7 @@ namespace ItsyBits
                     .ForMember(d => d.SpritePath, opts => opts.MapFrom(b => b.Type.SpritePath))
                     .ForMember(d => d.Description, opts => opts.MapFrom(b => b.Type.Description))
                     .ForMember(d => d.StatusText, opts => opts.MapFrom(b => b.GetStatusText()))
+                    .ForMember(d => d.Capacity, opts => opts.MapFrom(b => b.Type.Capacity))
                     .MaxDepth(2); ;
                 o.CreateMap<Notification, NotificationViewModel>().MaxDepth(2);
                 o.CreateMap<ApplicationUser, UserViewModel>().MaxDepth(2);
