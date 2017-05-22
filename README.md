@@ -1,7 +1,7 @@
 # ItsyBits
 ### DAT219 (Internet services on .net platform) project for [Ronny](https://github.com/Ronnrein), [Marielle](https://github.com/Nanilial) and [Nikolai](https://github.com/NikRob)
 ## Idea
-The idea for our project is to have a web application/game that is about managing and developing a farm of tamagotchi-like animals.
+The idea for our project is to have a web application/game that is about managing and developing a town of tamagotchi-like animals.
 
 For our project we have split the responsibilities as follows:
 

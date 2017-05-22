@@ -1,6 +1,6 @@
 ﻿@model AnimalDetailsViewModel
 @{
-    ViewData["Title"] = "Animal details";
+    ViewData["Title"] = "Pet details";
     string[] ageSplit = Model.Animal.Age.Split(' ');
 }
 <div class="ui stackable two column grid">
@@ -33,10 +33,10 @@
                     </div>
                     <div class="statistic">
                         <div class="value">
-                            @Model.Animal.Reward
+                            @Model.Animal.Reward 
                         </div>
                         <div class="label">
-                            value
+                            potential income
                         </div>
                     </div>
                     <div class="statistic">
@@ -98,7 +98,7 @@
     </div>
 </div>
 <div class="ui segment secondary mid-segment-header">
-    <h4>Animal actions</h4>
+    <h4>Pet actions</h4>
 </div>
 <div class="ui three column stackable grid">
     <div class="column">

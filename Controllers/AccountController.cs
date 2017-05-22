@@ -139,7 +139,7 @@ namespace ItsyBits.Controllers
                     UserId = user.Id
                 });
                 _db.Add(new Notification {
-                    Message = $"Your farm already has a building, and you have enough money to buy your first pet!",
+                    Message = $"Your town already has a building, and you have enough money to buy your first pet!",
                     Title = "Welcome to ItsyBits!",
                     Image = $"buildings/{type.SpritePath}/icon.jpg",
                     Link = "/store/animalselect",

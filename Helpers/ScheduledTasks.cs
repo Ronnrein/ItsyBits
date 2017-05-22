@@ -32,8 +32,8 @@ namespace ItsyBits.Helpers {
                 _db.Update(user);
                 if (reward > 0) {
                     _db.Add(new Notification {
-                        Message = $"You got {reward} coins from your daily harvest!",
-                        Title = "Coins!",
+                        Message = $"You got {reward} Bits from your daily caretaking!",
+                        Title = "Money!",
                         Image = "misc/coins.jpg",
                         Link = "/store",
                         User = user
