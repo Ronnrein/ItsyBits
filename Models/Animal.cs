@@ -106,7 +106,7 @@ namespace ItsyBits.Models {
         /// </summary>
         [NotMapped]
         public int FeedPercentage {
-            get { return CalculateStatPercentage(LastFeed, Type.FeedTime); }
+            get { return Type == null ? 0 : CalculateStatPercentage(LastFeed, Type.FeedTime); }
             set { LastFeed = DateTime.Now - TimeSpan.FromTicks(Type.FeedTime.Ticks * (100 - value) / 100); }
         }
 
@@ -115,7 +115,7 @@ namespace ItsyBits.Models {
         /// </summary>
         [NotMapped]
         public int SleepPercentage {
-            get { return CalculateStatPercentage(LastSleep, Type.SleepTime); }
+            get { return Type == null ? 0 : CalculateStatPercentage(LastSleep, Type.SleepTime); }
             set { LastSleep = DateTime.Now - TimeSpan.FromTicks(Type.SleepTime.Ticks * (100 - value) / 100); }
         }
 
@@ -124,7 +124,7 @@ namespace ItsyBits.Models {
         /// </summary>
         [NotMapped]
         public int PetPercentage {
-            get { return CalculateStatPercentage(LastPet, Type.PetTime); }
+            get { return Type == null ? 0 : CalculateStatPercentage(LastPet, Type.PetTime); }
             set { LastPet = DateTime.Now - TimeSpan.FromTicks(Type.PetTime.Ticks * (100 - value) / 100); }
         }
 
