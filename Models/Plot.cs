@@ -29,10 +29,5 @@ namespace ItsyBits.Models {
         /// </summary>
         public int PositionY { get; set; }
 
-        /// <summary>
-        /// Buildings that have this plot
-        /// </summary>
-        public ICollection<Building> Buildings { get; set; }
-
     }
 }

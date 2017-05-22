@@ -21,7 +21,12 @@ namespace ItsyBits.Controllers {
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
 
-        public AnimalController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IConfiguration config, IMapper mapper) {
+        public AnimalController(
+            ApplicationDbContext db,
+            UserManager<ApplicationUser> userManager,
+            IConfiguration config,
+            IMapper mapper
+        ) {
             _db = db;
             _userManager = userManager;
             _config = config;
@@ -93,6 +98,8 @@ namespace ItsyBits.Controllers {
             if (_userManager.GetUserId(User) != animal.Building.UserId) {
                 return Unauthorized();
             }
+
+            // Set animal happiness to percentage in config
             animal.HappinessPercentage = int.Parse(_config["AnimalRecoveryHappiness"]);
             _db.Update(animal);
             await _db.SaveChangesAsync();

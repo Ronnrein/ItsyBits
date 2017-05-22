@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -69,8 +68,16 @@ namespace ItsyBits.Controllers {
             string userId = _userManager.GetUserId(User);
             IEnumerable<Building> buildings = _db.Buildings.Where(b => b.UserId == userId).Include(b => b.Type);
             IEnumerable<PlotViewModel> plots = _mapper.Map<IEnumerable<Plot>, IEnumerable<PlotViewModel>>(_db.Plots);
+
+            // Set the building property on each plot of user to the correct one
             foreach (PlotViewModel plot in plots) {
-                plot.Building = _mapper.Map<Building, BuildingViewModel>(buildings.SingleOrDefault(b => b.PlotId == plot.Id));
+                Building building = buildings.SingleOrDefault(b => b.PlotId == plot.Id);
+                if (building == null) {
+                    plot.BuildingId = 0;
+                    continue;
+                }
+                plot.BuildingId = building.Id;
+                plot.SpritePath = building.Type.SpritePath;
             }
             return Json(plots);
         }

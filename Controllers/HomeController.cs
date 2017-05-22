@@ -24,6 +24,8 @@ namespace ItsyBits.Controllers {
                 .Include(u => u.Buildings)
                 .ThenInclude(b => b.Animals)
                 .SingleOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
+
+            // If the user has no animals, redirect to the select animal page
             if (!user.Animals.Any()) {
                 return RedirectToAction("AnimalSelect", "Store");
             }
@@ -31,10 +33,16 @@ namespace ItsyBits.Controllers {
         }
 
         public IActionResult About() {
+
+            // If the user is not logged in, display using the basic layout
+            ViewData["Layout"] = _userManager.GetUserId(User) == null ? "_BasicLayout" : "_CleanLayout";
             return View();
         }
 
         public IActionResult Contact() {
+
+            // If the user is not logged in, display using the basic layout
+            ViewData["Layout"] = _userManager.GetUserId(User) == null ? "_BasicLayout" : "_CleanLayout";
             return View();
         }
 
