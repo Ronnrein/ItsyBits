@@ -5,7 +5,7 @@
     var background = new Sprite("/images/town/background2.png", new Vector2(0, 0));
     var cursor = new Sprite("/images/town/cursor.png", new Vector2(-2000, -2000), null, "/images/town/cursorPointer.png");
     var plots = [
-        new Plot(0, null, new Sprite("/images/town/store.png", new Vector2(2020, 862), null, "/images/town/storehover.png"), "/store")
+        new Plot(0, new Sprite("/images/town/store.png", new Vector2(2020, 862), null, "/images/town/storehover.png"), "/store")
     ];
     var sprites = [
         new Sprite("/images/misc/coin.png", new Vector2(400, 500), new Animation(10, 1, 10, 50)),
@@ -134,11 +134,10 @@
     function getData(callback) {
         $.getJSON("/building/plots", function(data) {
             $.each(data, function (i, v) {
-                var image = "/images/" + (v.building == null ? "town/empty" : "buildings/" + v.building.spritePath + "/town");
-                var url = v.building == null ? "/store" : "/building/details/" + v.building.id;
+                var image = "/images/" + (v.buildingId === 0 ? "town/empty" : "buildings/" + v.spritePath + "/town");
+                var url = v.buildingId === 0 ? "/store" : "/building/details/" + v.buildingId;
                 plots.push(new Plot(
                     v.id,
-                    v.building,
                     new Sprite(
                         image + ".png",
                         new Vector2(v.positionX, v.positionY),
@@ -175,6 +174,7 @@
     // Gets called when mouse button is pushed down
     function mouseDown(e) {
         e.stopPropagation();
+        e.preventDefault();
         e = addTouchOffset(e);
         lastMousePosition = new Vector2(e.offsetX, e.offsetY);
         dragStartPosition = ctx.transformedPoint(lastMousePosition.x, lastMousePosition.y);
@@ -184,6 +184,7 @@
     // Gets called when mouse button is released
     function mouseUp(e) {
         e.stopPropagation();
+        e.preventDefault();
         dragStartPosition = null;
         if (!dragged) {
             $.each(plots, function (i, plot) {
@@ -201,6 +202,7 @@
     // Gets called when mouse moves
     function mouseMove(e) {
         e.stopPropagation();
+        e.preventDefault();
         e = addTouchOffset(e);
         lastMousePosition = new Vector2(e.offsetX, e.offsetY);
         dragged = true;
@@ -307,9 +309,8 @@
     }
 
     // Building class
-    function Plot(id, building, sprite, url = null) {
+    function Plot(id, sprite, url = null) {
         this.id = id;
-        this.building = building;
         this.sprite = sprite;
         this.url = url;
         this.render = function (delta) {

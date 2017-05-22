@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,7 +23,11 @@ namespace ItsyBits.Controllers {
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
 
-        public StoreController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IConfiguration config, IMapper mapper) {
+        public StoreController(
+            ApplicationDbContext db,
+            UserManager<ApplicationUser> userManager,
+            IConfiguration config, IMapper mapper
+        ) {
             _db = db;
             _userManager = userManager;
             _config = config;

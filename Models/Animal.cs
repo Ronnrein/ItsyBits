@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -68,7 +67,6 @@ namespace ItsyBits.Models {
         /// Id of type of animal
         /// </summary>
         [ForeignKey("Type")]
-        [DisplayName("Type")]
         public int TypeId { get; set; }
 
         /// <summary>
@@ -80,7 +78,6 @@ namespace ItsyBits.Models {
         /// Id of building of animal
         /// </summary>
         [ForeignKey("Building")]
-        [DisplayName("Building")]
         public int BuildingId { get; set; }
 
         /// <summary>
@@ -95,11 +92,21 @@ namespace ItsyBits.Models {
         public IEnumerable<Upgrade> Upgrades => AnimalUpgrades?.Select(au => au.Upgrade) ?? Enumerable.Empty<Upgrade>();
 
         /// <summary>
+        /// Whether the animal is alive or not
+        /// </summary>
+        public bool IsAlive => FeedPercentage > 20 && SleepPercentage > 20;
+
+        /// <summary>
+        /// Current reward amount of this pet
+        /// </summary>
+        public int Reward => IsAlive ? (int)(20f * (PetPercentage / 100f)) : 0;
+
+        /// <summary>
         /// The percentage of how well fed the animal is
         /// </summary>
         [NotMapped]
         public int FeedPercentage {
-            get { return Type == null ? 0 : CalculateStatPercentage(LastFeed, Type.FeedTime); }
+            get { return CalculateStatPercentage(LastFeed, Type.FeedTime); }
             set { LastFeed = DateTime.Now - TimeSpan.FromTicks(Type.FeedTime.Ticks * (100 - value) / 100); }
         }
 
@@ -108,7 +115,7 @@ namespace ItsyBits.Models {
         /// </summary>
         [NotMapped]
         public int SleepPercentage {
-            get { return Type == null ? 0 : CalculateStatPercentage(LastSleep, Type.SleepTime); }
+            get { return CalculateStatPercentage(LastSleep, Type.SleepTime); }
             set { LastSleep = DateTime.Now - TimeSpan.FromTicks(Type.SleepTime.Ticks * (100 - value) / 100); }
         }
 
@@ -117,7 +124,7 @@ namespace ItsyBits.Models {
         /// </summary>
         [NotMapped]
         public int PetPercentage {
-            get { return Type == null ? 0 : CalculateStatPercentage(LastPet, Type.PetTime); }
+            get { return CalculateStatPercentage(LastPet, Type.PetTime); }
             set { LastPet = DateTime.Now - TimeSpan.FromTicks(Type.PetTime.Ticks * (100 - value) / 100); }
         }
 
@@ -136,14 +143,25 @@ namespace ItsyBits.Models {
         }
 
         /// <summary>
-        /// Whether the animal is alive or not
+        /// Status text for animal
         /// </summary>
-        public bool IsAlive => Type != null && (FeedPercentage > 20 && SleepPercentage > 20);
-
-        /// <summary>
-        /// Readable age of animal
-        /// </summary>
-        public string Age => Created.ReadableAge();
+        public string StatusText {
+            get {
+                if (DeathTime != null) {
+                    return "I ran away!";
+                }
+                if (new[] { FeedPercentage, SleepPercentage, PetPercentage }.All(s => s >= 80)) {
+                    return "I'm happy ^_^";
+                }
+                if (HappinessPercentage >= 39) {
+                    return "I could need some attention";
+                }
+                if (HappinessPercentage > 20) {
+                    return "I don't feel so good";
+                }
+                return "I feel sick, don't you love me anymore?";
+            }
+        }
 
         /// <summary>
         /// Constructor of animal
@@ -157,37 +175,6 @@ namespace ItsyBits.Models {
         }
 
         /// <summary>
-        /// Gets status text for animal
-        /// </summary>
-        /// <returns>Current status of animal</returns>
-        public string GetStatusText() {
-            if (DeathTime != null) {
-                return "I ran away!";
-            }
-            if(new[] {FeedPercentage, SleepPercentage, PetPercentage}.All(s => s >= 80)) {
-                return "I'm happy ^_^";
-            }
-            if(HappinessPercentage >= 39) {
-                return "I could need some attention";
-            }
-            if(HappinessPercentage > 20) {
-                return "I don't feel so good";
-            }
-            return "I feel sick, don't you love me anymore?";
-        }
-
-        /// <summary>
-        /// Gets current reward amount of this pet
-        /// </summary>
-        /// <returns>Coins to reward</returns>
-        public int GetReward() {
-            if (!IsAlive) {
-                return 0;
-            }
-            return (int)(20f * (PetPercentage / 100f));
-        }
-
-        /// <summary>
         /// Calculate the percentage of the stat of the animal
         /// </summary>
         /// <param name="lastTime">Last time the action was taken</param>
@@ -196,5 +183,6 @@ namespace ItsyBits.Models {
         private static int CalculateStatPercentage(DateTime lastTime, TimeSpan duration) {
             return (100 - (int) ((DateTime.Now - lastTime).TotalSeconds / duration.TotalSeconds * 100)).Clamp(0, 100);
         }
+
     }
 }
