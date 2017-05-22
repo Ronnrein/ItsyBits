@@ -312,3 +312,13 @@ h2.names {
 .main-segment {
     overflow: hidden;
 }
+.error-h {
+    text-align: center;
+    font-size: 60px;
+    color: #F7931E;
+    text-transform: capitalize;
+}
+.error-text {
+    text-align: center;
+    font-style: italic;
+}
