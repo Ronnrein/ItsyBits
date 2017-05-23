@@ -14,7 +14,10 @@
         new Sprite("/images/misc/swayingTree.png", new Vector2(1600, 1450), new Animation(4, 1, 4, 140)),
         new Sprite("/images/misc/swayingTree.png", new Vector2(540, 1100), new Animation(4, 1, 4, 140)),
         new Sprite("/images/misc/swayingTree.png", new Vector2(1760, 220), new Animation(4, 1, 4, 140)),
-        new Sprite("/images/misc/swayingTree.png", new Vector2(2050, 760), new Animation(4, 1, 4, 140))
+        new Sprite("/images/misc/swayingTree.png", new Vector2(2050, 760), new Animation(4, 1, 4, 140)),
+        new Sprite("/images/misc/bush.png", new Vector2(1300, 200), new Animation(4, 1, 4, 220)),
+        new Sprite("/images/misc/bush.png", new Vector2(340, 730), new Animation(4, 1, 4, 220)),
+        new Sprite("/images/misc/bush.png", new Vector2(1860, 840), new Animation(4, 1, 4, 220))
     ];
     var scaleFactor = 1.05;
     var backgroundColor = "#3b7dcf";
