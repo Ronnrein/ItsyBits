@@ -17,7 +17,7 @@
     </a>
 </div>
 <div class="ui bottom attached tab segment active" data-tab="first">
-    <h2>Animals</h2>
+    <h2>Pets</h2>
     <div class="ui cards">
         @foreach (AnimalTypeViewModel animal in Model.AnimalTypes) {
             @await Html.PartialAsync("_AnimalPartial", animal)
@@ -33,7 +33,7 @@
     </div>
 </div>
 <div class="ui bottom attached tab segment" data-tab="third">
-    <h2>Animal upgrades</h2>
+    <h2>Pet upgrades</h2>
     <div class="ui cards">
         @foreach (UpgradeViewModel upgrade in Model.Upgrades.Where(u => u.ForAnimal)) {
             @await Html.PartialAsync("_AnimalUpgradePartial", upgrade)

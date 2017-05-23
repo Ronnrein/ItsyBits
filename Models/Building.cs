@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -7,7 +6,7 @@ using System.Linq;
 namespace ItsyBits.Models {
 
     /// <summary>
-    /// Farm buildings containing animals
+    /// Town buildings containing animals
     /// </summary>
     public class Building {
 
@@ -92,10 +91,10 @@ namespace ItsyBits.Models {
         public string StatusText {
             get {
                 if (!Animals.Any()) {
-                    return "You have no animals";
+                    return "You have no pets in this house";
                 }
                 if (HappinessPercentage >= 76) {
-                    return "Your animals seem happy";
+                    return "Your pets seem happy";
                 }
                 if (HappinessPercentage >= 31) {
                     return "Your pets need some attention";
@@ -103,5 +102,6 @@ namespace ItsyBits.Models {
                 return "Help us!";
             }
         }
+
     }
 }

@@ -22,7 +22,7 @@
     <div class="extra content">
         <div class="ui small indicating progress progressbar tooltip" data-content="@Model.HappinessPercentage%" data-value="@Model.HappinessPercentage" data-total="100">
             <div class="bar"></div>
-            <div class="label">Overall animal happiness</div>
+            <div class="label">Overall pet happiness</div>
         </div>
     </div>
 </a>
@@ -49,13 +49,13 @@
 <a class="ui link card" asp-controller="Store" asp-action="Index">
     <div class="content">
         <div class="header">
-            Currency
+            Money
             <i class="right floated money icon"></i>
         </div>
         <div class="description">
-            <p>You currently have <b>@Model.Currency</b> coins</p>
-            <p>Based on current animal happiness, you would get <b>@Model.Reward</b> coins from a harvest. Make sure to keep them happy to maximize profits!</p>
-            <p>At maximum happiness, you would get a total of <b>@(20*Model.Animals.Count())</b> coins at harvest</p>
+            <p>You currently have <b>@Model.Currency</b> Bits</p>
+            <p>Based on current pet happiness, you will get <b>@Model.Reward</b> Bits at midnight. Make sure to keep them happy to maximize profits!</p>
+            <p>At maximum happiness, you will get a total of <b>@(20*Model.Animals.Count())</b> Bits at midnight</p>
         </div>
     </div>
     <div class="extra content">
