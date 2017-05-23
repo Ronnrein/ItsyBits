@@ -73,7 +73,7 @@ namespace ItsyBits.Models {
         /// <summary>
         /// Avarage happiness of all animals in building
         /// </summary>
-        public int HappinessPercentage => !Animals.Any() ? 0 : (int) Animals.Average(a => a.HappinessPercentage);
+        public int HappinessPercentage => Animals == null || !Animals.Any() ? 0 : (int) Animals.Average(a => a.HappinessPercentage);
 
         /// <summary>
         /// Total capacity of building
@@ -90,7 +90,7 @@ namespace ItsyBits.Models {
         /// </summary>
         public string StatusText {
             get {
-                if (!Animals.Any()) {
+                if (Animals == null || !Animals.Any()) {
                     return "You have no pets in this house";
                 }
                 if (HappinessPercentage >= 76) {

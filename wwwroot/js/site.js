@@ -6,7 +6,7 @@ $(document).ready(function() {
     $(".dropdown").dropdown();
     $(".ui.sidebar").sidebar("attach events", "#sidebar-button");
     $(".tabular .item").tab();
-    $('.ui.accordion').accordion();
+    $(".ui.accordion").accordion();
     $(".message .close").on("click", function () {
         $(this).closest(".message").transition("fade");
     });

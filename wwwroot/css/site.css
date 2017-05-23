@@ -23,11 +23,15 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
 }
 
-#loginform {
-    padding-top: 200px
+.logo {
+    height: 200px;
 }
 
-.logo {
+#loginform {
+    margin-bottom: 20px;
+}
+
+.logo img {
     display: block;
     margin: auto;
     margin-top: 10px;

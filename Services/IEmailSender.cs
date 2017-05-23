@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using MimeKit;
 
-namespace ItsyBits.Services
-{
-    public interface IEmailSender
-    {
+namespace ItsyBits.Services {
+    public interface IEmailSender {
         Task SendEmailAsync(string email, string subject, string message);
+        Task SendEmailAsync(MimeMessage email);
     }
 }

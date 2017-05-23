@@ -4,31 +4,47 @@
     Layout = "_LayoutLogin";
 }
 <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" role="form">
-    <img class="logo" src="~/images/ItsyBitsLogo.png" />
+    <div class="logo">
+        <img src="~/images/ItsyBitsLogo.png" />
+    </div>
     <h2 class="account-header">Login to play!</h2>
     @await Html.PartialAsync("_ResultPartial")
-    <div class="field">
+    <div class="field clearfix">
         <span asp-validation-for="User" class="ui orange left pointing label"></span>
-        <input asp-for="User" type="text" placeholder="Username or email" />
+        <div class="ui right icon input">
+            <input asp-for="User" type="text" placeholder="Username or email" />
+            <i class="users icon"></i>
+        </div>
     </div>
-    <div class="field">
+    <div class="field clearfix">
         <span asp-validation-for="Password" class="ui orange left pointing label"></span>
-        <input asp-for="Password" type="password" placeholder="Password">
+        <div class="ui right icon input">
+            <input asp-for="Password" type="password" placeholder="Password">
+            <i class="key icon"></i>
+        </div>
     </div>
     <div class="clearfix login-options">
         <div class="ui checkbox left">
-            <input asp-for="RememberMe" />
+            <input asp-for="RememberMe"/>
             <label>Remember me</label>
         </div>
         <a class="right" asp-action="ForgotPassword">Forgot your password?</a>
     </div>
     <div class="field">
-        <input type="submit" value="Login" class="ui button large fluid green">
+        <button type="submit" class="ui button large fluid green">
+            <i class="checkmark icon"></i> Login
+        </button>
     </div>
     <div class="ui horizontal divider">
         Or
     </div>
     <div>
-        <a class="ui button large fluid orange" asp-action="Register">Register</a>
+        <a class="ui button large fluid orange" asp-action="Register">
+            <i class="icons">
+                <i class="users icon"></i>
+                <i class="inverted corner add icon"></i>
+            </i>
+            Register
+        </a>
     </div>
 </form>

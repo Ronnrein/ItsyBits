@@ -1,27 +1,18 @@
+@model ContactViewModel
 @{
     ViewData["Title"] = "Contact";
 }
-
 <div class="ui text container">
     <h1 class="about-header">Contact us</h1>
     <p> Please fill in the form should you have an issue or a question about the site.</p>
-    <div class="ui small form">
-        <div class="two fields">
-            <div class="field">
-                <label>Name</label>
-                <input placeholder="Name" type="text">
-            </div>
-            <div class="field">
-                <label>E-mail</label>
-                <input placeholder="E-mail" type="email">
-            </div>
-        </div>
-        <div class="field">
+    <form method="post" class="ui small form">
+        <div class="field clearfix">
             <label>Message</label>
-            <input placeholder="Message" type="text">
+            <textarea asp-for="Message" placeholder="Message"></textarea>
         </div>
-        <div class="ui submit button">Send</div>
-    </div>
-    
+        <button type="submit" class="ui green button">
+            <i class="checkmark icon"></i> Send
+        </button>
+    </form>
 </div>
   
