@@ -1,0 +1,53 @@
+@model StoreIndexViewModel
+@{
+    ViewData["Title"] = "Store";
+    Model.Tab = Model.Tab ?? "animal";
+}
+<div class="ui top attached tabular menu" id="tabs">
+    <a class="item @( Model.Tab == "animal" ? "active" : "" )" data-tab="first"><i class="big icon paw"></i></a>
+    <a class="item @( Model.Tab == "building" ? "active" : "" )" data-tab="second"><i class="big icon home"></i></a>
+    <a class="item @( Model.Tab == "animalupgrade" ? "active" : "" )" data-tab="third">
+        <i class="big icons">
+            <i class="icon paw"></i>
+            <i class="inverted corner icon arrow up"></i>
+        </i>
+    </a>
+    <a class="item @( Model.Tab == "buildingupgrade" ? "active" : "" )" data-tab="fourth">
+        <i class="big icons">
+            <i class="icon home"></i>
+            <i class="inverted corner icon arrow up"></i>
+        </i>
+    </a>
+</div>
+<div class="ui bottom attached tab segment @( Model.Tab == "animal" ? "active" : "" )" data-tab="first">
+    <h2>Pets</h2>
+    <div class="ui cards">
+        @foreach (AnimalTypeViewModel animal in Model.AnimalTypes) {
+            @await Html.PartialAsync("_AnimalPartial", animal)
+        }
+    </div>
+</div>
+<div class="ui bottom attached tab segment @( Model.Tab == "building" ? "active" : "" )" data-tab="second">
+    <h2>Buildings</h2>
+    <div class="ui cards">
+        @foreach (BuildingTypeViewModel building in Model.BuildingTypes) {
+            @await Html.PartialAsync("_BuildingPartial", building)
+        }
+    </div>
+</div>
+<div class="ui bottom attached tab segment @( Model.Tab == "animalupgrade" ? "active" : "" )" data-tab="third">
+    <h2>Pet upgrades</h2>
+    <div class="ui cards">
+        @foreach (UpgradeViewModel upgrade in Model.Upgrades.Where(u => u.ForAnimal)) {
+            @await Html.PartialAsync("_AnimalUpgradePartial", upgrade)
+        }
+    </div>
+</div>
+<div class="ui bottom attached tab segment @( Model.Tab == "buildingupgrade" ? "active" : "" )" data-tab="fourth">
+    <h2>Building upgrades</h2>
+    <div class="ui cards">
+        @foreach (UpgradeViewModel upgrade in Model.Upgrades.Where(u => u.ForBuilding)) {
+            @await Html.PartialAsync("_BuildingUpgradePartial", upgrade)
+        }
+    </div>
+</div>
