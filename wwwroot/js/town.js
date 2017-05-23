@@ -8,8 +8,13 @@
         new Plot(0, new Sprite("/images/town/store.png", new Vector2(2020, 862), null, "/images/town/storehover.png"), "/store")
     ];
     var sprites = [
-        new Sprite("/images/misc/coin.png", new Vector2(400, 500), new Animation(10, 1, 10, 50)),
-        new Sprite("/images/misc/dance.png", new Vector2(400, 400), new Animation(8, 10, 80, 50))
+        new Sprite("/images/misc/swayingTree.png", new Vector2(800, 300), new Animation(4, 1, 4, 140)),
+        new Sprite("/images/misc/swayingTree.png", new Vector2(1030, 540), new Animation(4, 1, 4, 140)),
+        new Sprite("/images/misc/swayingTree.png", new Vector2(190, 830), new Animation(4, 1, 4, 140)),
+        new Sprite("/images/misc/swayingTree.png", new Vector2(1600, 1450), new Animation(4, 1, 4, 140)),
+        new Sprite("/images/misc/swayingTree.png", new Vector2(540, 1100), new Animation(4, 1, 4, 140)),
+        new Sprite("/images/misc/swayingTree.png", new Vector2(1760, 220), new Animation(4, 1, 4, 140)),
+        new Sprite("/images/misc/swayingTree.png", new Vector2(2050, 760), new Animation(4, 1, 4, 140))
     ];
     var scaleFactor = 1.05;
     var backgroundColor = "#3b7dcf";
