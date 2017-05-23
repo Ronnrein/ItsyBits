@@ -35,10 +35,11 @@ namespace ItsyBits.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index() {
+        public async Task<IActionResult> Index(string id) {
             ApplicationUser user = await _userManager.GetUserAsync(User);
             ViewData["Currency"] = user.Currency;
             return View(new StoreIndexViewModel {
+                Tab = id,
                 AnimalTypes = _mapper.Map<IEnumerable<AnimalType>, IEnumerable<AnimalTypeViewModel>>(_db.AnimalTypes),
                 BuildingTypes = _mapper.Map<IEnumerable<BuildingType>, IEnumerable<BuildingTypeViewModel>>(_db.BuildingTypes),
                 Upgrades = _mapper.Map<IEnumerable<Upgrade>, IEnumerable<UpgradeViewModel>>(_db.Upgrades)
@@ -131,16 +132,16 @@ namespace ItsyBits.Controllers {
             user.Currency -= type.Price;
             _db.Entry(user).Property(u => u.Currency).IsModified = true;
             _db.Add(animal);
+            await _db.SaveChangesAsync();
 
             _db.Add(new Notification {
                 Message = $"Your town welcomes a new pet!",
                 Title = "New pet!",
                 Image = $"animals/{type.SpritePath}/portrait.png",
-                Link = "/animal",
+                Link = "/animal/details/" + animal.Id,
                 UserId = user.Id
             });
 
-            await _db.SaveChangesAsync();
             return RedirectToAction("Details", "Animal", new { id = animal.Id });
         }
 
@@ -217,16 +218,16 @@ namespace ItsyBits.Controllers {
             _db.Users.Attach(user);
             user.Currency -= type.Price;
             _db.Entry(user).Property(u => u.Currency).IsModified = true;
+            await _db.SaveChangesAsync();
 
             _db.Add(new Notification {
                 Message = $"You have a new building!",
                 Title = "New building!",
                 Image = $"buildings/{type.SpritePath}/portrait.png",
-                Link = "/building",
+                Link = "/building/details/" + building.Id,
                 UserId = user.Id
             });
 
-            await _db.SaveChangesAsync();
             return RedirectToAction("Details", "Building", new { id = building.Id });
         }
 
@@ -315,7 +316,7 @@ namespace ItsyBits.Controllers {
                 Message = $"You upgraded your animal!",
                 Title = "New upgrade!",
                 Image = "upgrades/"+upgrade.SpritePath,
-                Link = "/animal/"+animalUpgrade.AnimalId,
+                Link = "/animal/details/"+animalUpgrade.AnimalId,
                 UserId = user.Id
             });
             
@@ -412,7 +413,7 @@ namespace ItsyBits.Controllers {
                 Message = $"You upgraded your building!",
                 Title = "New upgrade!",
                 Image = "upgrades/" + upgrade.SpritePath,
-                Link = "/building/" + upgradeVm.BuildingId,
+                Link = "/building/details/" + upgradeVm.BuildingId,
                 UserId = user.Id
             });
 
