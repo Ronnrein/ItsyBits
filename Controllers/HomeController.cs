@@ -42,19 +42,16 @@ namespace ItsyBits.Controllers {
             return View();
         }
 
-        public IActionResult Error() {
-            return View();
-        }
-
-        public IActionResult TempNotFound() {
-            return View("~/Views/Error/NotFound.cshtml");
-        }
-
-        public IActionResult TempUnauthorized() {
-            return View("~/Views/Error/Unauthorized.cshtml");
-        }
-
-        public IActionResult TempError() {
+        public IActionResult Error(int? id) {
+            if (id == null) {
+                return View("~/Views/Error/Error.cshtml");
+            }
+            switch (id) {
+                case 404:
+                    return View("~/Views/Error/NotFound.cshtml");
+                case 403:
+                    return View("~/Views/Error/Unauthorized.cshtml");
+            }
             return View("~/Views/Error/Error.cshtml");
         }
 
