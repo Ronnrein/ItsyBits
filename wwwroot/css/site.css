@@ -102,6 +102,7 @@
 
 #canvas {
     cursor: none;
+    position: relative;
 }
 
 .field-validation-valid {

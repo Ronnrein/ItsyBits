@@ -5,16 +5,16 @@
     var background = new Sprite("/images/town/background2.png", new Vector2(0, 0));
     var cursor = new Sprite("/images/town/cursor.png", new Vector2(-2000, -2000), null, "/images/town/cursorPointer.png");
     var plots = [
-        new Plot(0, new Sprite("/images/town/store.png", new Vector2(2020, 862), null, "/images/town/storehover.png"), "/store/index/building")
+        new Plot(0, new Sprite("/images/town/store.png", new Vector2(2020, 862), null, "/images/town/storehover.png"), true, "/store/index/building")
     ];
     var sprites = [
-        new Sprite("/images/misc/swayingTree.png", new Vector2(800, 300), new Animation(4, 1, 4, 140)),
-        new Sprite("/images/misc/swayingTree.png", new Vector2(1030, 540), new Animation(4, 1, 4, 140)),
-        new Sprite("/images/misc/swayingTree.png", new Vector2(190, 830), new Animation(4, 1, 4, 140)),
-        new Sprite("/images/misc/swayingTree.png", new Vector2(1600, 1450), new Animation(4, 1, 4, 140)),
-        new Sprite("/images/misc/swayingTree.png", new Vector2(540, 1100), new Animation(4, 1, 4, 140)),
-        new Sprite("/images/misc/swayingTree.png", new Vector2(1760, 220), new Animation(4, 1, 4, 140)),
-        new Sprite("/images/misc/swayingTree.png", new Vector2(2050, 760), new Animation(4, 1, 4, 140))
+        new Sprite("/images/town/swayingTree01.png", new Vector2(800, 300), new Animation(4, 1, 4, getRandomRange(150, 300), getRandomRange(0, 1000))),
+        new Sprite("/images/town/swayingTree01.png", new Vector2(800, 300), new Animation(4, 1, 4, getRandomRange(150, 300), getRandomRange(0, 1000))),
+        new Sprite("/images/town/swayingTree01.png", new Vector2(190, 830), new Animation(4, 1, 4, getRandomRange(150, 300), getRandomRange(0, 1000))),
+        new Sprite("/images/town/swayingTree01.png", new Vector2(1600, 1450), new Animation(4, 1, 4, getRandomRange(150, 300), getRandomRange(0, 1000))),
+        new Sprite("/images/town/swayingTree01.png", new Vector2(540, 1100), new Animation(4, 1, 4, getRandomRange(150, 300), getRandomRange(0, 1000))),
+        new Sprite("/images/town/swayingTree01.png", new Vector2(1760, 220), new Animation(4, 1, 4, getRandomRange(150, 300), getRandomRange(0, 1000))),
+        new Sprite("/images/town/swayingTree01.png", new Vector2(2050, 760), new Animation(4, 1, 4, getRandomRange(150, 300), getRandomRange(0, 1000)))
     ];
     var scaleFactor = 1.05;
     var backgroundColor = "#3b7dcf";
@@ -45,7 +45,7 @@
     canvas.on("mousemove touchmove", mouseMove);
     canvas.on("mousewheel DOMMouseScroll", mouseScroll);
     $("#zoom-in").click(function() { zoom(buttonZoom) });
-    $("#zoom-out").click(function() { zoom(-buttonZoom) });
+    $("#zoom-out").click(function () { zoom(-buttonZoom) });
 
     // Load images
     getData(function () {
@@ -80,6 +80,10 @@
             // Startup
             resizeCanvas();
             update();
+
+            // Zoom out
+            ctx.scale(minScale, minScale);
+            currentScale = minScale;
         });
     });
 
@@ -149,6 +153,7 @@
                         null,
                         image + "hover.png"
                     ),
+                    v.buildingId !== 0,
                     url
                 ));
             });
@@ -209,6 +214,7 @@
         e.stopPropagation();
         e.preventDefault();
         e = addTouchOffset(e);
+
         lastMousePosition = new Vector2(e.offsetX, e.offsetY);
         dragged = true;
         var point = ctx.transformedPoint(lastMousePosition.x, lastMousePosition.y);
@@ -217,8 +223,8 @@
             ctx.translate(trans.x, trans.y);
         }
         // DEBUG
-        $("#mousex").html(Math.floor(point.x));
-        $("#mousey").html(Math.floor(point.y));
+        $("#mousex").html(Math.floor(lastMousePosition.x));
+        $("#mousey").html(Math.floor(lastMousePosition.y));
     }
 
     // Gets called when mouse scrolls
@@ -280,10 +286,15 @@
     // Add touch offset to event
     function addTouchOffset(e) {
         if (e.offsetX === undefined) {
-            e.offsetX = e.originalEvent.touches[0].pageX - e.originalEvent.touches[0].target.offsetLeft;
-            e.offsetY = e.originalEvent.touches[0].pageY - e.originalEvent.touches[0].target.offsetTop;
+            e.offsetX = e.originalEvent.touches[0].pageX - $(canvas).offset().left;
+            e.offsetY = e.originalEvent.touches[0].pageY - $(canvas).offset().top;
         }
         return e;
+    }
+
+    // Get random number in range
+    function getRandomRange(min, max) {
+        return Math.random() * (max - min) + min;
     }
 
     // Whether the device is mobile or not
@@ -314,10 +325,11 @@
     }
 
     // Building class
-    function Plot(id, sprite, url = null) {
+    function Plot(id, sprite, occupied, url = null) {
         this.id = id;
         this.sprite = sprite;
         this.url = url;
+        this.occupied = occupied;
         this.render = function (delta) {
             sprite.render(delta);
         };
@@ -352,20 +364,27 @@
     }
 
     // Animation class
-    function Animation(columns, rows, frames, frameTime) {
+    function Animation(columns, rows, frames, frameTime, interval = 0) {
         this.rows = rows;
         this.columns = columns;
         this.frames = frames;
         this.frameTime = frameTime;
+        this.interval = interval;
         this.currentFrame = 0;
         this.currentFrameTime = 0;
-        this.render = function(delta, image, position) {
-            this.currentFrameTime += delta;
+        this.currentPause = 0;
+        this.render = function (delta, image, position) {
+            if (this.currentPause < interval) {
+                this.currentPause += delta;
+            } else {
+                this.currentFrameTime += delta;
+            }
             if (this.currentFrameTime >= this.frameTime) {
                 this.currentFrameTime = 0;
                 this.currentFrame += 1;
                 if (this.currentFrame >= this.frames) {
                     this.currentFrame = 0;
+                    this.currentPause = 0;
                 }
             }
             ctx.drawImage(
