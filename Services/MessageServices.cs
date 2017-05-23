@@ -15,7 +15,11 @@ namespace ItsyBits.Services {
             mail.From.Add(new MailboxAddress("ItsyBits", "admin@itsybits.world"));
             mail.To.Add(new MailboxAddress(email, email));
             mail.Subject = subject;
-            mail.Body = new TextPart("html") { Text = message };
+            mail.Body = new TextPart("html") { Text = message.Replace(Environment.NewLine, "<br />") };
+            return SendEmailAsync(mail);
+        }
+
+        public Task SendEmailAsync(MimeMessage mail) {
 
             // Try sending the email
             try {
@@ -26,9 +30,10 @@ namespace ItsyBits.Services {
                     client.Disconnect(true);
                 }
             }
+
             // If sending failed, write email to file
             catch (SocketException e) {
-                Console.WriteLine("Cannot send emails: "+e.Message);
+                Console.WriteLine("Cannot send emails: " + e.Message);
                 Directory.CreateDirectory(@"./bin/mails");
                 mail.WriteTo($@"./bin/mails/{DateTime.Now.Ticks}.eml");
             }

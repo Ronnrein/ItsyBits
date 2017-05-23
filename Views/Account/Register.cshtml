@@ -5,24 +5,42 @@
 }
 <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" role="form">
     <h2 class="center aligned header account-header">Register</h2>
-    <div class="field">
+    <div class="field clearfix">
         <span asp-validation-for="UserName" class="ui orange left pointing label"></span>
-        <input asp-for="UserName" placeholder="User name">
+        <div class="ui right icon input">
+            <input asp-for="UserName" placeholder="User name">
+            <i class="users icon"></i>
+        </div>
     </div>
-    <div class="field">
+    <div class="field clearfix">
         <span asp-validation-for="Email" class="ui orange left pointing label"></span>
-        <input asp-for="Email" placeholder="Email">
-    </div>
-    <div class="field">
+        <div class="ui right icon input">
+            <input asp-for="Email" placeholder="Email">
+            <i class="mail icon"></i>
+        </div>
+        </div>
+    <div class="field clearfix">
         <span asp-validation-for="Password" class="ui orange left pointing label"></span>
-        <input asp-for="Password" placeholder="Password">
+        <div class="ui right icon input">
+            <input asp-for="Password" placeholder="Password">
+            <i class="key icon"></i>
+        </div>
     </div>
-    <div class="field">
+    <div class="field clearfix">
         <span asp-validation-for="ConfirmPassword" class="ui orange left pointing label"></span>
-        <input asp-for="ConfirmPassword" placeholder="Confirm password">
+        <div class="ui right icon input">
+            <input asp-for="ConfirmPassword" placeholder="Confirm password">
+            <i class="key icon"></i>
+        </div>
     </div>
-    <div class="field">
-        <input type="submit" value="Register" class="ui button large fluid green">
+    <div class="field clearfix">
+        <button type="submit" class="ui button large fluid green">
+            <i class="checkmark icon"></i>
+            Register
+        </button>
     </div>
-    <p><a asp-action="Login">Login</a></p>
+    <a class="ui button inline" asp-action="Login">
+        <i class="left arrow icon"></i>
+        Login
+    </a>
 </form>

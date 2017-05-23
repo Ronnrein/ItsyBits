@@ -37,7 +37,9 @@
             </div>
             <div class="ui two bottom attached buttons">
                 <button type="submit" class="ui orange button"><i class="add to cart icon"></i> Buy</button>
-                <a asp-controller="Store" asp-action="Index" class="ui default button">Back</a>
+                <a asp-controller="Store" asp-action="Index" asp-route-id="building" class="ui default button">
+                    <i class="left arrow icon"></i> Back
+                </a>
             </div>
         </form>
     </div>

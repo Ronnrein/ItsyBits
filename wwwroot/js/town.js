@@ -5,7 +5,7 @@
     var background = new Sprite("/images/town/background2.png", new Vector2(0, 0));
     var cursor = new Sprite("/images/town/cursor.png", new Vector2(-2000, -2000), null, "/images/town/cursorPointer.png");
     var plots = [
-        new Plot(0, new Sprite("/images/town/store.png", new Vector2(2020, 862), null, "/images/town/storehover.png"), "/store")
+        new Plot(0, new Sprite("/images/town/store.png", new Vector2(2020, 862), null, "/images/town/storehover.png"), "/store/index/building")
     ];
     var sprites = [
         new Sprite("/images/misc/coin.png", new Vector2(400, 500), new Animation(10, 1, 10, 50)),
@@ -135,7 +135,7 @@
         $.getJSON("/building/plots", function(data) {
             $.each(data, function (i, v) {
                 var image = "/images/" + (v.buildingId === 0 ? "town/empty" : "buildings/" + v.spritePath + "/town");
-                var url = v.buildingId === 0 ? "/store" : "/building/details/" + v.buildingId;
+                var url = v.buildingId === 0 ? "/store/index/building" : "/building/details/" + v.buildingId;
                 plots.push(new Plot(
                     v.id,
                     new Sprite(

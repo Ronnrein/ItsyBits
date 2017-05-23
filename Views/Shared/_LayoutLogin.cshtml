@@ -4,19 +4,19 @@
     @await Html.PartialAsync("_HeadPartial")
 </head>
 <body class="account-body full-height">
-<div class="ui main container">
-    <div class="ui three column stackable grid">
-        <div class="column"></div>
-        <div class="column">
-            <div id="loginform" class="ui segment form account-form">
-                @RenderBody()
+    <div class="ui main container">
+        <div class="ui three column stackable grid">
+            <div class="column"></div>
+            <div class="column">
+                <div id="loginform" class="ui segment form account-form">
+                    @RenderBody()
+                </div>
             </div>
-            <img class="ui fluid centered image" id="account-footer" src="~/images/IBFooter.png">
         </div>
+        <div class="column"></div>
+        @Html.Partial("_AboutPartial")
     </div>
-    <div class="column"></div>
-    @Html.Partial("_AboutPartial")
-</div>
+    <img class="ui fluid centered image" id="account-footer" src="~/images/IBFooter.png">
 @await Html.PartialAsync("_ScriptsPartial")
 @RenderSection("scripts", required: false)
 </body>
