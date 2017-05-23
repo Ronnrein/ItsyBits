@@ -1,25 +1,25 @@
-﻿@model Building
-@{ ViewData["Title"] = "Animal details"; }
+﻿@model BuildingDetailsViewModel
+@{ ViewData["Title"] = "Building details"; }
 <div class="ui stackable two column grid">
     <div class="column info-column">
         <div class="ui segments">
             <div class="ui raised segment secondary">
-                <h4>@Model.Name</h4>
+                <h4>@Model.Building.Name</h4>
             </div>
             <div class="ui raised segment">
                 <p class="ui orange ribbon label">Statistics</p>
                 <div class="ui four small statistics">
                     <div class="statistic">
                         <div class="value">
-                            @Model.Animals.Count
+                            @Model.Building.Animals.Count()
                         </div>
                         <div class="label">
-                            animals
+                            pets
                         </div>
                     </div>
                     <div class="statistic">
                         <div class="value">
-                            @Model.Capacity
+                            @Model.Building.Capacity
                         </div>
                         <div class="label">
                             capacity
@@ -27,15 +27,15 @@
                     </div>
                     <div class="statistic">
                         <div class="value">
-                            @Model.Reward
+                            @Model.Building.Reward
                         </div>
                         <div class="label">
-                            value
+                            potential income
                         </div>
                     </div>
                     <div class="statistic">
                         <div class="value">
-                            @Model.BuildingUpgrades.Count
+                            @Model.Building.Upgrades.Count()
                         </div>
                         <div class="label">
                             upgrades
@@ -51,10 +51,10 @@
                             <img class="ui avatar image" src="~/images/upgrades/upgrade.png" />
                         </div>
                         <div class="menu vertical basic buttons">
-                            @foreach (Upgrade upgrade in (IEnumerable<Upgrade>)ViewData["Upgrades"]) {
+                            @foreach (UpgradeViewModel upgrade in Model.Upgrades) {
                                 <form asp-controller="Store" asp-action="BuildingUpgrade" asp-route-id="@upgrade.Id">
-                                    <input type="hidden" name="BuildingId" value="@Model.Id" />
-                                    <button type="submit" class="ui item basic button tooltip" data-content="@upgrade.Description" name="UpgradeId" value="@upgrade.Id">
+                                    <input type="hidden" name="BuildingId" value="@Model.Building.Id" />
+                                    <button type="submit" class="ui item basic button tooltip" data-content="@upgrade.Description" data-position="right center" name="UpgradeId" value="@upgrade.Id">
                                         <img class="ui avatar image" src="~/images/upgrades/@upgrade.SpritePath" />
                                         @upgrade.Name
                                     </button>
@@ -62,7 +62,7 @@
                             }
                         </div>
                     </div>
-                    @foreach (Upgrade upgrade in Model.Upgrades) {
+                    @foreach (UpgradeViewModel upgrade in Model.Building.Upgrades) {
                         <div>
                             <img class="ui avatar image image tooltip" data-content="@upgrade.Description" src="~/images/upgrades/@upgrade.SpritePath" />
                         </div>
@@ -70,11 +70,15 @@
                 </div>
             </div>
             <div class="ui raised segment">
-                <p class="ui orange ribbon label">Status</p>
-                <p>@Model.GetStatusText()</p>
+                <p class="ui orange ribbon label">Description</p>
+                <p>@Model.Building.Description</p>
             </div>
             <div class="ui raised segment">
-                <div class="ui small indicating progress progressbar tooltip" data-content="@Model.HappinessPercentage%" data-value="@Model.HappinessPercentage" data-total="100">
+                <p class="ui orange ribbon label">Status</p>
+                <p>@Model.Building.StatusText</p>
+            </div>
+            <div class="ui raised segment">
+                <div class="ui small indicating progress progressbar tooltip" data-content="@Model.Building.HappinessPercentage%" data-value="@Model.Building.HappinessPercentage" data-total="100">
                     <div class="bar"></div>
                     <div class="label">Happiness</div>
                 </div>
@@ -83,15 +87,15 @@
     </div>
     <div class="column">
         <div class="ui raised segment ray-image-container">
-            <img class="ui centered big image" src="~/images/buildings/@Model.Type.SpritePath/full.png"/>
+            <img class="ui centered big image" src="~/images/buildings/@Model.Building.SpritePath/full.png"/>
         </div>
     </div>
 </div>
 <div class="ui segment secondary mid-segment-header">
-    <h4>Animals in building</h4>
+    <h4>My pets in the building</h4>
 </div>
 <div class="ui cards">
-    @foreach(Animal animal in Model.Animals) {
+    @foreach(AnimalViewModel animal in Model.Building.Animals) {
         @Html.Partial("~/Views/Animal/_AnimalCardPartial.cshtml", animal)
     }
 </div>

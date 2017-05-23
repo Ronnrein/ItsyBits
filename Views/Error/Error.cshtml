@@ -1,4 +1,5 @@
 ﻿@{
     ViewData["Title"] = "Something went wrong";
+    Layout = User.Identity.IsAuthenticated ? "_Layout" : "_LayoutEmpty";
 }
-General error goes here
+Error, contact admin

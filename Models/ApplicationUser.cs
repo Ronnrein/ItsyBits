@@ -43,6 +43,11 @@ namespace ItsyBits.Models {
         public int HappinessPercentage => !Animals.Any() ? 0 : (int)Animals.Average(a => a.HappinessPercentage);
 
         /// <summary>
+        /// Total current reward for user
+        /// </summary>
+        public int Reward => Buildings?.Sum(b => b.Reward) ?? 0;
+
+        /// <summary>
         /// Check which of the supplied plots are available for user
         /// </summary>
         /// <param name="plots">The plots to check</param>

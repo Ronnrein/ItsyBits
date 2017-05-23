@@ -19,7 +19,6 @@ namespace ItsyBits.Models {
         /// <summary>
         /// Date the notification was created
         /// </summary>
-        [ScaffoldColumn(false)]
         public DateTime Created { get; set; }
 
         /// <summary>
@@ -31,7 +30,6 @@ namespace ItsyBits.Models {
         /// Id of user of notification
         /// </summary>
         [ForeignKey("User")]
-        [DisplayName("User")]
         public string UserId { get; set; }
 
 

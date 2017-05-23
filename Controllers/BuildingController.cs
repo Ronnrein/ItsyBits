@@ -1,15 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
+using AutoMapper;
 using ItsyBits.Data;
 using ItsyBits.Models;
-using ItsyBits.Models.ViewModels;
+using ItsyBits.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace ItsyBits.Controllers {
@@ -19,23 +17,28 @@ namespace ItsyBits.Controllers {
 
         private readonly ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IMapper _mapper;
 
-        public BuildingController(ApplicationDbContext db, UserManager<ApplicationUser> userManager) {
+        public BuildingController(
+            ApplicationDbContext db,
+            UserManager<ApplicationUser> userManager,
+            IMapper mapper
+        ) {
             _db = db;
             _userManager = userManager;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index() {
-            ApplicationUser user = await _userManager.GetUserAsync(User);
-            return View(_db.Buildings
-                .Where(b => b.UserId == user.Id)
+        public IActionResult Index() {
+            IEnumerable<Building> buildings = _db.Buildings
+                .Where(b => b.UserId == _userManager.GetUserId(User))
                 .Include(b => b.Type)
                 .Include(b => b.Animals)
                 .ThenInclude(a => a.Type)
                 .Include(b => b.BuildingUpgrades)
-                .ThenInclude(bu => bu.Upgrade)
-            );
+                .ThenInclude(bu => bu.Upgrade);
+            return View(_mapper.Map<IEnumerable<Building>, IEnumerable<BuildingViewModel>>(buildings));
         }
 
         [HttpGet]
@@ -50,25 +53,31 @@ namespace ItsyBits.Controllers {
             if (building == null) {
                 return NotFound();
             }
-            ApplicationUser user = await _userManager.GetUserAsync(User);
-            if (user.Id != building.UserId) {
+            if (_userManager.GetUserId(User) != building.UserId) {
                 return Unauthorized();
             }
-            ViewData["Upgrades"] = _db.Upgrades.Where(u => u.ForBuilding);
-            return View(building);
+            IEnumerable<Upgrade> upgrades = _db.Upgrades.Where(u => u.ForBuilding);
+            return View(new BuildingDetailsViewModel {
+                Building = _mapper.Map<Building, BuildingViewModel>(building),
+                Upgrades = _mapper.Map<IEnumerable<Upgrade>, IEnumerable<UpgradeViewModel>>(upgrades)
+            });
         }
 
         [HttpGet]
         public IActionResult Plots() {
             string userId = _userManager.GetUserId(User);
             IEnumerable<Building> buildings = _db.Buildings.Where(b => b.UserId == userId).Include(b => b.Type);
-            IEnumerable<Plot> plots = _db.Plots;
-            foreach (Plot plot in plots) {
+            IEnumerable<PlotViewModel> plots = _mapper.Map<IEnumerable<Plot>, IEnumerable<PlotViewModel>>(_db.Plots);
+
+            // Set the building property on each plot of user to the correct one
+            foreach (PlotViewModel plot in plots) {
                 Building building = buildings.SingleOrDefault(b => b.PlotId == plot.Id);
                 if (building == null) {
+                    plot.BuildingId = 0;
                     continue;
                 }
-                plot.Buildings = new List<Building> {building};
+                plot.BuildingId = building.Id;
+                plot.SpritePath = building.Type.SpritePath;
             }
             return Json(plots);
         }

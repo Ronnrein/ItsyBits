@@ -1,8 +1,8 @@
-﻿@model ApplicationUser
+﻿@model UserViewModel
 @{
     int buildingCapacity = Model.Buildings.Sum(b => b.Capacity);
     int capacityFilled = (int)((float)Model.Animals.Count() / (float)buildingCapacity * 100f);
-    int coinPotential = (int)((float)Model.Animals.Sum(a => a.GetReward()) / (float)(20 * Model.Animals.Count()) * 100f);
+    int coinPotential = (int)((float)Model.Animals.Sum(a => a.Reward) / (float)(20 * Model.Animals.Count()) * 100f);
 }
 <h2>Hi @Model.UserName!</h2>
 <div class="ui divider"></div>
@@ -22,7 +22,7 @@
     <div class="extra content">
         <div class="ui small indicating progress progressbar tooltip" data-content="@Model.HappinessPercentage%" data-value="@Model.HappinessPercentage" data-total="100">
             <div class="bar"></div>
-            <div class="label">Overall animal happiness</div>
+            <div class="label">Overall pet happiness</div>
         </div>
     </div>
 </a>
@@ -34,7 +34,7 @@
             <i class="right floated home icon"></i>
         </div>
         <div class="description">
-            <p>You have <b>@Model.Buildings.Count</b> building@(Model.Buildings.Count == 1 ? "" : "s")</p>
+            <p>You have <b>@Model.Buildings.Count()</b> building@(Model.Buildings.Count() == 1 ? "" : "s")</p>
             <p>In total you have room for <b>@buildingCapacity</b> pet@(buildingCapacity == 1 ? "" : "s")</p>
         </div>
     </div>
@@ -49,17 +49,17 @@
 <a class="ui link card" asp-controller="Store" asp-action="Index">
     <div class="content">
         <div class="header">
-            Currency
-            <i class="right floated dollar icon"></i>
+            Money
+            <i class="right floated money icon"></i>
         </div>
         <div class="description">
-            <p>You currently have <b>@Model.Currency</b> coins</p>
-            <p>Based on current animal happiness, you would get <b>@Model.Animals.Sum(a => a.GetReward())</b> coins from a harvest. Make sure to keep them happy to maximize profits!</p>
-            <p>At maximum happiness, you would get a total of <b>@(20*Model.Animals.Count())</b> coins at harvest</p>
+            <p>You currently have <b>@Model.Currency</b> Bits</p>
+            <p>Based on current pet happiness, you will get <b>@Model.Reward</b> Bits at midnight. Make sure to keep them happy to maximize profits!</p>
+            <p>At maximum happiness, you will get a total of <b>@(20*Model.Animals.Count())</b> Bits at midnight</p>
         </div>
     </div>
     <div class="extra content">
-        <div class="ui small indicating progress progressbar tooltip" data-content="@coinPotential%" data-value="@Model.Animals.Sum(a => a.GetReward())" data-total="@(20*Model.Animals.Count())">
+        <div class="ui small indicating progress progressbar tooltip" data-content="@coinPotential%" data-value="@Model.Reward" data-total="@(20*Model.Animals.Count())">
             <div class="bar"></div>
             <div class="label">Coin potential</div>
         </div>

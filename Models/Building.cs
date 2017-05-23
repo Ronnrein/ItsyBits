@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -7,7 +6,7 @@ using System.Linq;
 namespace ItsyBits.Models {
 
     /// <summary>
-    /// Farm buildings containing animals
+    /// Town buildings containing animals
     /// </summary>
     public class Building {
 
@@ -20,7 +19,6 @@ namespace ItsyBits.Models {
         /// <summary>
         /// Name of building
         /// </summary>
-        [Required(ErrorMessage = "Please enter name of building")]
         public string Name { get; set; }
 
         /// <summary>
@@ -32,7 +30,6 @@ namespace ItsyBits.Models {
         /// Id of user of building
         /// </summary>
         [ForeignKey("User")]
-        [DisplayName("User")]
         public string UserId { get; set; }
 
         /// <summary>
@@ -44,7 +41,6 @@ namespace ItsyBits.Models {
         /// Id of type of building
         /// </summary>
         [ForeignKey("Type")]
-        [DisplayName("Type")]
         public int TypeId { get; set; }
 
         /// <summary>
@@ -56,7 +52,6 @@ namespace ItsyBits.Models {
         /// Id of plot of building
         /// </summary>
         [ForeignKey("Plot")]
-        [DisplayName("Plot")]
         public int PlotId { get; set; }
 
         /// <summary>
@@ -78,33 +73,35 @@ namespace ItsyBits.Models {
         /// <summary>
         /// Avarage happiness of all animals in building
         /// </summary>
-        public int HappinessPercentage => Animals == null || Animals.Count == 0 ? 0 : (int) Animals.Average(a => a.HappinessPercentage);
+        public int HappinessPercentage => !Animals.Any() ? 0 : (int) Animals.Average(a => a.HappinessPercentage);
 
         /// <summary>
         /// Total capacity of building
         /// </summary>
-        public int Capacity => Type == null || BuildingUpgrades == null ? 0 : Type.Capacity + Upgrades.Sum(u => u.CapacityModifier);
+        public int Capacity => Type?.Capacity + Upgrades.Sum(u => u.CapacityModifier) ?? 0;
 
         /// <summary>
         /// Reward from the animals in this building
         /// </summary>
-        public int Reward => Animals?.Sum(a => a.GetReward()) ?? 0;
+        public int Reward => Animals?.Sum(a => a.Reward) ?? 0;
 
         /// <summary>
-        /// Gets status text for building
+        /// Status text for building
         /// </summary>
-        /// <returns>Current status of building</returns>
-        public string GetStatusText() {
-            if(Animals.Count == 0) {
-                return "You have no animals";
+        public string StatusText {
+            get {
+                if (!Animals.Any()) {
+                    return "You have no pets in this house";
+                }
+                if (HappinessPercentage >= 76) {
+                    return "Your pets seem happy";
+                }
+                if (HappinessPercentage >= 31) {
+                    return "Your pets need some attention";
+                }
+                return "Help us!";
             }
-            if(HappinessPercentage >= 76) {
-                return "Your animals seem happy";
-            }
-            if(HappinessPercentage >= 31) {
-                return "Your pets need some attention";
-            }
-            return "Help us!";
         }
+
     }
 }

@@ -24,6 +24,8 @@ namespace ItsyBits.Controllers {
                 .Include(u => u.Buildings)
                 .ThenInclude(b => b.Animals)
                 .SingleOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
+
+            // If the user has no animals, redirect to the select animal page
             if (!user.Animals.Any()) {
                 return RedirectToAction("AnimalSelect", "Store");
             }
@@ -31,14 +33,11 @@ namespace ItsyBits.Controllers {
         }
 
         public IActionResult About() {
-            ViewData["Message"] = "Your application description page.";
-
             return View();
         }
 
+        [Authorize]
         public IActionResult Contact() {
-            ViewData["Message"] = "Your contact page.";
-
             return View();
         }
 
@@ -51,8 +50,10 @@ namespace ItsyBits.Controllers {
                     return View("~/Views/Error/NotFound.cshtml");
                 case 403:
                     return View("~/Views/Error/Unauthorized.cshtml");
+                default:
+                    return View("~/Views/Error/Error.cshtml");
             }
-            return View("~/Views/Error/Error.cshtml");
+            
         }
 
     }

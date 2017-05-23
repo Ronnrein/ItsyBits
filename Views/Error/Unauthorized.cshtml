@@ -1,4 +1,5 @@
 @{
     ViewData["Title"] = "Unauthorized";
+    Layout = User.Identity.IsAuthenticated ? "_Layout" : "_LayoutEmpty";
 }
-<img src="~/images/animals/403.png" />
+<img class="centered" src="~/images/animals/403.png" />

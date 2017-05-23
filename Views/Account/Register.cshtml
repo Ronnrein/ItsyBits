@@ -1,37 +1,28 @@
 @model RegisterViewModel
 @{
-    ViewData["Title"] = "Login";
-    Layout = "_BasicLayout";
+    ViewData["Title"] = "Register";
+    Layout = "_LayoutLogin";
 }
-<div class="ui three column stackable grid">
-    <div class="column"></div>
-    <div class="column">
-        <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" role="form">
-            <div class="ui segment form account-form">
-                <h2 class="center aligned header account-header">Register</h2>
-                <div class="field">
-                    <span asp-validation-for="UserName" class="ui orange left pointing label"></span>
-                    <input asp-for="UserName" placeholder="User name">
-                </div>
-                <div class="field">
-                    <span asp-validation-for="Email" class="ui orange left pointing label"></span>
-                    <input asp-for="Email" placeholder="Email">
-                </div>
-                <div class="field">
-                    <span asp-validation-for="Password" class="ui orange left pointing label"></span>
-                    <input asp-for="Password" placeholder="Password">
-                </div>
-                <div class="field">
-                    <span asp-validation-for="ConfirmPassword" class="ui orange left pointing label"></span>
-                    <input asp-for="ConfirmPassword" placeholder="Confirm password">
-                </div>
-                <div class="field">
-                    <input type="submit" value="Register" class="ui button large fluid green">
-                </div>
-                <p><a asp-action="Login">Login</a></p>
-            </div>
-        </form>
+<form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" role="form">
+    <h2 class="center aligned header account-header">Register</h2>
+    <div class="field">
+        <span asp-validation-for="UserName" class="ui orange left pointing label"></span>
+        <input asp-for="UserName" placeholder="User name">
     </div>
-    <div class="column"></div>
-</div>
-@Html.Partial("_AboutPartial")
+    <div class="field">
+        <span asp-validation-for="Email" class="ui orange left pointing label"></span>
+        <input asp-for="Email" placeholder="Email">
+    </div>
+    <div class="field">
+        <span asp-validation-for="Password" class="ui orange left pointing label"></span>
+        <input asp-for="Password" placeholder="Password">
+    </div>
+    <div class="field">
+        <span asp-validation-for="ConfirmPassword" class="ui orange left pointing label"></span>
+        <input asp-for="ConfirmPassword" placeholder="Confirm password">
+    </div>
+    <div class="field">
+        <input type="submit" value="Register" class="ui button large fluid green">
+    </div>
+    <p><a asp-action="Login">Login</a></p>
+</form>

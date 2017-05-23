@@ -1,6 +1,6 @@
 @{
     ViewData["Title"] = "About";
-    Layout = "_CleanLayout";
+    Layout = User.Identity.IsAuthenticated ? "_LayoutClean" : "_LayoutEmpty";
 }
 <div id="about-top">
     <h1 class="about-header">

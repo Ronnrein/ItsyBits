@@ -1,8 +1,10 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using ItsyBits.Data;
 using ItsyBits.Models;
+using ItsyBits.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,22 +19,28 @@ namespace ItsyBits.Controllers {
         private readonly ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _config;
+        private readonly IMapper _mapper;
 
-        public AnimalController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IConfiguration config) {
+        public AnimalController(
+            ApplicationDbContext db,
+            UserManager<ApplicationUser> userManager,
+            IConfiguration config,
+            IMapper mapper
+        ) {
             _db = db;
             _userManager = userManager;
             _config = config;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index() {
-            ApplicationUser user = await _userManager.GetUserAsync(User);
-            return View(_db.Buildings
-                .Where(b => b.UserId == user.Id)
+        public IActionResult Index() {
+            IEnumerable<Building> buildings = _db.Buildings
+                .Where(b => b.UserId == _userManager.GetUserId(User))
                 .Include(b => b.Animals)
                 .ThenInclude(a => a.Type)
-                .AsEnumerable()
-            );
+                .AsEnumerable();
+            return View(_mapper.Map<IEnumerable<Building>, IEnumerable<BuildingViewModel>>(buildings));
         }
         
         [HttpGet]
@@ -50,12 +58,14 @@ namespace ItsyBits.Controllers {
             if (animal.DeathTime != null) {
                 return RedirectToAction("Recover", new { id = animal.Id });
             }
-            ApplicationUser user = await _userManager.GetUserAsync(User);
-            if (user.Id != animal.Building.UserId) {
+            if (_userManager.GetUserId(User) != animal.Building.UserId) {
                 return Unauthorized();
             }
-            ViewData["Upgrades"] = _db.Upgrades.Where(u => u.ForAnimal);
-            return View(animal);
+            IEnumerable<Upgrade> upgrades = _db.Upgrades.Where(u => u.ForAnimal);
+            return View(new AnimalDetailsViewModel {
+                Animal = _mapper.Map<Animal, AnimalViewModel>(animal),
+                AvailableUpgrades = _mapper.Map<IEnumerable<Upgrade>, IEnumerable<UpgradeViewModel>>(upgrades)
+            });
         }
 
         [HttpGet]
@@ -70,11 +80,10 @@ namespace ItsyBits.Controllers {
             if (animal.DeathTime == null) {
                 return RedirectToAction("Details", new { id = animal.Id });
             }
-            ApplicationUser user = await _userManager.GetUserAsync(User);
-            if (user.Id != animal.Building.UserId) {
+            if (_userManager.GetUserId(User) != animal.Building.UserId) {
                 return Unauthorized();
             }
-            return View(animal);
+            return View(_mapper.Map<Animal, AnimalViewModel>(animal));
         }
 
         [HttpPost, ActionName("Recover")]
@@ -86,10 +95,11 @@ namespace ItsyBits.Controllers {
             if (animal == null) {
                 return NotFound();
             }
-            ApplicationUser user = await _userManager.GetUserAsync(User);
-            if (user.Id != animal.Building.UserId) {
+            if (_userManager.GetUserId(User) != animal.Building.UserId) {
                 return Unauthorized();
             }
+
+            // Set animal happiness to percentage in config
             animal.HappinessPercentage = int.Parse(_config["AnimalRecoveryHappiness"]);
             _db.Update(animal);
             await _db.SaveChangesAsync();
@@ -105,8 +115,7 @@ namespace ItsyBits.Controllers {
             if (animal == null) {
                 return NotFound();
             }
-            ApplicationUser user = await _userManager.GetUserAsync(User);
-            if (user.Id != animal.Building.UserId) {
+            if (_userManager.GetUserId(User) != animal.Building.UserId) {
                 return Unauthorized();
             }
             animal.FeedPercentage = 100;
@@ -124,8 +133,7 @@ namespace ItsyBits.Controllers {
             if (animal == null) {
                 return NotFound();
             }
-            ApplicationUser user = await _userManager.GetUserAsync(User);
-            if (user.Id != animal.Building.UserId) {
+            if (_userManager.GetUserId(User) != animal.Building.UserId) {
                 return Unauthorized();
             }
             animal.SleepPercentage = 100;
@@ -143,8 +151,7 @@ namespace ItsyBits.Controllers {
             if (animal == null) {
                 return NotFound();
             }
-            ApplicationUser user = await _userManager.GetUserAsync(User);
-            if (user.Id != animal.Building.UserId) {
+            if (_userManager.GetUserId(User) != animal.Building.UserId) {
                 return Unauthorized();
             }
             animal.PetPercentage = 100;

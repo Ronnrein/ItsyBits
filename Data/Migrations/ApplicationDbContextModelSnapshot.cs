@@ -55,6 +55,9 @@ namespace ItsyBits.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Description")
+                        .IsRequired();
+
                     b.Property<TimeSpan>("FeedTime");
 
                     b.Property<float>("LevelMultiplier");
@@ -177,6 +180,9 @@ namespace ItsyBits.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("Capacity");
+
+                    b.Property<string>("Description")
+                        .IsRequired();
 
                     b.Property<int>("MaxCapacity");
 

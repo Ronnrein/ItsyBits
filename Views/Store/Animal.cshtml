@@ -1,33 +1,44 @@
-﻿@model Animal
-@{
-    ViewData["Title"] = "Buy animal";
-    AnimalType type = (AnimalType) ViewData["AnimalType"];
-}
+﻿@model StoreAnimalViewModel
+@{ ViewData["Title"] = "Buy a new pet"; }
 <div class="ui stackable two column grid">
-    <div class="column">
+    <div class="column info-column">
         <form class="ui segments form" method="post">
-            <div class="ui raised segment secondary header">
-                Buy a @type.Name
+            <div class="ui raised segment secondary">
+                <h4 class="inline">Buy a @Model.AnimalType.Name</h4>
+                <p class="right floated">
+                    <i class="ui money icon"></i>
+                    @Model.AnimalType.Price
+                </p>
+            </div>
+            <div class="ui raised segment">
+                <p class="ui orange ribbon label">Description</p>
+                <p>@Model.AnimalType.Description</p>
             </div>
             <div class="ui raised segment field">
-                <label>What would you like to name your animal?</label>
-                <input asp-for="Name" />
+                <p class="ui orange ribbon label inline">
+                    <label asp-for="Name"></label>
+                </p>
+                <input asp-for="Name" placeholder="Name"/>
+                <span asp-validation-for="Name" class="ui pointing red basic label"></span>
             </div>
             <div class="ui raised segment field">
-                <label>Where should the animal live?</label>
+                <p class="ui orange ribbon label inline">
+                    <label asp-for="BuildingId"></label>
+                </p>
                 <div class="ui selection dropdown">
-                    <input type="hidden" name="BuildingId" />
+                    <input type="hidden" asp-for="BuildingId" />
                     <i class="dropdown icon"></i>
                     <div class="default text">Select building</div>
                     <div class="menu">
-                        @foreach (Building building in (IEnumerable<Building>)ViewData["BuildingId"]) {
+                        @foreach (BuildingViewModel building in Model.Buildings) {
                             <div class="item" data-value="@building.Id">
-                                <img class="ui mini avatar image" src="/images/buildings/@building.Type.SpritePath/portrait.png" />
+                                <img class="ui mini avatar image" src="/images/buildings/@building.SpritePath/portrait.png" />
                                 @building.Name
                             </div>
                         }
                     </div>
                 </div>
+                <span asp-validation-for="BuildingId" class="ui pointing red basic label"></span>
             </div>
             <div class="ui two bottom attached buttons">
                 <button type="submit" class="ui orange button"><i class="add to cart icon"></i> Buy</button>
@@ -37,7 +48,7 @@
     </div>
     <div class="column">
         <div class="ui raised segment ray-image-container">
-            <img class="ui centered big image" src="~/images/animals/@type.SpritePath/full.png" />
+            <img class="ui centered big image" src="~/images/animals/@Model.AnimalType.SpritePath/full.png" />
         </div>
     </div>
 </div>

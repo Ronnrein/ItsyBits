@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -22,37 +21,31 @@ namespace ItsyBits.Models {
         /// <summary>
         /// Name of animal
         /// </summary>
-        [Required(ErrorMessage = "Please enter its name")]
         public string Name { get; set; }
 
         /// <summary>
         /// Date the animal was created
         /// </summary>
-        [ScaffoldColumn(false)]
         public DateTime Created { get; set; }
 
         /// <summary>
         /// Last time animal was fed
         /// </summary>
-        [ScaffoldColumn(false)]
         public DateTime LastFeed { get; set; }
 
         /// <summary>
         /// Last time animal slept
         /// </summary>
-        [ScaffoldColumn(false)]
         public DateTime LastSleep { get; set; }
 
         /// <summary>
         /// Last time animal was pet
         /// </summary>
-        [ScaffoldColumn(false)]
         public DateTime LastPet { get; set; }
 
         /// <summary>
         /// Level of animal
         /// </summary>
-        [ScaffoldColumn(false)]
         public int Level { get; set; }
 
         /// <summary>
@@ -68,33 +61,28 @@ namespace ItsyBits.Models {
         /// <summary>
         /// Time of death
         /// </summary>
-        [ScaffoldColumn(false)]
         public DateTime? DeathTime { get; set; }
 
         /// <summary>
         /// Id of type of animal
         /// </summary>
         [ForeignKey("Type")]
-        [DisplayName("Type")]
         public int TypeId { get; set; }
 
         /// <summary>
         /// Building animal lives in
         /// </summary>
-        [ScaffoldColumn(false)]
         public Building Building { get; set; }
 
         /// <summary>
         /// Id of building of animal
         /// </summary>
         [ForeignKey("Building")]
-        [DisplayName("Building")]
         public int BuildingId { get; set; }
 
         /// <summary>
         /// Junction for animal upgrades
         /// </summary>
-        [ScaffoldColumn(false)]
         public ICollection<AnimalUpgrade> AnimalUpgrades { get; set; }
 
         /// <summary>
@@ -102,6 +90,16 @@ namespace ItsyBits.Models {
         /// </summary>
         [NotMapped]
         public IEnumerable<Upgrade> Upgrades => AnimalUpgrades?.Select(au => au.Upgrade) ?? Enumerable.Empty<Upgrade>();
+
+        /// <summary>
+        /// Whether the animal is alive or not
+        /// </summary>
+        public bool IsAlive => FeedPercentage > 20 && SleepPercentage > 20;
+
+        /// <summary>
+        /// Current reward amount of this pet
+        /// </summary>
+        public int Reward => IsAlive ? (int)(20f * (PetPercentage / 100f)) : 0;
 
         /// <summary>
         /// The percentage of how well fed the animal is
@@ -145,14 +143,25 @@ namespace ItsyBits.Models {
         }
 
         /// <summary>
-        /// Whether the animal is alive or not
+        /// Status text for animal
         /// </summary>
-        public bool IsAlive => Type != null && (FeedPercentage > 20 && SleepPercentage > 20);
-
-        /// <summary>
-        /// Readable age of animal
-        /// </summary>
-        public string Age => Created.ReadableAge();
+        public string StatusText {
+            get {
+                if (DeathTime != null) {
+                    return "I ran away!";
+                }
+                if (new[] { FeedPercentage, SleepPercentage, PetPercentage }.All(s => s >= 80)) {
+                    return "I'm happy ^_^";
+                }
+                if (HappinessPercentage >= 39) {
+                    return "I could need some attention";
+                }
+                if (HappinessPercentage > 20) {
+                    return "I don't feel so good";
+                }
+                return "I feel sick, don't you love me anymore?";
+            }
+        }
 
         /// <summary>
         /// Constructor of animal
@@ -166,37 +175,6 @@ namespace ItsyBits.Models {
         }
 
         /// <summary>
-        /// Gets status text for animal
-        /// </summary>
-        /// <returns>Current status of animal</returns>
-        public string GetStatusText() {
-            if (DeathTime != null) {
-                return "I ran away!";
-            }
-            if(new[] {FeedPercentage, SleepPercentage, PetPercentage}.All(s => s >= 80)) {
-                return "I'm happy ^_^";
-            }
-            if(HappinessPercentage >= 39) {
-                return "I could need some attention";
-            }
-            if(HappinessPercentage > 20) {
-                return "I don't feel so good";
-            }
-            return "I feel sick, don't you love me anymore?";
-        }
-
-        /// <summary>
-        /// Gets current reward amount of this pet
-        /// </summary>
-        /// <returns>Coins to reward</returns>
-        public int GetReward() {
-            if (!IsAlive) {
-                return 0;
-            }
-            return (int)(20f * (PetPercentage / 100f));
-        }
-
-        /// <summary>
         /// Calculate the percentage of the stat of the animal
         /// </summary>
         /// <param name="lastTime">Last time the action was taken</param>
@@ -205,5 +183,6 @@ namespace ItsyBits.Models {
         private static int CalculateStatPercentage(DateTime lastTime, TimeSpan duration) {
             return (100 - (int) ((DateTime.Now - lastTime).TotalSeconds / duration.TotalSeconds * 100)).Clamp(0, 100);
         }
+
     }
 }

@@ -2,11 +2,13 @@
 @{ ViewData["Title"] = "Details for "+@Model.Name; }
 <h2>Details</h2>
 <div>
-    <h4>Animal type</h4>
+    <h4>Pet type</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>@Html.DisplayNameFor(model => model.Name)</dt>
         <dd>@Html.DisplayFor(model => model.Name)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Description)</dt>
+        <dd>@Html.DisplayFor(model => model.Description)</dd>
         <dt>@Html.DisplayNameFor(model => model.FeedTime)</dt>
         <dd>@Html.DisplayFor(model => model.FeedTime)</dd>
         <dt>@Html.DisplayNameFor(model => model.SleepTime)</dt>

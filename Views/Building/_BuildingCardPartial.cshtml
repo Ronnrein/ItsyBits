@@ -1,22 +1,22 @@
-﻿@model Building
+﻿@model BuildingViewModel
 <a asp-controller="Building" asp-action="Details" asp-route-id="@Model.Id" class="ui card"> 
     <div class="image ray-image-container">
-        <img src="~/images/buildings/@Model.Type.SpritePath/portrait.png" />
+        <img src="~/images/buildings/@Model.SpritePath/portrait.png" />
     </div>
     <div class="content">
         <div class="header">@Model.Name</div>
         <div class="meta">
-        <p>@Model.Type.Name Capacity: @Model.Animals.Count/@Model.Capacity</p>  
+        <p>@Model.Type Capacity: @Model.Animals.Count()/@Model.Capacity</p>  
         </div>
         <div class="description">
-            @Model.GetStatusText()
+            @Model.StatusText
         </div>
-        @if (Model.Animals.Count > 0) {
+        @if (Model.Animals.Any()) {
             <div class="ui divider"></div>
             <div class="extra content">
                 <div class="ui indicating small progress progressbar tooltip" data-content="@Model.HappinessPercentage%" data-value="@Model.HappinessPercentage" data-total="100">
                     <div class="bar"></div>
-                    <div class="label">Animal Happiness</div>
+                    <div class="label">Pet Happiness</div>
                 </div>
             </div>
         }

@@ -1,5 +1,6 @@
 @{
     ViewData["Title"] = "Not found";
+    Layout = User.Identity.IsAuthenticated ? "_Layout" : "_LayoutEmpty";
 }
 <div id="error-body">
     <h1 class="error-h">404 </h1>
@@ -10,14 +11,14 @@
         Too weird to live, and too rare to die
     </h3>
 
-    <a class="ui card">
+    <a class="ui card centered">
         <div class="image ray-image-container">
             <img src="~/images/animals/Friedchicken.jpg" />
         </div>
         <div class="content">
             <h2 class="names">
                 Fried chicken
-                <i class=man icon"></i>
+                <i class="man icon"></i>
             </h2>
             <div class="meta">
                 <p> one day old</p>
