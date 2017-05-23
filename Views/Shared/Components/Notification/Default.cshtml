@@ -6,21 +6,24 @@
     @if (unread > 0) {
         <div class="floating ui red circular mini label" id="notification-count">@unread</div>
     }
-    <div class="ui menu comments notifications">
+    <div class="ui vertical menu comments notifications">
         @foreach (NotificationViewModel notification in Model.OrderByDescending(n => n.Created).Take(5)) {
             string selected = notification.IsRead ? "" : "selected";
-            <div class="comment item @selected">
-                <a class="avatar" href="@notification.Link">
+            <a href="@notification.Link" class="comment item @selected">
+                <div class="avatar" href="@notification.Link">
                     <img src="/images/@notification.Image" />
-                </a>
+                </div>
                 <div class="content">
-                    <a class="author" href="@notification.Link">@notification.Title</a>
+                    <p class="author inline">@notification.Title</p>
                     <div class="metadata">
                         <div class="date">@notification.Created.ReadableAge() ago</div>
                     </div>
                     <div class="text">@notification.Message</div>
                 </div>
-            </div>
+            </a>
         }
+        <a asp-controller="User" asp-action="Notifications" class="item secondary">
+            <i class="alarm icon"></i> View all
+        </a>
     </div>
 </div>

@@ -78,7 +78,7 @@ namespace ItsyBits.Models {
         /// <summary>
         /// Total capacity of building
         /// </summary>
-        public int Capacity => Type.Capacity + Upgrades.Sum(u => u.CapacityModifier);
+        public int Capacity => Type?.Capacity + Upgrades.Sum(u => u.CapacityModifier) ?? 0;
 
         /// <summary>
         /// Reward from the animals in this building
