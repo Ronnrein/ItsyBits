@@ -107,17 +107,13 @@
 }
 
 .notifications {
-    max-width: 300px !important;
+    width: 300px !important;
     font-size: 15px !important;
 }
 
 .notifications div.text {
     white-space: initial;
     text-shadow: none;
-}
-
-.notifications .comment {
-    cursor: default !important;
 }
 
 .navigation {

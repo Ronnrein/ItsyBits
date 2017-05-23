@@ -36,7 +36,7 @@ function doAnimalAction() {
 function clearNotifications() {
     if ($(this).find(".label").length) {
         var that = this;
-        $.post("/user/clearnotifications", function () {
+        $.get("/user/notifications", function () {
 
             // Remove label
             $(that).find(".label").remove();

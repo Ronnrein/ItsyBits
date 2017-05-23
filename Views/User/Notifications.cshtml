@@ -1,0 +1,14 @@
+﻿@using ItsyBits.Helpers
+@model IEnumerable<NotificationViewModel>
+@{ ViewData["Title"] = "Notifications"; }
+<div class="ui list">
+    @foreach (NotificationViewModel notification in Model) {
+        <a href="@notification.Link" class="item">
+            <img class="ui avatar image" src="/images/@notification.Image" />
+            <div class="content">
+                <p class="header">@notification.Title</p>
+                <div class="description">@notification.Message - @notification.Created.ReadableAge() ago</div>
+            </div>
+        </a>
+    }
+</div>
