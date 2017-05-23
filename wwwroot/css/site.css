@@ -184,6 +184,9 @@
     #computer-navbar {
         display: none !important;
     }
+    .breadcrumb {
+        font-size: 10px !important;
+    }
 }
 
 h2.names {
