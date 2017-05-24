@@ -30,7 +30,7 @@
                             @Model.Building.Reward
                         </div>
                         <div class="label">
-                            potential income
+                            income
                         </div>
                     </div>
                     <div class="statistic">
@@ -50,13 +50,14 @@
                         <div class="text">
                             <img class="ui avatar image" src="~/images/upgrades/upgrade.png" />
                         </div>
-                        <div class="menu vertical basic buttons">
+                        <div id="upgrade-menu" class="menu vertical basic buttons">
                             @foreach (UpgradeViewModel upgrade in Model.Upgrades) {
                                 <form asp-controller="Store" asp-action="BuildingUpgrade" asp-route-id="@upgrade.Id">
                                     <input type="hidden" name="BuildingId" value="@Model.Building.Id" />
                                     <button type="submit" class="ui item basic button tooltip" data-content="@upgrade.Description" data-position="right center" name="UpgradeId" value="@upgrade.Id">
                                         <img class="ui avatar image" src="~/images/upgrades/@upgrade.SpritePath" />
-                                        @upgrade.Name
+                                        @upgrade.Name - @upgrade.Price
+                                        <i class="money icon"></i>
                                     </button>
                                 </form>
                             }

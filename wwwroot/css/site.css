@@ -316,3 +316,13 @@ h2.names {
     text-align: center;
     font-style: italic;
 }
+
+#upgrade-menu {
+    background: none !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+#upgrade-menu button {
+    background: white !important;
+}
