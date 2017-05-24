@@ -14,7 +14,10 @@
         new Sprite("/images/town/swayingTree01.png", new Vector2(1600, 1450), new Animation(4, 1, 4, getRandomRange(150, 300), getRandomRange(0, 1000))),
         new Sprite("/images/town/swayingTree01.png", new Vector2(540, 1100), new Animation(4, 1, 4, getRandomRange(150, 300), getRandomRange(0, 1000))),
         new Sprite("/images/town/swayingTree01.png", new Vector2(1760, 220), new Animation(4, 1, 4, getRandomRange(150, 300), getRandomRange(0, 1000))),
-        new Sprite("/images/town/swayingTree01.png", new Vector2(2050, 760), new Animation(4, 1, 4, getRandomRange(150, 300), getRandomRange(0, 1000)))
+        new Sprite("/images/town/swayingTree01.png", new Vector2(2050, 760), new Animation(4, 1, 4, getRandomRange(150, 300), getRandomRange(0, 1000))),
+        new Sprite("/images/town/bush01.png", new Vector2(1300, 200), new Animation(4, 1, 4, getRandomRange(150, 300), getRandomRange(0, 1000))),
+        new Sprite("/images/town/bush01.png", new Vector2(340, 730), new Animation(4, 1, 4, getRandomRange(150, 300), getRandomRange(0, 1000))),
+        new Sprite("/images/town/bush01.png", new Vector2(1860, 840), new Animation(4, 1, 4, getRandomRange(150, 300), getRandomRange(0, 1000)))
     ];
     var scaleFactor = 1.05;
     var backgroundColor = "#3b7dcf";
