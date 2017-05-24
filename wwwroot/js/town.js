@@ -225,9 +225,6 @@
             var trans = new Vector2(point.x - dragStartPosition.x, point.y - dragStartPosition.y);
             ctx.translate(trans.x, trans.y);
         }
-        // DEBUG
-        $("#mousex").html(Math.floor(lastMousePosition.x));
-        $("#mousey").html(Math.floor(lastMousePosition.y));
     }
 
     // Gets called when mouse scrolls
