@@ -54,8 +54,7 @@ namespace ItsyBits.Controllers {
             IEnumerable<Building> buildings = _db.Buildings
                 .Include(b => b.Type)
                 .Include(b => b.Animals)
-                .Include(b => b.BuildingUpgrades)
-                .ThenInclude(bu => bu.Upgrade)
+                .Include(b => b.BuildingUpgrades).ThenInclude(bu => bu.Upgrade)
                 .Where(b => b.UserId == user.Id && b.Animals.Count < b.Capacity);
             AnimalType type = await _db.AnimalTypes.SingleOrDefaultAsync(a => a.Id == id);
 
@@ -88,8 +87,7 @@ namespace ItsyBits.Controllers {
             Building building = await _db.Buildings
                 .Include(b => b.Type)
                 .Include(b => b.Animals)
-                .Include(b => b.BuildingUpgrades)
-                .ThenInclude(bu => bu.Upgrade)
+                .Include(b => b.BuildingUpgrades).ThenInclude(bu => bu.Upgrade)
                 .SingleOrDefaultAsync(b => b.Id == animalVm.BuildingId);
 
             // Check whether the building has room for more animals
@@ -102,8 +100,7 @@ namespace ItsyBits.Controllers {
                 IEnumerable<Building> buildings = _db.Buildings
                     .Include(b => b.Type)
                     .Include(b => b.Animals)
-                    .Include(b => b.BuildingUpgrades)
-                    .ThenInclude(bu => bu.Upgrade)
+                    .Include(b => b.BuildingUpgrades).ThenInclude(bu => bu.Upgrade)
                     .Where(b => b.UserId == user.Id && b.Animals.Count < b.Capacity
                 );
                 return View(new StoreAnimalViewModel {
@@ -236,9 +233,7 @@ namespace ItsyBits.Controllers {
             Result error = null;
 
             ApplicationUser user = await _db.Users
-                .Include(u => u.Buildings)
-                .ThenInclude(b => b.Animals)
-                .ThenInclude(a => a.Type)
+                .Include(u => u.Buildings).ThenInclude(b => b.Animals).ThenInclude(a => a.Type)
                 .SingleOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
             Upgrade upgrade = await _db.Upgrades.SingleOrDefaultAsync(a => a.Id == id);
 
@@ -286,9 +281,7 @@ namespace ItsyBits.Controllers {
             // If the modelstate is invalid, show view with errors displayed
             if (!ModelState.IsValid) {
                 ApplicationUser viewUser = await _db.Users
-                    .Include(u => u.Buildings)
-                    .ThenInclude(b => b.Animals)
-                    .ThenInclude(a => a.Type)
+                    .Include(u => u.Buildings).ThenInclude(b => b.Animals).ThenInclude(a => a.Type)
                     .SingleOrDefaultAsync(u => u.Id == user.Id);
                 return View(new StoreAnimalUpgradeViewModel {
                     Animals = _mapper.Map<IEnumerable<Animal>, IEnumerable<AnimalViewModel>>(viewUser.Animals),
@@ -360,8 +353,7 @@ namespace ItsyBits.Controllers {
         public async Task<IActionResult> BuildingUpgrade(int id, StoreBuildingUpgradeViewModel upgradeVm) {
             Building building = await _db.Buildings
                 .Include(b => b.Type)
-                .Include(b => b.BuildingUpgrades)
-                .ThenInclude(bu => bu.Upgrade)
+                .Include(b => b.BuildingUpgrades).ThenInclude(bu => bu.Upgrade)
                 .SingleOrDefaultAsync(b => b.Id == upgradeVm.BuildingId);
             Upgrade upgrade = await _db.Upgrades.SingleOrDefaultAsync(u => u.Id == id);
             ApplicationUser user = await _userManager.GetUserAsync(User);

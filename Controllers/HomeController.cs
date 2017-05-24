@@ -36,8 +36,7 @@ namespace ItsyBits.Controllers {
         [HttpGet]
         public async Task<IActionResult> Index() {
             ApplicationUser user = await _db.Users
-                .Include(u => u.Buildings)
-                .ThenInclude(b => b.Animals)
+                .Include(u => u.Buildings).ThenInclude(b => b.Animals)
                 .SingleOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
 
             // If the user has no animals, redirect to the select animal page

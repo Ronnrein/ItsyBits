@@ -37,8 +37,9 @@ namespace ItsyBits.Controllers {
         public IActionResult Index() {
             IEnumerable<Building> buildings = _db.Buildings
                 .Where(b => b.UserId == _userManager.GetUserId(User))
-                .Include(b => b.Animals)
-                .ThenInclude(a => a.Type)
+                .Include(b => b.Animals).ThenInclude(a => a.Type)
+                .Include(b => b.Animals).ThenInclude(a => a.AnimalUpgrades).ThenInclude(au => au.Upgrade)
+                .Include(b => b.BuildingUpgrades).ThenInclude(bu => bu.Upgrade)
                 .AsEnumerable();
             return View(_mapper.Map<IEnumerable<Building>, IEnumerable<BuildingViewModel>>(buildings));
         }
@@ -46,11 +47,10 @@ namespace ItsyBits.Controllers {
         [HttpGet]
         public async Task<IActionResult> Details(int id) {
             Animal animal = await _db.Animals
-                .Include(a => a.Building)
-                .ThenInclude(b => b.Type)
+                .Include(a => a.Building).ThenInclude(b => b.Type)
+                .Include(a => a.Building).ThenInclude(b => b.BuildingUpgrades).ThenInclude(bu => bu.Upgrade)
                 .Include(a => a.Type)
-                .Include(a => a.AnimalUpgrades)
-                .ThenInclude(au => au.Upgrade)
+                .Include(a => a.AnimalUpgrades).ThenInclude(au => au.Upgrade)
                 .SingleOrDefaultAsync(a => a.Id == id);
             if (animal == null) {
                 return NotFound();
@@ -89,7 +89,8 @@ namespace ItsyBits.Controllers {
         [HttpPost, ActionName("Recover")]
         public async Task<IActionResult> RecoverAnimal(int id) {
             Animal animal = await _db.Animals
-                .Include(a => a.Building)
+                .Include(a => a.AnimalUpgrades).ThenInclude(au => au.Upgrade)
+                .Include(a => a.Building).ThenInclude(b => b.BuildingUpgrades).ThenInclude(bu => bu.Upgrade)
                 .Include(a => a.Type)
                 .SingleOrDefaultAsync(a => a.Id == id);
             if (animal == null) {
@@ -109,7 +110,8 @@ namespace ItsyBits.Controllers {
         [HttpPost]
         public async Task<IActionResult> Feed(int id) {
             Animal animal = await _db.Animals
-                .Include(a => a.Building)
+                .Include(a => a.AnimalUpgrades).ThenInclude(au => au.Upgrade)
+                .Include(a => a.Building).ThenInclude(b => b.BuildingUpgrades).ThenInclude(bu => bu.Upgrade)
                 .Include(a => a.Type)
                 .SingleOrDefaultAsync(a => a.Id == id);
             if (animal == null) {
@@ -127,7 +129,8 @@ namespace ItsyBits.Controllers {
         [HttpPost]
         public async Task<IActionResult> Sleep(int id) {
             Animal animal = await _db.Animals
-                .Include(a => a.Building)
+                .Include(a => a.AnimalUpgrades).ThenInclude(au => au.Upgrade)
+                .Include(a => a.Building).ThenInclude(b => b.BuildingUpgrades).ThenInclude(bu => bu.Upgrade)
                 .Include(a => a.Type)
                 .SingleOrDefaultAsync(a => a.Id == id);
             if (animal == null) {
@@ -145,7 +148,8 @@ namespace ItsyBits.Controllers {
         [HttpPost]
         public async Task<IActionResult> Pet(int id) {
             Animal animal = await _db.Animals
-                .Include(a => a.Building)
+                .Include(a => a.AnimalUpgrades).ThenInclude(au => au.Upgrade)
+                .Include(a => a.Building).ThenInclude(b => b.BuildingUpgrades).ThenInclude(bu => bu.Upgrade)
                 .Include(a => a.Type)
                 .SingleOrDefaultAsync(a => a.Id == id);
             if (animal == null) {

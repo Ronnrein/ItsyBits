@@ -34,10 +34,9 @@ namespace ItsyBits.Controllers {
             IEnumerable<Building> buildings = _db.Buildings
                 .Where(b => b.UserId == _userManager.GetUserId(User))
                 .Include(b => b.Type)
-                .Include(b => b.Animals)
-                .ThenInclude(a => a.Type)
-                .Include(b => b.BuildingUpgrades)
-                .ThenInclude(bu => bu.Upgrade);
+                .Include(b => b.Animals).ThenInclude(a => a.Type)
+                .Include(b => b.Animals).ThenInclude(a => a.AnimalUpgrades).ThenInclude(au => au.Upgrade)
+                .Include(b => b.BuildingUpgrades).ThenInclude(bu => bu.Upgrade);
             return View(_mapper.Map<IEnumerable<Building>, IEnumerable<BuildingViewModel>>(buildings));
         }
 
@@ -45,10 +44,9 @@ namespace ItsyBits.Controllers {
         public async Task<IActionResult> Details(int id) {
             Building building = await _db.Buildings
                 .Include(b => b.Type)
-                .Include(b => b.Animals)
-                .ThenInclude(a => a.Type)
-                .Include(b => b.BuildingUpgrades)
-                .ThenInclude(bu => bu.Upgrade)
+                .Include(b => b.Animals).ThenInclude(a => a.Type)
+                .Include(b => b.Animals).ThenInclude(a => a.AnimalUpgrades).ThenInclude(au => au.Upgrade)
+                .Include(b => b.BuildingUpgrades).ThenInclude(bu => bu.Upgrade)
                 .SingleOrDefaultAsync(b => b.Id == id);
             if (building == null) {
                 return NotFound();
