@@ -106,8 +106,8 @@ namespace ItsyBits.Models {
         /// </summary>
         [NotMapped]
         public int FeedPercentage {
-            get { return Type == null ? 0 : CalculateStatPercentage(LastFeed, Type.FeedTime); }
-            set { LastFeed = DateTime.Now - TimeSpan.FromTicks(Type.FeedTime.Ticks * (100 - value) / 100); }
+            get { return Type == null ? 0 : CalculateStatPercentage(LastFeed, Type.FeedTime, FeedUpgradeFactor); }
+            set { LastFeed = DateTime.Now - TimeSpan.FromTicks((long)(Type.FeedTime.Ticks * FeedUpgradeFactor * (100 - value) / 100)); }
         }
 
         /// <summary>
@@ -115,17 +115,17 @@ namespace ItsyBits.Models {
         /// </summary>
         [NotMapped]
         public int SleepPercentage {
-            get { return Type == null ? 0 : CalculateStatPercentage(LastSleep, Type.SleepTime); }
-            set { LastSleep = DateTime.Now - TimeSpan.FromTicks(Type.SleepTime.Ticks * (100 - value) / 100); }
-        }
+            get { return Type == null ? 0 : CalculateStatPercentage(LastSleep, Type.SleepTime, SleepUpgradeFactor); }
+            set { LastSleep = DateTime.Now - TimeSpan.FromTicks((long)(Type.FeedTime.Ticks * SleepUpgradeFactor * (100 - value) / 100)); }
+            }
 
         /// <summary>
         /// The percentage of how loved the animal is
         /// </summary>
         [NotMapped]
         public int PetPercentage {
-            get { return Type == null ? 0 : CalculateStatPercentage(LastPet, Type.PetTime); }
-            set { LastPet = DateTime.Now - TimeSpan.FromTicks(Type.PetTime.Ticks * (100 - value) / 100); }
+            get { return Type == null ? 0 : CalculateStatPercentage(LastPet, Type.PetTime, PetUpgradeFactor); }
+            set { LastPet = DateTime.Now - TimeSpan.FromTicks((long)(Type.FeedTime.Ticks * PetUpgradeFactor * (100 - value) / 100)); }
         }
 
         /// <summary>
@@ -136,9 +136,9 @@ namespace ItsyBits.Models {
             get { return (int) new[] {FeedPercentage, SleepPercentage, PetPercentage}.Average(); }
             set {
                 DeathTime = null;
-                LastFeed = DateTime.Now - TimeSpan.FromTicks(Type.FeedTime.Ticks * (100 - value) / 100);
-                LastPet = DateTime.Now - TimeSpan.FromTicks(Type.PetTime.Ticks * (100 - value) / 100);
-                LastSleep = DateTime.Now - TimeSpan.FromTicks(Type.SleepTime.Ticks * (100 - value) / 100);
+                FeedPercentage = value;
+                SleepPercentage = value;
+                PetPercentage = value;
             }
         }
 
@@ -175,12 +175,29 @@ namespace ItsyBits.Models {
         }
 
         /// <summary>
+        /// The upgrade factor for food
+        /// </summary>
+        private float FeedUpgradeFactor => Upgrades.Select(u => u.FeedModifier).Aggregate(1f, (x, y) => x - 1 + y) + Building?.Upgrades.Select(u => u.FeedModifier).Aggregate(1f, (x, y) => x - 1 + y) ?? 0;
+
+        /// <summary>
+        /// The upgrade factor for food
+        /// </summary>
+        private float SleepUpgradeFactor => Upgrades.Select(u => u.SleepModifier).Aggregate(1f, (x, y) => x - 1 + y) + Building?.Upgrades.Select(u => u.SleepModifier).Aggregate(1f, (x, y) => x - 1 + y) ?? 0;
+
+        /// <summary>
+        /// The upgrade factor for food
+        /// </summary>
+        private float PetUpgradeFactor => Upgrades.Select(u => u.PetModifier).Aggregate(1f, (x, y) => x - 1 + y) + Building?.Upgrades.Select(u => u.PetModifier).Aggregate(1f, (x, y) => x - 1 + y) ?? 0;
+
+        /// <summary>
         /// Calculate the percentage of the stat of the animal
         /// </summary>
         /// <param name="lastTime">Last time the action was taken</param>
         /// <param name="duration">The duration before action must be taken again</param>
+        /// <param name="factor">The factor to multiply the duration with</param>
         /// <returns>Percentage of stat</returns>
-        private static int CalculateStatPercentage(DateTime lastTime, TimeSpan duration) {
+        private static int CalculateStatPercentage(DateTime lastTime, TimeSpan duration, float factor = 1) {
+            duration = TimeSpan.FromTicks((long) (duration.Ticks * factor));
             return (100 - (int) ((DateTime.Now - lastTime).TotalSeconds / duration.TotalSeconds * 100)).Clamp(0, 100);
         }
 
