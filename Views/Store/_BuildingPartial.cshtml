@@ -9,7 +9,11 @@
             <img class="ui image" src="~/images/buildings/@Model.SpritePath/portrait.png">
         </div>
         <div class="ui segment">
-            <div class="description">Building capacity: @Model.Capacity</div>
+            <div class="description">
+                Building capacity: @Model.Capacity
+                <div class="ui divider"></div>
+                @Model.Description
+            </div>
         </div>
         <div class="ui left labeled button full-width" tabindex="0">
             <p class="ui basic right pointing label">

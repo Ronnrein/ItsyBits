@@ -84,9 +84,21 @@ namespace ItsyBits {
                 o.CreateMap<StoreAnimalViewModel, Animal>();
                 o.CreateMap<StoreBuildingViewModel, Building>();
                 o.CreateMap<StoreAnimalUpgradeViewModel, AnimalUpgrade>()
-                    .ForMember(s => s.Upgrade, opt => opt.Ignore());
+                    .ForMember(d => d.Upgrade, opt => opt.Ignore());
                 o.CreateMap<StoreBuildingUpgradeViewModel, BuildingUpgrade>()
-                    .ForMember(s => s.Upgrade, opt => opt.Ignore());
+                    .ForMember(d => d.Upgrade, opt => opt.Ignore());
+                o.CreateMap<Animal, AnimalManageViewModel>()
+                    .ForMember(d => d.Refund, opt => opt.MapFrom(a => a.Type.Price / 4))
+                    .ForMember(d => d.Description, opt => opt.MapFrom(a => a.Type.Description))
+                    .ForMember(d => d.SpritePath, opt => opt.MapFrom(a => a.Type.SpritePath))
+                    .ReverseMap();
+                o.CreateMap<Building, BuildingManageViewModel>()
+                    .ForMember(d => d.Refund, opt => opt.MapFrom(a => a.Type.Price / 4))
+                    .ForMember(d => d.Description, opt => opt.MapFrom(a => a.Type.Description))
+                    .ForMember(d => d.SpritePath, opt => opt.MapFrom(a => a.Type.SpritePath))
+                    .ReverseMap();
+                o.CreateMap<ApplicationUser, UserManageViewModel>()
+                    .ReverseMap();
                 // Outputs
                 o.CreateMap<Upgrade, UpgradeViewModel>().MaxDepth(1);
                 o.CreateMap<AnimalType, AnimalTypeViewModel>().MaxDepth(1);

@@ -33,6 +33,25 @@ namespace ItsyBits.Controllers {
         }
 
         [HttpGet]
+        public async Task<IActionResult> Index() {
+            return View(_mapper.Map<ApplicationUser, UserManageViewModel>(await _userManager.GetUserAsync(User)));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Index(UserManageViewModel userVm) {
+            if (!ModelState.IsValid) {
+                return View(userVm);
+            }
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            _db.Users.Attach(user);
+            user.UserName = userVm.UserName;
+            _db.Entry(user).Property(u => u.UserName).IsModified = true;
+            await _db.SaveChangesAsync();
+            ViewData["Result"] = new Result("Renamed!", "You changed your username", ResultStatus.Success);
+            return View(userVm);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Notifications() {
             IEnumerable<Notification> notifications = _db.Notifications
                 .Where(n => n.UserId == _userManager.GetUserId(User))

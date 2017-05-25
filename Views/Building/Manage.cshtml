@@ -1,0 +1,41 @@
+﻿@model BuildingManageViewModel
+@{ ViewData["Title"] = "Manage building"; }
+<div class="ui stackable two column grid">
+    <div class="column info-column">
+        <form class="ui segments form" method="post">
+            <div class="ui raised segment secondary">
+                <h4 class="inline">Manage @Model.Name</h4>
+                <p class="right floated">
+                    <i class="ui money icon"></i>
+                    Refund:
+                    @Model.Refund
+                </p>
+            </div>
+            <div class="ui raised segment">
+                <p class="ui orange ribbon label">Description</p>
+                <p>@Model.Description</p>
+            </div>
+            <div class="ui raised segment field">
+                <p class="ui orange ribbon label inline">
+                    <label asp-for="Name"></label>
+                </p>
+                <input asp-for="Name" placeholder="Name" />
+                <span asp-validation-for="Name" class="ui pointing red basic label"></span>
+            </div>
+            <div class="ui three bottom attached buttons">
+                <button type="submit" class="ui orange button" name="submit">
+                    <i class="pencil icon"></i> Rename
+                </button>
+                <input type="submit" class="ui red button" name="Delete" id="Delete" value="Delete" />
+                <a asp-action="Details" asp-route-id="@Model.Id" class="ui default button">
+                    <i class="backward icon"></i> Back
+                </a>
+            </div>
+        </form>
+    </div>
+    <div class="column">
+        <div class="ui raised segment ray-image-container">
+            <img class="ui centered big image" src="~/images/buildings/@Model.SpritePath/full.png" />
+        </div>
+    </div>
+</div>

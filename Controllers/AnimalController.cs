@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using ItsyBits.Data;
+using ItsyBits.Helpers;
 using ItsyBits.Models;
 using ItsyBits.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -59,7 +61,7 @@ namespace ItsyBits.Controllers {
                 return RedirectToAction("Recover", new { id = animal.Id });
             }
             if (_userManager.GetUserId(User) != animal.Building.UserId) {
-                return Unauthorized();
+                return StatusCode((int) HttpStatusCode.Forbidden);
             }
             IEnumerable<Upgrade> upgrades = _db.Upgrades.Where(u => u.ForAnimal);
             return View(new AnimalDetailsViewModel {
@@ -81,7 +83,7 @@ namespace ItsyBits.Controllers {
                 return RedirectToAction("Details", new { id = animal.Id });
             }
             if (_userManager.GetUserId(User) != animal.Building.UserId) {
-                return Unauthorized();
+                return StatusCode((int) HttpStatusCode.Forbidden);
             }
             return View(_mapper.Map<Animal, AnimalViewModel>(animal));
         }
@@ -97,14 +99,66 @@ namespace ItsyBits.Controllers {
                 return NotFound();
             }
             if (_userManager.GetUserId(User) != animal.Building.UserId) {
-                return Unauthorized();
+                return StatusCode((int) HttpStatusCode.Forbidden);
             }
 
             // Set animal happiness to percentage in config
             animal.HappinessPercentage = int.Parse(_config["AnimalRecoveryHappiness"]);
             _db.Update(animal);
             await _db.SaveChangesAsync();
+            TempData.Put("Result", new Result("Recovered!", "You recovered your animal", ResultStatus.Success));
             return RedirectToAction("Details", new { id = animal.Id });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Manage(int id) {
+            Animal animal = await _db.Animals
+                .Include(a => a.Type)
+                .Include(a => a.Building)
+                .SingleOrDefaultAsync(a => a.Id == id);
+            if (animal == null) {
+                return NotFound();
+            }
+            if (animal.DeathTime != null) {
+                return RedirectToAction("Recover", new { id = animal.Id });
+            }
+            if (_userManager.GetUserId(User) != animal.Building.UserId) {
+                return StatusCode((int) HttpStatusCode.Forbidden);
+            }
+            return View(_mapper.Map<Animal, AnimalManageViewModel>(animal));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Manage(int id, AnimalManageViewModel animalVm) {
+            Animal animal = await _db.Animals
+                .Include(a => a.Type)
+                .Include(a => a.Building)
+                .SingleOrDefaultAsync(a => a.Id == id);
+            if (animal == null) {
+                return NotFound();
+            }
+            if (_userManager.GetUserId(User) != animal.Building.UserId) {
+                return StatusCode((int) HttpStatusCode.Forbidden);
+            }
+            if (!string.IsNullOrEmpty(animalVm.Delete)) {
+                _db.Animals.Remove(animal);
+                animalVm = _mapper.Map<Animal, AnimalManageViewModel>(animal);
+                ApplicationUser user = await _userManager.GetUserAsync(User);
+                _db.Users.Attach(user);
+                user.Currency += animalVm.Refund;
+                _db.Entry(user).Property(u => u.Currency).IsModified = true;
+                await _db.SaveChangesAsync();
+                TempData.Put("Result", new Result("Sold!", "You sold your animal", ResultStatus.Success));
+                return RedirectToAction("Index");
+            }
+            if (!ModelState.IsValid) {
+                return View(animalVm);
+            }
+            animal.Name = animalVm.Name;
+            _db.Update(animal);
+            await _db.SaveChangesAsync();
+            TempData.Put("Result", new Result("Renamed!", "You renamed your animal", ResultStatus.Success));
+            return RedirectToAction("Details", new {id});
         }
 
         [HttpPost]
@@ -118,7 +172,7 @@ namespace ItsyBits.Controllers {
                 return NotFound();
             }
             if (_userManager.GetUserId(User) != animal.Building.UserId) {
-                return Unauthorized();
+                return StatusCode((int) HttpStatusCode.Forbidden);
             }
             animal.FeedPercentage = 100;
             _db.Update(animal);
@@ -137,7 +191,7 @@ namespace ItsyBits.Controllers {
                 return NotFound();
             }
             if (_userManager.GetUserId(User) != animal.Building.UserId) {
-                return Unauthorized();
+                return StatusCode((int) HttpStatusCode.Forbidden);
             }
             animal.SleepPercentage = 100;
             _db.Update(animal);
@@ -156,7 +210,7 @@ namespace ItsyBits.Controllers {
                 return NotFound();
             }
             if (_userManager.GetUserId(User) != animal.Building.UserId) {
-                return Unauthorized();
+                return StatusCode((int) HttpStatusCode.Forbidden);
             }
             animal.PetPercentage = 100;
             _db.Update(animal);

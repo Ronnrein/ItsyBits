@@ -3,8 +3,9 @@
 <div class="ui stackable two column grid">
     <div class="column info-column">
         <div class="ui segments">
-            <div class="ui raised segment secondary">
+            <div class="ui raised segment secondary segment-header">
                 <h4>@Model.Building.Name</h4>
+                <a class="ui inline right floated orange button" asp-action="Manage" asp-route-id="@Model.Building.Id">Manage</a>
             </div>
             <div class="ui raised segment">
                 <p class="ui orange ribbon label">Statistics</p>
@@ -94,6 +95,7 @@
 </div>
 <div class="ui segment secondary mid-segment-header">
     <h4>My pets in the building</h4>
+    <a class="ui inline right floated orange button" asp-controller="Store" asp-action="Index" asp-route-id="animal">Buy more</a>
 </div>
 <div class="ui cards">
     @foreach(AnimalViewModel animal in Model.Building.Animals) {

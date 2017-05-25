@@ -326,3 +326,23 @@ h2.names {
 #upgrade-menu button {
     background: white !important;
 }
+
+.segment-header > a.button, .mid-segment-header > a.button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+.segment-header > h4, .mid-segment-header > h4 {
+    display: inline !important;
+}
+
+.store-card > .segments {
+    height: 100% !important;
+    padding-bottom: 30px;
+}
+
+.store-card .labeled.button {
+    position: absolute;
+    bottom: 0;
+}

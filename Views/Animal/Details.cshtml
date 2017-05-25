@@ -6,8 +6,8 @@
 <div class="ui stackable two column grid">
     <div class="column info-column">
         <div class="ui segments">
-            <div class="ui raised segment secondary">
-                <h4 class="inline">@Model.Animal.Name</h4>
+            <div class="ui raised segment secondary segment-header">
+                <h4>@Model.Animal.Name</h4>
                 <a asp-controller="Building" asp-action="Details" asp-route-id="@Model.Animal.Building.Id">
                     <img class="ui avatar right floated image tooltip" data-content="Resides in @Model.Animal.Building.Name" src="~/images/buildings/@Model.Animal.Building.SpritePath/portrait.png" />
                 </a>
@@ -100,6 +100,7 @@
 </div>
 <div class="ui segment secondary mid-segment-header">
     <h4>Pet actions</h4>
+    <a class="ui inline right floated orange button" asp-action="Manage" asp-route-id="@Model.Animal.Id">Manage</a>
 </div>
 <div class="ui three column stackable grid">
     <div class="column">
