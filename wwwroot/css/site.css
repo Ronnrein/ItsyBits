@@ -312,6 +312,13 @@ h2.names {
     color: #F7931E;
     text-transform: capitalize;
 }
+.error-p {
+    text-align: center;
+    font-size: 60px;
+    color: #F7931E;
+  
+}
+
 .error-text {
     text-align: center;
     font-style: italic;
@@ -326,3 +333,4 @@ h2.names {
 #upgrade-menu button {
     background: white !important;
 }
+

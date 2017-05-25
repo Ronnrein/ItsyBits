@@ -2,4 +2,12 @@
     ViewData["Title"] = "Something went wrong";
     Layout = User.Identity.IsAuthenticated ? "_Layout" : "_LayoutEmpty";
 }
-Error, contact admin
+<div class="ui center aligned segment">
+    <img src="~/images/misc/ErrorIcon.png" />
+    <p class="error-p">We or possible you have made an error occurre.</p>
+    <h1 class="error-text">If you feel that it is our fault</h1>
+    <a asp-controller="Home" asp-action="Contact" class="ui orange large button">Contact admin</a>
+    <h1 class="error-text">If you feel that it is your fault</h1>
+    <a asp-controller="Home" asp-action="index" class="ui orange large button">Home</a>
+</div>
+
