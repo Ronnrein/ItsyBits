@@ -9,7 +9,6 @@
     ];
     var sprites = [
         new Sprite("/images/town/swayingTree01.png", new Vector2(800, 300), new Animation(4, 1, 4, getRandomRange(150, 300), getRandomRange(0, 1000))),
-        new Sprite("/images/town/swayingTree01.png", new Vector2(800, 300), new Animation(4, 1, 4, getRandomRange(150, 300), getRandomRange(0, 1000))),
         new Sprite("/images/town/swayingTree01.png", new Vector2(190, 830), new Animation(4, 1, 4, getRandomRange(150, 300), getRandomRange(0, 1000))),
         new Sprite("/images/town/swayingTree01.png", new Vector2(1600, 1450), new Animation(4, 1, 4, getRandomRange(150, 300), getRandomRange(0, 1000))),
         new Sprite("/images/town/swayingTree01.png", new Vector2(540, 1100), new Animation(4, 1, 4, getRandomRange(150, 300), getRandomRange(0, 1000))),
