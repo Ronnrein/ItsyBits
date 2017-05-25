@@ -6,8 +6,11 @@
     background-color: #99ccff;
     background-image: url("../images/rays.png");
     /* Center and scale the image nicely */
+    -ms-background-position: center;
     background-position: center;
+    -ms-background-repeat: no-repeat;
     background-repeat: no-repeat;
+    -ms-background-size: cover;
     background-size: cover;
 }
 
@@ -19,6 +22,7 @@
     margin-top: 20px !important;
     background-color: rgba(232,232,232,0.8) !important;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+    -ms-border-radius: 25px !important;
     border-radius: 25px !important;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
 }
@@ -93,6 +97,7 @@
 #town {
     position: relative;
     box-shadow: 0 0 117px -15px rgba(0,0,0,0.75);
+    -ms-border-radius: 20px;
     border-radius: 20px;
     border: 2px solid grey;
     overflow: hidden;
@@ -147,6 +152,9 @@
 }
 
 .left-column {
+    -webkit-flex: 0 0 300px !important;
+    -ms-flex: 0 0 300px !important;
+    -o-flex: 0 0 300px !important;
     flex: 0 0 300px !important;
     box-shadow: 2px 0 5px #888888;
     background-color: ghostwhite;
@@ -235,8 +243,11 @@ h2.names {
     background-color: #99ccff !important;
     padding: 0 !important;
     background-image: url("../images/rays.png") !important;
+    -ms-background-position: center !important;
     background-position: center !important;
+    -ms-background-repeat: no-repeat !important;
     background-repeat: no-repeat !important;
+    -ms-background-size: cover !important;
     background-size: cover !important;
     box-shadow: inset 0 0 10px #000000 !important;
 }
@@ -274,11 +285,13 @@ h2.names {
 }
 
 .mid-segment-header {
+    -ms-border-radius: 0 !important;
     border-radius: 0 !important;
     border-left: 0 !important;
     border-right: 0 !important;
     width: 100% !important;
     margin: 15px -1em !important;
+    -moz-box-sizing: content-box;
     box-sizing: content-box;
 }
 
@@ -334,3 +347,22 @@ h2.names {
     background: white !important;
 }
 
+.segment-header > a.button, .mid-segment-header > a.button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+.segment-header > h4, .mid-segment-header > h4 {
+    display: inline !important;
+}
+
+.store-card > .segments {
+    height: 100% !important;
+    padding-bottom: 30px;
+}
+
+.store-card .labeled.button {
+    position: absolute;
+    bottom: 0;
+}

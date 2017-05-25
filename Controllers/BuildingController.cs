@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using ItsyBits.Data;
+using ItsyBits.Helpers;
 using ItsyBits.Models;
 using ItsyBits.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -52,13 +54,59 @@ namespace ItsyBits.Controllers {
                 return NotFound();
             }
             if (_userManager.GetUserId(User) != building.UserId) {
-                return Unauthorized();
+                return StatusCode((int) HttpStatusCode.Forbidden);
             }
             IEnumerable<Upgrade> upgrades = _db.Upgrades.Where(u => u.ForBuilding);
             return View(new BuildingDetailsViewModel {
                 Building = _mapper.Map<Building, BuildingViewModel>(building),
                 Upgrades = _mapper.Map<IEnumerable<Upgrade>, IEnumerable<UpgradeViewModel>>(upgrades)
             });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Manage(int id) {
+            Building building = await _db.Buildings
+                .Include(a => a.Type)
+                .SingleOrDefaultAsync(a => a.Id == id);
+            if (building == null) {
+                return NotFound();
+            }
+            if (_userManager.GetUserId(User) != building.UserId) {
+                return StatusCode((int) HttpStatusCode.Forbidden);
+            }
+            return View(_mapper.Map<Building, BuildingManageViewModel>(building));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Manage(int id, BuildingManageViewModel buildingVm) {
+            Building building = await _db.Buildings
+                .Include(a => a.Type)
+                .SingleOrDefaultAsync(a => a.Id == id);
+            if (building == null) {
+                return NotFound();
+            }
+            if (_userManager.GetUserId(User) != building.UserId) {
+                return StatusCode((int) HttpStatusCode.Forbidden);
+            }
+            if (!string.IsNullOrEmpty(buildingVm.Delete)) {
+                _db.Buildings.Remove(building);
+                buildingVm = _mapper.Map<Building, BuildingManageViewModel>(building);
+                ApplicationUser user = await _userManager.GetUserAsync(User);
+                _db.Users.Attach(user);
+                user.Currency += buildingVm.Refund;
+                _db.Entry(user).Property(u => u.Currency).IsModified = true;
+                await _db.SaveChangesAsync();
+                TempData.Put("Result", new Result("Sold!", "You sold your building", ResultStatus.Success));
+                return RedirectToAction("Index");
+            }
+            if (!ModelState.IsValid) {
+                return View(buildingVm);
+            }
+            building.Name = buildingVm.Name;
+            _db.Update(building);
+            await _db.SaveChangesAsync();
+            TempData.Put("Result", new Result("Renamed!", "You renamed your building", ResultStatus.Success));
+            return RedirectToAction("Details", new { id });
         }
 
         [HttpGet]

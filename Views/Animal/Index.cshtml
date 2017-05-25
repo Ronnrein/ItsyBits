@@ -2,7 +2,10 @@
 @{ ViewData["Title"] = "My pets"; }
 @foreach (BuildingViewModel building in Model.Where(b => b.Animals.Count() != 0)) {
     <div class="ui segment secondary mid-segment-header">
-        <h4>@building.Name</h4>
+        <h4><a asp-controller="Building" asp-action="Details" asp-route-id="@building.Id">
+            @building.Name
+        </a></h4>
+        <a class="ui inline right floated orange button" asp-controller="Store" asp-action="Index" asp-route-id="animal">Buy more</a>
     </div>
     <div class="ui cards">
         @foreach (AnimalViewModel animal in building.Animals) {

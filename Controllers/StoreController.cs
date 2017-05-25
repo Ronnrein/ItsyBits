@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using ItsyBits.Data;
@@ -114,7 +115,7 @@ namespace ItsyBits.Controllers {
                 return NotFound();
             }
             if (building.UserId != user.Id) {
-                return Unauthorized();
+                return StatusCode((int) HttpStatusCode.Forbidden);
             }
             if (user.Currency < type.Price) {
                 return BadRequest();
@@ -291,7 +292,7 @@ namespace ItsyBits.Controllers {
 
             // Check for requests that should not be possible
             if (animal.Building.UserId != user.Id) {
-                return Unauthorized();
+                return StatusCode((int) HttpStatusCode.Forbidden);
             }
             if (user.Currency < upgrade.Price) {
                 return BadRequest();
@@ -386,7 +387,7 @@ namespace ItsyBits.Controllers {
 
             // Check for requests that should not be possible
             if (building.UserId != user.Id) {
-                return Unauthorized();
+                return StatusCode((int) HttpStatusCode.Forbidden);
             }
             if (user.Currency < upgrade.Price) {
                 return BadRequest();
