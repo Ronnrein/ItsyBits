@@ -4,7 +4,7 @@
     int capacityFilled = (int)((float)Model.Animals.Count() / (float)buildingCapacity * 100f);
     int coinPotential = (int)((float)Model.Animals.Sum(a => a.Reward) / (float)(20 * Model.Animals.Count()) * 100f);
 }
-<h2>Hi @Model.UserName!</h2>
+<h2>Hi <a asp-controller="User" asp-action="Index">@Model.UserName</a>!</h2>
 <div class="ui divider"></div>
 <a class="ui link card" asp-controller="Animal" asp-action="Index"> 
     <div class="content">
