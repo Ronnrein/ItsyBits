@@ -125,12 +125,12 @@ namespace ItsyBits.Controllers {
             Animal animal = _mapper.Map<StoreAnimalViewModel, Animal>(animalVm);
             animal.Male = new Random().NextDouble() < 0.5;
             animal.Type = await _db.AnimalTypes.SingleOrDefaultAsync(at => at.Id == id);
+            animal.Building = building;
             animal.HappinessPercentage = int.Parse(_config["AnimalStartingHappiness"]);
             _db.Users.Attach(user);
             user.Currency -= type.Price;
             _db.Entry(user).Property(u => u.Currency).IsModified = true;
             _db.Add(animal);
-            await _db.SaveChangesAsync();
 
             _db.Add(new Notification {
                 Message = $"Your town welcomes a new pet!",
@@ -139,6 +139,7 @@ namespace ItsyBits.Controllers {
                 Link = "/animal/details/" + animal.Id,
                 UserId = user.Id
             });
+            await _db.SaveChangesAsync();
 
             return RedirectToAction("Details", "Animal", new { id = animal.Id });
         }
@@ -216,7 +217,6 @@ namespace ItsyBits.Controllers {
             _db.Users.Attach(user);
             user.Currency -= type.Price;
             _db.Entry(user).Property(u => u.Currency).IsModified = true;
-            await _db.SaveChangesAsync();
 
             _db.Add(new Notification {
                 Message = $"You have a new building!",
@@ -225,6 +225,7 @@ namespace ItsyBits.Controllers {
                 Link = "/building/details/" + building.Id,
                 UserId = user.Id
             });
+            await _db.SaveChangesAsync();
 
             return RedirectToAction("Details", "Building", new { id = building.Id });
         }
