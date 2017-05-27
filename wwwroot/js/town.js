@@ -43,8 +43,31 @@
 
     // Create tooltip
     var tooltip = $("<div class='ui comments' id='town-tooltip'><div class='ui comment'><a class='avatar'><img /></a><div class='content'><a class='author'></a><div class='metadata'><span class='date'></span></div><div class='text'></div></div></div></div>");
+    tooltip.css({
+        position: "absolute",
+        background: "white",
+        "-ms-border-radius": "5px",
+        "border-radius": "5px",
+        padding: "5px 10px",
+        "z-index": 2,
+        "pointer-events": "none",
+        "box-shadow": "3px 3px rgba(0, 0, 0, 0.5)"
+    });
     container.append(tooltip);
     tooltip.hide();
+
+    // Create zoom buttons
+    var zoomButtonContainer = $("<div class='ui vertical buttons'>");
+    zoomButtonContainer.css({
+        position: "absolute",
+        top: "10px",
+        right: "10px"
+    });
+    var zoomInButton = $("<a class='ui button'>+</a>");
+    var zoomOutButton = $("<a class='ui button'>+</a>");
+    zoomButtonContainer.append(zoomInButton);
+    zoomButtonContainer.append(zoomOutButton);
+    container.append(zoomButtonContainer);
 
     // Events
     $(window).resize(resizeCanvas);
@@ -52,8 +75,8 @@
     canvas.on("mouseup touchend mouseleave", mouseUp);
     canvas.on("mousemove touchmove", mouseMove);
     canvas.on("mousewheel DOMMouseScroll", mouseScroll);
-    $("#zoom-in").click(function() { zoom(buttonZoom) });
-    $("#zoom-out").click(function () { zoom(-buttonZoom) });
+    zoomInButton.click(function() { zoom(buttonZoom) });
+    zoomOutButton.click(function () { zoom(-buttonZoom) });
 
     // Load images
     getData(function () {
