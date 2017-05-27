@@ -53,8 +53,14 @@ namespace ItsyBits.Helpers {
                 .ThenInclude(a => a.Type);
             foreach (ApplicationUser user in users) {
                 foreach (Animal animal in user.Animals.Where(a => a.DeathTime.HasValue && (DateTime.Now - a.DeathTime.Value).TotalDays >= 1)) {
-                    
                     _db.Animals.Remove(animal);
+                    _db.Add(new Notification {
+                        Message = $"{animal.Name} decided life was too tough in this town, and decided to move on!",
+                        Title = "Animal is gone!",
+                        Image = $"animals/{animal.Type.SpritePath}/portrait.png",
+                        Link = "/store",
+                        User = user
+                    });
                 }
                 foreach (Animal animal in user.Animals.Where(a => !a.DeathTime.HasValue && !a.IsAlive)) {
                     animal.DeathTime = DateTime.Now;
