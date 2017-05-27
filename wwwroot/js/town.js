@@ -64,7 +64,7 @@
         right: "10px"
     });
     var zoomInButton = $("<a class='ui button'>+</a>");
-    var zoomOutButton = $("<a class='ui button'>+</a>");
+    var zoomOutButton = $("<a class='ui button'>-</a>");
     zoomButtonContainer.append(zoomInButton);
     zoomButtonContainer.append(zoomOutButton);
     container.append(zoomButtonContainer);
@@ -144,7 +144,7 @@
             tooltip.find(".author").html(hoveredPlot.name);
             tooltip.find("img").attr("src", hoveredPlot.sprite.imagePath);
             tooltip.find(".date").html("On plot " + hoveredPlot.id);
-            tooltip.find(".text").html("Animals: " + hoveredPlot.animals + "/" + hoveredPlot.capacity);
+            tooltip.find(".text").html("Pets: " + hoveredPlot.animals + "/" + hoveredPlot.capacity);
             tooltip.stop(true, true).fadeIn("fast");
             hovering = true;
         }
