@@ -64,7 +64,7 @@
         right: "10px"
     });
     var zoomInButton = $("<a class='ui button'>+</a>");
-    var zoomOutButton = $("<a class='ui button'>+</a>");
+    var zoomOutButton = $("<a class='ui button'>-</a>");
     zoomButtonContainer.append(zoomInButton);
     zoomButtonContainer.append(zoomOutButton);
     container.append(zoomButtonContainer);
