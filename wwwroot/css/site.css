@@ -360,3 +360,7 @@ h2.names {
     position: absolute;
     bottom: 0;
 }
+
+.segment-header-building {
+    margin-right: 100px !important;
+}

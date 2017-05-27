@@ -9,8 +9,9 @@
             <div class="ui raised segment secondary segment-header">
                 <h4>@Model.Animal.Name</h4>
                 <a asp-controller="Building" asp-action="Details" asp-route-id="@Model.Animal.Building.Id">
-                    <img class="ui avatar right floated image tooltip" data-content="Resides in @Model.Animal.Building.Name" src="~/images/buildings/@Model.Animal.Building.SpritePath/portrait.png" />
+                    <img class="ui avatar right floated image tooltip segment-header-building" data-content="Resides in @Model.Animal.Building.Name" src="~/images/buildings/@Model.Animal.Building.SpritePath/portrait.png" />
                 </a>
+                <a class="ui inline right floated orange button" asp-action="Manage" asp-route-id="@Model.Animal.Id">Manage</a>
             </div>
             <div class="ui raised segment">
                 <p class="ui orange ribbon label">Statistics</p>
@@ -100,7 +101,6 @@
 </div>
 <div class="ui segment secondary mid-segment-header">
     <h4>Pet actions</h4>
-    <a class="ui inline right floated orange button" asp-action="Manage" asp-route-id="@Model.Animal.Id">Manage</a>
 </div>
 <div class="ui three column stackable grid">
     <div class="column">
