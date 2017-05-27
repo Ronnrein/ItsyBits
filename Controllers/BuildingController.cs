@@ -112,7 +112,11 @@ namespace ItsyBits.Controllers {
         [HttpGet]
         public IActionResult Plots() {
             string userId = _userManager.GetUserId(User);
-            IEnumerable<Building> buildings = _db.Buildings.Where(b => b.UserId == userId).Include(b => b.Type);
+            IEnumerable<Building> buildings = _db.Buildings
+                .Where(b => b.UserId == userId)
+                .Include(b => b.Type)
+                .Include(b => b.BuildingUpgrades).ThenInclude(bu => bu.Upgrade)
+                .Include(b => b.Animals);
             IEnumerable<PlotViewModel> plots = _mapper.Map<IEnumerable<Plot>, IEnumerable<PlotViewModel>>(_db.Plots);
 
             // Set the building property on each plot of user to the correct one
@@ -120,10 +124,14 @@ namespace ItsyBits.Controllers {
                 Building building = buildings.SingleOrDefault(b => b.PlotId == plot.Id);
                 if (building == null) {
                     plot.BuildingId = 0;
+                    plot.Name = "Empty";
                     continue;
                 }
                 plot.BuildingId = building.Id;
                 plot.SpritePath = building.Type.SpritePath;
+                plot.Animals = building.Animals.Count;
+                plot.Capacity = building.Capacity;
+                plot.Name = building.Name;
             }
             return Json(plots);
         }
