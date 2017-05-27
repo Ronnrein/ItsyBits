@@ -4,7 +4,7 @@
     <div class="column info-column">
         <form class="ui segments form" method="post">
             <div class="ui raised segment secondary">
-                <h4 class="inline">Buy a @Model.AnimalType.Name</h4>
+                <h4 class="inline">My new @Model.AnimalType.Name</h4>
                 <p class="right floated">
                     <i class="ui money icon"></i>
                     @Model.AnimalType.Price
@@ -42,7 +42,7 @@
             </div>
             <div class="ui two bottom attached buttons">
                 <button type="submit" class="ui orange button">
-                    <i class="add to cart icon"></i> Buy
+                    <i class="add to cart icon"></i> Confirm
                 </button>
                 <a asp-controller="Store" asp-action="Index" asp-route-id="animal" class="ui default button">
                     <i class="backward icon"></i> Back
