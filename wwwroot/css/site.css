@@ -366,3 +366,15 @@ h2.names {
     position: absolute;
     bottom: 0;
 }
+
+#town-tooltip {
+    position: absolute;
+    background: white;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    padding: 5px 10px;
+    z-index: 2;
+    pointer-events: none;
+    box-shadow: 3px 3px #000000;
+    box-shadow: 3px 3px rgba(0,0,0,0.5);
+}

@@ -6,7 +6,7 @@
                 return;
             }
             $("#PlotId").val(plot.id);
-            $("#plot-text").html("Do you want to " + (plot.occupied ? "replace " : "place ") + " on plot " + plot.id + "?");
+            $("#plot-text").html("Do you want to " + (plot.occupied ? "replace " + plot.name : "place on plot " + plot.id + "?") + "?");
         }
     });
 });

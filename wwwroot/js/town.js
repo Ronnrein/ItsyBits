@@ -5,7 +5,7 @@
     var background = new Sprite("/images/town/background2.png", new Vector2(0, 0));
     var cursor = new Sprite("/images/town/cursor.png", new Vector2(-2000, -2000), null, "/images/town/cursorPointer.png");
     var plots = [
-        new Plot(0, new Sprite("/images/town/store.png", new Vector2(2020, 862), null, "/images/town/storehover.png"), true, "/store/index/building")
+        new Plot("Empty", 0, 0, 0, new Sprite("/images/town/store.png", new Vector2(2020, 862), null, "/images/town/storehover.png"), true, "/store/index/building")
     ];
     var sprites = [
         new Sprite("/images/town/swayingTree01.png", new Vector2(800, 300), new Animation(4, 1, 4, getRandomRange(150, 300), getRandomRange(0, 1000))),
@@ -30,8 +30,9 @@
     }, options);
 
     // Variables
-    var sources, dragStartPosition, dragged, clickedPlot;
+    var sources, dragStartPosition, dragged, clickedPlot, hovering;
     var canvas = this;
+    var container = canvas.parent();
     var ctx = canvas[0].getContext("2d");
     var currentScale = 1;
     var lastUpdate = Date.now();
@@ -39,6 +40,11 @@
 
     // Add extension methods to context
     trackTransforms(ctx);
+
+    // Create tooltip
+    var tooltip = $("<div class='ui comments' id='town-tooltip'><div class='ui comment'><a class='avatar'><img /></a><div class='content'><a class='author'></a><div class='metadata'><span class='date'></span></div><div class='text'></div></div></div></div>");
+    container.append(tooltip);
+    tooltip.hide();
 
     // Events
     $(window).resize(resizeCanvas);
@@ -98,15 +104,31 @@
         $.each(sprites, function(i, sprite) {
             sprite.hover = false;
         });
+        var hoveredPlot = null;
         $.each(sprites, function(i, sprite) {
             if (sprite !== cursor) {
                 sprite.hover = sprite.rect.contains(ctx.transformedPoint(lastMousePosition.x, lastMousePosition.y));
                 if (sprite.hoverImagePath != null && sprite.hover) {
+                    if (sprite.parent.name != "Empty") {
+                        hoveredPlot = sprite.parent;
+                    }
                     cursor.hover = true;
                     return false;
                 }
             }
         });
+        if (!isMobile() && !hovering && hoveredPlot) {
+            tooltip.find(".author").html(hoveredPlot.name);
+            tooltip.find("img").attr("src", hoveredPlot.sprite.imagePath);
+            tooltip.find(".date").html("On plot " + hoveredPlot.id);
+            tooltip.find(".text").html("Animals: " + hoveredPlot.animals + "/" + hoveredPlot.capacity);
+            tooltip.stop(true, true).fadeIn("fast");
+            hovering = true;
+        }
+        else if (!isMobile() && hovering && !hoveredPlot) {
+            tooltip.fadeOut("fast");
+            hovering = false;
+        }
         $.each(plots, function (i, plot) {
             if (clickedPlot === plot.id) {
                 plot.sprite.hover = true;
@@ -148,6 +170,9 @@
                 var image = "/images/" + (v.buildingId === 0 ? "town/empty" : "buildings/" + v.spritePath + "/town");
                 var url = v.buildingId === 0 ? "/store/index/building" : "/building/details/" + v.buildingId;
                 plots.push(new Plot(
+                    v.name,
+                    v.animals,
+                    v.capacity,
                     v.id,
                     new Sprite(
                         image + ".png",
@@ -224,6 +249,11 @@
             var trans = new Vector2(point.x - dragStartPosition.x, point.y - dragStartPosition.y);
             ctx.translate(trans.x, trans.y);
         }
+
+        tooltip.css({
+            left: lastMousePosition.x - tooltip.outerWidth() - 10,
+            top: lastMousePosition.y - tooltip.outerHeight() - 30
+        });
     }
 
     // Gets called when mouse scrolls
@@ -324,9 +354,13 @@
     }
 
     // Building class
-    function Plot(id, sprite, occupied, url = null) {
+    function Plot(name, animals, capacity, id, sprite, occupied, url = null) {
+        this.name = name;
+        this.animals = animals;
+        this.capacity = capacity;
         this.id = id;
         this.sprite = sprite;
+        sprite.parent = this;
         this.url = url;
         this.occupied = occupied;
         this.render = function (delta) {
@@ -346,6 +380,7 @@
         this.hoverImagePath = hoverImage;
         this.hoverImage = new Image();
         this.hover = false;
+        this.parent = null;
         this.rect = new Rect(
             position.x,
             position.y,
