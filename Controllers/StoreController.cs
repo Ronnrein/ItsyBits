@@ -133,7 +133,7 @@ namespace ItsyBits.Controllers {
             _db.Add(animal);
 
             _db.Add(new Notification {
-                Message = $"Your town welcomes a new pet!",
+                Message = $"Your town welcomes {animal.Name}!",
                 Title = "New pet!",
                 Image = $"animals/{type.SpritePath}/portrait.png",
                 Link = "/animal/details/" + animal.Id,
